@@ -6,8 +6,8 @@ class StoreKitService: ObservableObject {
     static let shared = StoreKitService()
 
     // Product IDs — configure these in App Store Connect
-    static let monthlyId = "com.sunnylife.brewscan.pro.monthly"
-    static let yearlyId  = "com.sunnylife.brewscan.pro.yearly"
+    static let monthlyId = "com.sunnydays.brewscan.pro.monthly"
+    static let yearlyId  = "com.sunnydays.brewscan.pro.yearly"
 
     @Published var products: [Product] = []
     @Published var isSubscribed: Bool = false

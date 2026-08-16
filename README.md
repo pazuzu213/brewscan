@@ -2,7 +2,7 @@
 
 **Point. Scan. Brew.**
 
-A native iOS app that scans Nespresso pods with your camera, identifies them using AI vision (GPT-4o), and shows you taste notes, brew tips, and drink recipes. Also features a full browseable catalog of 40+ pods and 15 curated recipes.
+A native iOS app that scans Nespresso pods with your camera, identifies them using AI vision (GPT-4o mini), and shows you taste notes, brew tips, and drink recipes. Also features a full browseable catalog of 40+ pods and 15 curated recipes.
 
 ---
 
@@ -18,6 +18,13 @@ A native iOS app that scans Nespresso pods with your camera, identifies them usi
 ---
 
 ## Setup
+
+## Sunnydays Bundle Convention
+
+- App bundle IDs: `com.sunnydays.<appname>`
+- Subscription products: `com.sunnydays.<appname>.pro.monthly` and `com.sunnydays.<appname>.pro.yearly`
+- BrewScan bundle ID: `com.sunnydays.brewscan`
+- BrewScan subscriptions: `com.sunnydays.brewscan.pro.monthly` and `com.sunnydays.brewscan.pro.yearly`
 
 ### 1. Clone the repo
 ```bash
@@ -42,7 +49,7 @@ struct Config {
 
 Get your key at: https://platform.openai.com/api-keys
 
-> **Cost note:** Each scan uses GPT-4o vision. A few cents per scan at standard pricing. Set a spending limit in your OpenAI account if needed.
+> **Cost note:** Each scan uses GPT-4o mini vision. Set a spending limit in your OpenAI account if needed.
 
 ---
 
@@ -92,7 +99,7 @@ The catalog and recipes work fully in the simulator. The camera (scanner) requir
 3. **Configure in App Store Connect**
    - Go to https://appstoreconnect.apple.com
    - Create new app: **BrewScan**
-   - Bundle ID: `com.brewscan.app`
+   - Bundle ID: `com.sunnydays.brewscan`
    - Fill in name, description, screenshots
 
 4. **Add TestFlight testers**
