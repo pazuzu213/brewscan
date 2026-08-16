@@ -16,6 +16,7 @@ enum OpenAIError: LocalizedError {
     case invalidResponse
     case parsingError(String)
     case rateLimited
+    case insufficientQuota
     case serverError(Int)
 
     var errorDescription: String? {
@@ -30,6 +31,8 @@ enum OpenAIError: LocalizedError {
             return "Could not parse response: \(detail)"
         case .rateLimited:
             return "Too many requests. Please wait a moment and try again."
+        case .insufficientQuota:
+            return "Scanning is temporarily unavailable. Please contact support."
         case .serverError(let code):
             return "Server error (code \(code)). Please try again later."
         }
@@ -110,6 +113,9 @@ class OpenAIService {
         case 401:
             throw OpenAIError.invalidAPIKey
         case 429:
+            if isInsufficientQuotaResponse(data) {
+                throw OpenAIError.insufficientQuota
+            }
             guard attempt < maxAttempts else { throw OpenAIError.rateLimited }
             // Honour Retry-After header if present, otherwise exponential backoff
             let retryAfter: Double
@@ -138,6 +144,15 @@ class OpenAIService {
         }
 
         return try parseIdentificationResult(from: content)
+    }
+
+    private func isInsufficientQuotaResponse(_ data: Data) -> Bool {
+        guard let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let error = json["error"] as? [String: Any] else {
+            return false
+        }
+
+        return error["code"] as? String == "insufficient_quota"
     }
 
     private func parseIdentificationResult(from content: String) throws -> PodIdentificationResult {
