@@ -141,6 +141,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		GRPHOME /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				A022 /* HomeView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		GRPMODELS /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -153,12 +161,12 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		GRPHOME /* Home */ = {
+		GRPPAYWALL /* Paywall */ = {
 			isa = PBXGroup;
 			children = (
-				A022 /* HomeView.swift */,
+				A026 /* PaywallView.swift */,
 			);
-			path = Home;
+			path = Paywall;
 			sourceTree = "<group>";
 		};
 		GRPPROD /* Products */ = {
@@ -167,6 +175,14 @@
 				PROD /* BrewScan.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		GRPPROFILE /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				A023 /* ProfileView.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		GRPRECIPES /* Recipes */ = {
@@ -195,22 +211,6 @@
 				A010 /* ScanResultView.swift */,
 			);
 			path = Scanner;
-			sourceTree = "<group>";
-		};
-		GRPPROFILE /* Profile */ = {
-			isa = PBXGroup;
-			children = (
-				A023 /* ProfileView.swift */,
-			);
-			path = Profile;
-			sourceTree = "<group>";
-		};
-		GRPPAYWALL /* Paywall */ = {
-			isa = PBXGroup;
-			children = (
-				A026 /* PaywallView.swift */,
-			);
-			path = Paywall;
 			sourceTree = "<group>";
 		};
 		GRPSERVICES /* Services */ = {
@@ -463,7 +463,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = XS26EXAD6Z;
+				DEVELOPMENT_TEAM = 57LBSM2N3U;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = BrewScan/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -487,7 +487,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = XS26EXAD6Z;
+				DEVELOPMENT_TEAM = 57LBSM2N3U;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = BrewScan/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
