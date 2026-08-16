@@ -1,8 +1,16 @@
 import SwiftUI
 
 struct RecipesView: View {
+    @EnvironmentObject var appState: AppState
     @State private var selectedRecipe: Recipe?
+    @State private var showSavedOnly = false
     private let db = PodDatabase.shared
+
+    private var visibleRecipes: [Recipe] {
+        let recipes = db.allRecipes()
+        guard showSavedOnly else { return recipes }
+        return recipes.filter { appState.savedRecipeIds.contains($0.id) }
+    }
 
     var body: some View {
         NavigationView {
@@ -15,24 +23,44 @@ struct RecipesView: View {
                         // Header banner
                         recipeBanner
 
-                        // Recipe list
-                        VStack(spacing: 0) {
-                            ForEach(db.allRecipes()) { recipe in
-                                RecipeRow(recipe: recipe)
-                                    .onTapGesture {
-                                        selectedRecipe = recipe
-                                    }
+                        Picker("Recipes", selection: $showSavedOnly) {
+                            Text("All").tag(false)
+                            Text("Saved").tag(true)
+                        }
+                        .pickerStyle(.segmented)
+                        .padding(.horizontal, 16)
+                        .padding(.bottom, 14)
 
-                                if recipe.id != db.allRecipes().last?.id {
-                                    Divider()
-                                        .background(Color(hex: "#2D1F15"))
-                                        .padding(.leading, 72)
+                        Group {
+                            if visibleRecipes.isEmpty {
+                                Text("Saved recipes will appear here.")
+                                    .font(.system(size: 14))
+                                    .foregroundColor(Color(hex: "#B0A090"))
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding(16)
+                                    .background(Color(hex: "#2D1F15"))
+                                    .cornerRadius(16)
+                                    .padding(.horizontal, 16)
+                            } else {
+                                VStack(spacing: 0) {
+                                    ForEach(visibleRecipes) { recipe in
+                                        RecipeRow(recipe: recipe)
+                                            .onTapGesture {
+                                                selectedRecipe = recipe
+                                            }
+
+                                        if recipe.id != visibleRecipes.last?.id {
+                                            Divider()
+                                                .background(Color(hex: "#2D1F15"))
+                                                .padding(.leading, 72)
+                                        }
+                                    }
                                 }
+                                .background(Color(hex: "#2D1F15"))
+                                .cornerRadius(16)
+                                .padding(.horizontal, 16)
                             }
                         }
-                        .background(Color(hex: "#2D1F15"))
-                        .cornerRadius(16)
-                        .padding(.horizontal, 16)
                         .padding(.bottom, 24)
                     }
                 }
@@ -85,6 +113,7 @@ struct RecipesView: View {
 // MARK: - Recipe Row
 
 struct RecipeRow: View {
+    @EnvironmentObject var appState: AppState
     let recipe: Recipe
     @State private var isPressed = false
 
@@ -136,6 +165,18 @@ struct RecipeRow: View {
             }
 
             Spacer()
+
+            Button {
+                appState.toggleSavedRecipe(recipe.id)
+            } label: {
+                Image(systemName: appState.isRecipeSaved(recipe.id) ? "bookmark.fill" : "bookmark")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundColor(Color(hex: "#C8860A"))
+                    .frame(width: 34, height: 34)
+                    .background(Color(hex: "#1A0F0A"))
+                    .clipShape(Circle())
+            }
+            .buttonStyle(.plain)
 
             Image(systemName: "chevron.right")
                 .font(.system(size: 13, weight: .semibold))

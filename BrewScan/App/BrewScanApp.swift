@@ -2,6 +2,8 @@ import SwiftUI
 
 @main
 struct BrewScanApp: App {
+    @StateObject private var appState = AppState.shared
+
     init() {
         configureAppearance()
     }
@@ -9,6 +11,7 @@ struct BrewScanApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(appState)
                 .preferredColorScheme(.dark)
         }
     }

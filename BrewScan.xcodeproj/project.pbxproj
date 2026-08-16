@@ -7,24 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B001 /* BrewScanApp.swift */ = {isa = PBXBuildFile; fileRef = A001 /* BrewScanApp.swift */; };
-		B002 /* ContentView.swift */ = {isa = PBXBuildFile; fileRef = A002 /* ContentView.swift */; };
-		B003 /* Pod.swift */ = {isa = PBXBuildFile; fileRef = A003 /* Pod.swift */; };
-		B004 /* Recipe.swift */ = {isa = PBXBuildFile; fileRef = A004 /* Recipe.swift */; };
-		B005 /* PodDatabase.swift */ = {isa = PBXBuildFile; fileRef = A005 /* PodDatabase.swift */; };
-		B006 /* OpenAIService.swift */ = {isa = PBXBuildFile; fileRef = A006 /* OpenAIService.swift */; };
-		B007 /* Config.swift */ = {isa = PBXBuildFile; fileRef = A007 /* Config.swift */; };
-		B008 /* ScannerView.swift */ = {isa = PBXBuildFile; fileRef = A008 /* ScannerView.swift */; };
-		B009 /* CameraView.swift */ = {isa = PBXBuildFile; fileRef = A009 /* CameraView.swift */; };
-		B010 /* ScanResultView.swift */ = {isa = PBXBuildFile; fileRef = A010 /* ScanResultView.swift */; };
-		B011 /* CatalogView.swift */ = {isa = PBXBuildFile; fileRef = A011 /* CatalogView.swift */; };
-		B012 /* PodDetailView.swift */ = {isa = PBXBuildFile; fileRef = A012 /* PodDetailView.swift */; };
-		B013 /* RecipesView.swift */ = {isa = PBXBuildFile; fileRef = A013 /* RecipesView.swift */; };
-		B014 /* RecipeDetailView.swift */ = {isa = PBXBuildFile; fileRef = A014 /* RecipeDetailView.swift */; };
-		B015 /* ColorExtension.swift */ = {isa = PBXBuildFile; fileRef = A015 /* ColorExtension.swift */; };
-		B016 /* pods.json */ = {isa = PBXBuildFile; fileRef = A016 /* pods.json */; };
-		B017 /* recipes.json */ = {isa = PBXBuildFile; fileRef = A017 /* recipes.json */; };
-		B018 /* AVFoundation.framework */ = {isa = PBXBuildFile; fileRef = A018 /* AVFoundation.framework */; };
+		B001 /* BrewScanApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A001 /* BrewScanApp.swift */; };
+		B002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A002 /* ContentView.swift */; };
+		B003 /* Pod.swift in Sources */ = {isa = PBXBuildFile; fileRef = A003 /* Pod.swift */; };
+		B004 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = A004 /* Recipe.swift */; };
+		B005 /* PodDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A005 /* PodDatabase.swift */; };
+		B006 /* OpenAIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A006 /* OpenAIService.swift */; };
+		B007 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = A007 /* Config.swift */; };
+		B008 /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A008 /* ScannerView.swift */; };
+		B009 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A009 /* CameraView.swift */; };
+		B010 /* ScanResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A010 /* ScanResultView.swift */; };
+		B011 /* CatalogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A011 /* CatalogView.swift */; };
+		B012 /* PodDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A012 /* PodDetailView.swift */; };
+		B013 /* RecipesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A013 /* RecipesView.swift */; };
+		B014 /* RecipeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A014 /* RecipeDetailView.swift */; };
+		B015 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A015 /* ColorExtension.swift */; };
+		B016 /* pods.json in Resources */ = {isa = PBXBuildFile; fileRef = A016 /* pods.json */; };
+		B017 /* recipes.json in Resources */ = {isa = PBXBuildFile; fileRef = A017 /* recipes.json */; };
+		B018 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A018 /* AVFoundation.framework */; };
+		B019 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A019 /* UserProfile.swift */; };
+		B020 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A020 /* AppState.swift */; };
+		B021 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A021 /* WelcomeView.swift */; };
+		B022 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A022 /* HomeView.swift */; };
+		B023 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A023 /* ProfileView.swift */; };
+		B024 /* SavedScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = A024 /* SavedScan.swift */; };
+		B025 /* StoreKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A025 /* StoreKitService.swift */; };
+		B026 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A026 /* PaywallView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,48 +54,31 @@
 		A016 /* pods.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = pods.json; sourceTree = "<group>"; };
 		A017 /* recipes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = recipes.json; sourceTree = "<group>"; };
 		A018 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		PROD /* BrewScan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BrewScan.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A019 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		A020 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		A021 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		A022 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		A023 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		A024 /* SavedScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedScan.swift; sourceTree = "<group>"; };
+		A025 /* StoreKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitService.swift; sourceTree = "<group>"; };
+		A026 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
 		PLIST /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		PROD /* BrewScan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BrewScan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		FW01 = {
+		FW01 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B018 /* AVFoundation.framework */,
+				B018 /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		ROOT = {
-			isa = PBXGroup;
-			children = (
-				GRPAPP /* BrewScan */,
-				GRPFWK /* Frameworks */,
-				GRPPROD /* Products */,
-			);
-			sourceTree = "<group>";
-		};
-		GRPPROD = {
-			isa = PBXGroup;
-			children = (
-				PROD /* BrewScan.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		GRPFWK = {
-			isa = PBXGroup;
-			children = (
-				A018 /* AVFoundation.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		GRPAPP = {
+		GRPAPP /* BrewScan */ = {
 			isa = PBXGroup;
 			children = (
 				GRPAPPDIR /* App */,
@@ -95,14 +86,14 @@
 				GRPMODELS /* Models */,
 				GRPSERVICES /* Services */,
 				GRPEXT /* Extensions */,
-				GRPRES /* Resources */,
+				GRPRES /* ../Resources */,
 				A007 /* Config.swift */,
 				PLIST /* Info.plist */,
 			);
 			path = BrewScan;
 			sourceTree = "<group>";
 		};
-		GRPAPPDIR = {
+		GRPAPPDIR /* App */ = {
 			isa = PBXGroup;
 			children = (
 				A001 /* BrewScanApp.swift */,
@@ -111,17 +102,92 @@
 			path = App;
 			sourceTree = "<group>";
 		};
-		GRPFEATURES = {
+		GRPCATALOG /* Catalog */ = {
 			isa = PBXGroup;
 			children = (
+				A011 /* CatalogView.swift */,
+				A012 /* PodDetailView.swift */,
+			);
+			path = Catalog;
+			sourceTree = "<group>";
+		};
+		GRPEXT /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A015 /* ColorExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		GRPFEATURES /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				GRPWELCOME /* Welcome */,
+				GRPHOME /* Home */,
 				GRPSCANNER /* Scanner */,
 				GRPCATALOG /* Catalog */,
 				GRPRECIPES /* Recipes */,
+				GRPPROFILE /* Profile */,
+				GRPPAYWALL /* Paywall */,
 			);
 			path = Features;
 			sourceTree = "<group>";
 		};
-		GRPSCANNER = {
+		GRPFWK /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A018 /* AVFoundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		GRPMODELS /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A003 /* Pod.swift */,
+				A004 /* Recipe.swift */,
+				A019 /* UserProfile.swift */,
+				A020 /* AppState.swift */,
+				A024 /* SavedScan.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		GRPHOME /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				A022 /* HomeView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		GRPPROD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				PROD /* BrewScan.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		GRPRECIPES /* Recipes */ = {
+			isa = PBXGroup;
+			children = (
+				A013 /* RecipesView.swift */,
+				A014 /* RecipeDetailView.swift */,
+			);
+			path = Recipes;
+			sourceTree = "<group>";
+		};
+		GRPRES /* ../Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A016 /* pods.json */,
+				A017 /* recipes.json */,
+			);
+			path = ../Resources;
+			sourceTree = "<group>";
+		};
+		GRPSCANNER /* Scanner */ = {
 			isa = PBXGroup;
 			children = (
 				A008 /* ScannerView.swift */,
@@ -131,65 +197,55 @@
 			path = Scanner;
 			sourceTree = "<group>";
 		};
-		GRPCATALOG = {
+		GRPPROFILE /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				A011 /* CatalogView.swift */,
-				A012 /* PodDetailView.swift */,
+				A023 /* ProfileView.swift */,
 			);
-			path = Catalog;
+			path = Profile;
 			sourceTree = "<group>";
 		};
-		GRPRECIPES = {
+		GRPPAYWALL /* Paywall */ = {
 			isa = PBXGroup;
 			children = (
-				A013 /* RecipesView.swift */,
-				A014 /* RecipeDetailView.swift */,
+				A026 /* PaywallView.swift */,
 			);
-			path = Recipes;
+			path = Paywall;
 			sourceTree = "<group>";
 		};
-		GRPMODELS = {
-			isa = PBXGroup;
-			children = (
-				A003 /* Pod.swift */,
-				A004 /* Recipe.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		GRPSERVICES = {
+		GRPSERVICES /* Services */ = {
 			isa = PBXGroup;
 			children = (
 				A005 /* PodDatabase.swift */,
 				A006 /* OpenAIService.swift */,
+				A025 /* StoreKitService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
 		};
-		GRPEXT = {
+		GRPWELCOME /* Welcome */ = {
 			isa = PBXGroup;
 			children = (
-				A015 /* ColorExtension.swift */,
+				A021 /* WelcomeView.swift */,
 			);
-			path = Extensions;
+			path = Welcome;
 			sourceTree = "<group>";
 		};
-		GRPRES = {
+		ROOT = {
 			isa = PBXGroup;
 			children = (
-				A016 /* pods.json */,
-				A017 /* recipes.json */,
+				GRPAPP /* BrewScan */,
+				GRPFWK /* Frameworks */,
+				GRPPROD /* Products */,
 			);
-			path = "../Resources";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		TARGET = {
+		TARGET /* BrewScan */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CFGLIST;
+			buildConfigurationList = CFGLIST /* Build configuration list for PBXNativeTarget "BrewScan" */;
 			buildPhases = (
 				SRC /* Sources */,
 				FW01 /* Frameworks */,
@@ -207,7 +263,7 @@
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		PROJECT = {
+		PROJECT /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
@@ -219,7 +275,7 @@
 					};
 				};
 			};
-			buildConfigurationList = PROJCFGLIST;
+			buildConfigurationList = PROJCFGLIST /* Build configuration list for PBXProject "BrewScan" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -238,44 +294,52 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		RES = {
+		RES /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B016 /* pods.json */,
-				B017 /* recipes.json */,
+				B016 /* pods.json in Resources */,
+				B017 /* recipes.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		SRC = {
+		SRC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B001 /* BrewScanApp.swift */,
-				B002 /* ContentView.swift */,
-				B003 /* Pod.swift */,
-				B004 /* Recipe.swift */,
-				B005 /* PodDatabase.swift */,
-				B006 /* OpenAIService.swift */,
-				B007 /* Config.swift */,
-				B008 /* ScannerView.swift */,
-				B009 /* CameraView.swift */,
-				B010 /* ScanResultView.swift */,
-				B011 /* CatalogView.swift */,
-				B012 /* PodDetailView.swift */,
-				B013 /* RecipesView.swift */,
-				B014 /* RecipeDetailView.swift */,
-				B015 /* ColorExtension.swift */,
+				B001 /* BrewScanApp.swift in Sources */,
+				B002 /* ContentView.swift in Sources */,
+				B003 /* Pod.swift in Sources */,
+				B004 /* Recipe.swift in Sources */,
+				B005 /* PodDatabase.swift in Sources */,
+				B006 /* OpenAIService.swift in Sources */,
+				B007 /* Config.swift in Sources */,
+				B008 /* ScannerView.swift in Sources */,
+				B009 /* CameraView.swift in Sources */,
+				B010 /* ScanResultView.swift in Sources */,
+				B011 /* CatalogView.swift in Sources */,
+				B012 /* PodDetailView.swift in Sources */,
+				B013 /* RecipesView.swift in Sources */,
+				B014 /* RecipeDetailView.swift in Sources */,
+				B015 /* ColorExtension.swift in Sources */,
+				B019 /* UserProfile.swift in Sources */,
+				B020 /* AppState.swift in Sources */,
+				B021 /* WelcomeView.swift in Sources */,
+				B022 /* HomeView.swift in Sources */,
+				B023 /* ProfileView.swift in Sources */,
+				B024 /* SavedScan.swift in Sources */,
+				B025 /* StoreKitService.swift in Sources */,
+				B026 /* PaywallView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		CFG_DEBUG = {
+		CFG_DEBUG /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -337,7 +401,7 @@
 			};
 			name = Debug;
 		};
-		CFG_RELEASE = {
+		CFG_RELEASE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -392,14 +456,14 @@
 			};
 			name = Release;
 		};
-		TCFG_DEBUG = {
+		TCFG_DEBUG /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = XS26EXAD6Z;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = BrewScan/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -416,14 +480,14 @@
 			};
 			name = Debug;
 		};
-		TCFG_RELEASE = {
+		TCFG_RELEASE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = XS26EXAD6Z;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = BrewScan/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -443,16 +507,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		PROJCFGLIST = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				CFG_DEBUG /* Debug */,
-				CFG_RELEASE /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		CFGLIST = {
+		CFGLIST /* Build configuration list for PBXNativeTarget "BrewScan" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				TCFG_DEBUG /* Debug */,
@@ -461,8 +516,16 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		PROJCFGLIST /* Build configuration list for PBXProject "BrewScan" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CFG_DEBUG /* Debug */,
+				CFG_RELEASE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
-
 	};
 	rootObject = PROJECT /* Project object */;
 }

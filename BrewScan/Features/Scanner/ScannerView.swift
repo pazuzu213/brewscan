@@ -12,6 +12,7 @@ struct ScannerView: View {
     @State private var pulseAnimation = false
     @State private var rotationAngle = 0.0
     @State private var coordinator: CameraView.Coordinator?
+    @State private var cameraPermissionStatus: AVAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
 
     private let cameraDelegate = ScannerCameraDelegate()
 
@@ -53,6 +54,9 @@ struct ScannerView: View {
         } message: {
             Text("BrewScan needs camera access to identify your Nespresso pods. Please enable it in Settings.")
         }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+            cameraPermissionStatus = AVCaptureDevice.authorizationStatus(for: .video)
+        }
         .sheet(isPresented: $showResult) {
             if let result = scanResult {
                 ScanResultView(result: result, onRetry: {
@@ -66,7 +70,7 @@ struct ScannerView: View {
 
     @ViewBuilder
     private var cameraOrPlaceholderView: some View {
-        if AVCaptureDevice.authorizationStatus(for: .video) == .authorized {
+        if cameraPermissionStatus == .authorized {
             CameraContainerView(
                 isReady: $cameraReady,
                 cameraDelegate: cameraDelegate,
@@ -79,16 +83,36 @@ struct ScannerView: View {
             ZStack {
                 Color(hex: "#1A0F0A")
                     .ignoresSafeArea()
-                VStack(spacing: 16) {
+                VStack(spacing: 20) {
                     Image(systemName: "camera.slash")
                         .font(.system(size: 60))
                         .foregroundColor(Color(hex: "#B0A090"))
+
                     Text("Camera not available")
                         .foregroundColor(Color(hex: "#B0A090"))
                         .font(.headline)
-                    Text("Enable camera access in Settings")
+
+                    Text(cameraPermissionStatus == .notDetermined
+                         ? "Camera access is needed to scan pods."
+                         : "Camera access was denied. Enable it to scan pods.")
                         .foregroundColor(Color(hex: "#B0A090").opacity(0.7))
                         .font(.subheadline)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 32)
+
+                    Button(action: requestOrOpenCameraPermission) {
+                        HStack(spacing: 8) {
+                            Image(systemName: cameraPermissionStatus == .notDetermined ? "camera" : "gear")
+                            Text(cameraPermissionStatus == .notDetermined ? "Enable Camera" : "Open Settings")
+                        }
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundColor(Color(hex: "#1A0F0A"))
+                        .padding(.horizontal, 28)
+                        .padding(.vertical, 12)
+                        .background(Color(hex: "#C8860A"))
+                        .cornerRadius(24)
+                    }
+                    .padding(.top, 8)
                 }
             }
         }
@@ -141,17 +165,7 @@ struct ScannerView: View {
                 // Corner accent marks
                 scannerCornerMarks(circleSize: circleSize, center: CGPoint(x: circleX, y: circleY))
 
-                // Instruction text
-                VStack(spacing: 8) {
-                    Spacer()
-                        .frame(height: circleY + circleSize / 2 + 24)
-                    Text("Point at any Nespresso pod")
-                        .font(.system(size: 16, weight: .medium))
-                        .foregroundColor(.white)
-                    Text("Tap the button to scan")
-                        .font(.system(size: 13))
-                        .foregroundColor(Color(hex: "#B0A090"))
-                }
+                // (instruction text moved to bottomControls to avoid overlap)
             }
         }
     }
@@ -231,6 +245,16 @@ struct ScannerView: View {
             Spacer()
 
             VStack(spacing: 20) {
+                // Instruction text (kept here, above button, to prevent overlap with overlay)
+                VStack(spacing: 6) {
+                    Text("Point at any Nespresso pod")
+                        .font(.system(size: 16, weight: .medium))
+                        .foregroundColor(.white)
+                    Text("Tap the button to scan")
+                        .font(.system(size: 13))
+                        .foregroundColor(Color(hex: "#B0A090"))
+                }
+
                 if let error = errorMessage {
                     Text(error)
                         .font(.system(size: 13))
@@ -269,18 +293,39 @@ struct ScannerView: View {
     // MARK: - Actions
 
     private func checkCameraPermission() {
-        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        cameraPermissionStatus = status
+        switch status {
         case .authorized:
             break
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video) { granted in
-                if !granted {
-                    DispatchQueue.main.async { showPermissionAlert = true }
+                DispatchQueue.main.async {
+                    self.cameraPermissionStatus = AVCaptureDevice.authorizationStatus(for: .video)
+                    if !granted { self.showPermissionAlert = true }
                 }
             }
         case .denied, .restricted:
-            showPermissionAlert = true
+            // Don't auto-show alert — placeholder now has a button
+            break
         @unknown default:
+            break
+        }
+    }
+
+    private func requestOrOpenCameraPermission() {
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                DispatchQueue.main.async {
+                    self.cameraPermissionStatus = AVCaptureDevice.authorizationStatus(for: .video)
+                }
+            }
+        case .denied, .restricted:
+            if let url = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(url)
+            }
+        default:
             break
         }
     }

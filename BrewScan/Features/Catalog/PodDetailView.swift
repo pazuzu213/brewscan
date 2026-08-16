@@ -2,6 +2,7 @@ import SwiftUI
 
 struct PodDetailView: View {
     let pod: Pod
+    @EnvironmentObject var appState: AppState
     @Environment(\.dismiss) private var dismiss
     private let db = PodDatabase.shared
 
@@ -47,6 +48,15 @@ struct PodDetailView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("")
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        appState.toggleFavoritePod(pod.id)
+                    } label: {
+                        Image(systemName: appState.isPodFavorite(pod.id) ? "heart.fill" : "heart")
+                            .foregroundColor(Color(hex: "#C8860A"))
+                    }
+                }
+
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Done") { dismiss() }
                         .foregroundColor(Color(hex: "#C8860A"))

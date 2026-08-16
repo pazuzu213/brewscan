@@ -2,6 +2,7 @@ import SwiftUI
 
 struct RecipeDetailView: View {
     let recipe: Recipe
+    @EnvironmentObject var appState: AppState
     @Environment(\.dismiss) private var dismiss
     @State private var checkedIngredients: Set<Int> = []
     @State private var completedSteps: Set<Int> = []
@@ -44,6 +45,15 @@ struct RecipeDetailView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("")
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        appState.toggleSavedRecipe(recipe.id)
+                    } label: {
+                        Image(systemName: appState.isRecipeSaved(recipe.id) ? "bookmark.fill" : "bookmark")
+                            .foregroundColor(Color(hex: "#C8860A"))
+                    }
+                }
+
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Done") { dismiss() }
                         .foregroundColor(Color(hex: "#C8860A"))

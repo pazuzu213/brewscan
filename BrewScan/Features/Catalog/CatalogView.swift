@@ -172,6 +172,7 @@ struct FilterChip: View {
 // MARK: - Pod Card
 
 struct PodCard: View {
+    @EnvironmentObject var appState: AppState
     let pod: Pod
     @State private var isPressed = false
 
@@ -204,20 +205,34 @@ struct PodCard: View {
 
                 Spacer()
 
-                VStack(alignment: .trailing, spacing: 4) {
-                    Text(pod.line)
-                        .font(.system(size: 10, weight: .semibold))
-                        .foregroundColor(pod.line == "Original" ? Color(hex: "#E87070") : Color(hex: "#6DBF8A"))
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 3)
-                        .background(
-                            (pod.line == "Original" ? Color(hex: "#8B1A1A") : Color(hex: "#1A4D2E")).opacity(0.3)
-                        )
-                        .cornerRadius(6)
+                HStack(alignment: .top, spacing: 8) {
+                    Button {
+                        appState.toggleFavoritePod(pod.id)
+                    } label: {
+                        Image(systemName: appState.isPodFavorite(pod.id) ? "heart.fill" : "heart")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(Color(hex: "#C8860A"))
+                            .frame(width: 30, height: 30)
+                            .background(Color(hex: "#1A0F0A"))
+                            .clipShape(Circle())
+                    }
+                    .buttonStyle(.plain)
 
-                    Text("\(pod.intensity)")
-                        .font(.system(size: 12, weight: .bold))
-                        .foregroundColor(Color(hex: "#C8860A"))
+                    VStack(alignment: .trailing, spacing: 4) {
+                        Text(pod.line)
+                            .font(.system(size: 10, weight: .semibold))
+                            .foregroundColor(pod.line == "Original" ? Color(hex: "#E87070") : Color(hex: "#6DBF8A"))
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 3)
+                            .background(
+                                (pod.line == "Original" ? Color(hex: "#8B1A1A") : Color(hex: "#1A4D2E")).opacity(0.3)
+                            )
+                            .cornerRadius(6)
+
+                        Text("\(pod.intensity)")
+                            .font(.system(size: 12, weight: .bold))
+                            .foregroundColor(Color(hex: "#C8860A"))
+                    }
                 }
             }
 

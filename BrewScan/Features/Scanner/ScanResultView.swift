@@ -4,8 +4,11 @@ struct ScanResultView: View {
     let result: ScanResult
     let onRetry: () -> Void
 
+    @EnvironmentObject var appState: AppState
     @Environment(\.dismiss) private var dismiss
     @State private var showCatalogDetail = false
+    @State private var recentlySavedPodIds: Set<String> = []
+    @State private var didShowSavedConfirmation = false
 
     private var db: PodDatabase { PodDatabase.shared }
 
@@ -40,30 +43,19 @@ struct ScanResultView: View {
     private func identifiedPodView(pod: Pod) -> some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
-                // Header
                 podHeader(pod: pod)
 
-                // Body content
                 VStack(alignment: .leading, spacing: 24) {
-                    // Tasting notes
                     tastingNotesSection(pod: pod)
-
-                    // Intensity meter
                     intensitySection(pod: pod)
-
-                    // Origin & Roast
                     originSection(pod: pod)
-
-                    // Brew Tips
                     brewTipsSection(pod: pod)
 
-                    // Recipes
                     let recipes = db.recipes(forPod: pod)
                     if !recipes.isEmpty {
                         recipesSection(recipes: recipes)
                     }
 
-                    // View in Catalog button
                     Button(action: { showCatalogDetail = true }) {
                         HStack {
                             Image(systemName: "books.vertical")
@@ -80,16 +72,16 @@ struct ScanResultView: View {
                         )
                     }
                     .padding(.horizontal, 20)
-                    .padding(.bottom, 40)
+
+                    saveScanButton(pod: pod)
+                        .padding(.bottom, 40)
                 }
                 .padding(.top, 24)
             }
         }
         .background(Color(hex: "#1A0F0A"))
         .sheet(isPresented: $showCatalogDetail) {
-            if let pod = result.matchedPod {
-                PodDetailView(pod: pod)
-            }
+            PodDetailView(pod: pod)
         }
     }
 
@@ -112,7 +104,6 @@ struct ScanResultView: View {
                 .frame(height: 200)
 
             VStack(alignment: .leading, spacing: 12) {
-                // Confidence badge
                 HStack(spacing: 8) {
                     Image(systemName: "checkmark.seal.fill")
                         .foregroundColor(Color(hex: "#C8860A"))
@@ -268,8 +259,21 @@ struct ScanResultView: View {
     @ViewBuilder
     private func recipeCard(recipe: Recipe) -> some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text(recipe.emoji)
-                .font(.system(size: 36))
+            HStack {
+                Text(recipe.emoji)
+                    .font(.system(size: 36))
+
+                Spacer()
+
+                Button {
+                    appState.toggleSavedRecipe(recipe.id)
+                } label: {
+                    Image(systemName: appState.isRecipeSaved(recipe.id) ? "bookmark.fill" : "bookmark")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundColor(Color(hex: "#C8860A"))
+                }
+                .buttonStyle(.plain)
+            }
 
             Text(recipe.name)
                 .font(.system(size: 15, weight: .semibold))
@@ -369,6 +373,48 @@ struct ScanResultView: View {
 
             Spacer()
         }
+    }
+
+    // MARK: - Save Scan
+
+    private func saveScanButton(pod: Pod) -> some View {
+        let alreadySaved = recentlySavedPodIds.contains(pod.id)
+
+        return Button {
+            guard !alreadySaved else { return }
+
+            let scan = SavedScan(
+                id: UUID(),
+                date: Date(),
+                podName: pod.name,
+                podId: pod.id,
+                podColor: pod.color,
+                confidence: result.identificationResult.confidence,
+                line: "\(pod.line) Line",
+                intensity: pod.intensity
+            )
+
+            appState.saveScan(scan)
+            recentlySavedPodIds.insert(pod.id)
+            didShowSavedConfirmation = true
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                didShowSavedConfirmation = false
+            }
+        } label: {
+            HStack {
+                Image(systemName: alreadySaved ? "checkmark.circle.fill" : "tray.and.arrow.down.fill")
+                Text(didShowSavedConfirmation ? "Saved! ✓" : (alreadySaved ? "Already Saved" : "Save This Scan"))
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 16)
+            .background(alreadySaved ? Color(hex: "#3D2A1A") : Color(hex: "#C8860A"))
+            .foregroundColor(alreadySaved ? Color(hex: "#B0A090") : Color(hex: "#1A0F0A"))
+            .font(.system(size: 16, weight: .semibold))
+            .cornerRadius(16)
+        }
+        .disabled(alreadySaved)
+        .padding(.horizontal, 20)
     }
 
     // MARK: - Helper Views
