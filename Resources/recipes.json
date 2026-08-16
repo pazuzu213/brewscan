@@ -1,0 +1,255 @@
+[
+  {
+    "id": "classic_latte",
+    "name": "Classic Latte",
+    "compatiblePodIds": ["livanto", "volluto", "capriccio", "arpeggio", "barista_chiaro", "melozio", "bianco_doppio"],
+    "difficulty": "Easy",
+    "prepTime": "3 min",
+    "ingredients": ["1 Nespresso capsule", "150ml whole milk", "Hot water for warming cup"],
+    "steps": [
+      "Warm your cup with hot water, then discard",
+      "Brew your capsule directly into a large latte glass or cup",
+      "Steam 150ml of whole milk until velvety and microfoam forms",
+      "Pour steamed milk over the espresso in a steady stream",
+      "Add a small dollop of foam on top to finish",
+      "Serve immediately and enjoy"
+    ],
+    "emoji": "☕"
+  },
+  {
+    "id": "cappuccino",
+    "name": "Cappuccino",
+    "compatiblePodIds": ["arpeggio", "capriccio", "barista_chiaro", "altissio", "bianco_forte"],
+    "difficulty": "Easy",
+    "prepTime": "4 min",
+    "ingredients": ["1 Nespresso capsule", "100ml whole milk", "Cocoa powder (optional)"],
+    "steps": [
+      "Brew your espresso capsule into a cappuccino cup",
+      "Steam 100ml of cold whole milk until it doubles in volume with thick foam",
+      "Pour one-third steamed milk over the espresso",
+      "Spoon thick milk foam on top to fill the cup",
+      "Dust with cocoa powder if desired",
+      "Serve immediately while hot"
+    ],
+    "emoji": "☕"
+  },
+  {
+    "id": "flat_white",
+    "name": "Flat White",
+    "compatiblePodIds": ["arpeggio", "barista_chiaro", "odacio", "fortado", "bianco_doppio"],
+    "difficulty": "Medium",
+    "prepTime": "4 min",
+    "ingredients": ["1 Nespresso capsule (ristretto)", "100ml whole milk"],
+    "steps": [
+      "Brew your capsule as a ristretto (25ml) into a small ceramic cup",
+      "Steam 100ml of cold whole milk to silky microfoam consistency — less foam than cappuccino",
+      "Pour milk over espresso with a gentle swirling motion",
+      "The result should be a thin layer of microfoam on top",
+      "Serve immediately — the flat white is all about ratio and texture"
+    ],
+    "emoji": "☕"
+  },
+  {
+    "id": "macchiato",
+    "name": "Macchiato",
+    "compatiblePodIds": ["ristretto", "dharkan", "kazaar", "altissio", "il_caffe", "barista_corto"],
+    "difficulty": "Easy",
+    "prepTime": "2 min",
+    "ingredients": ["1 Nespresso capsule", "20ml cold whole milk"],
+    "steps": [
+      "Brew your espresso capsule into a small espresso cup",
+      "Gently steam or froth 20ml of cold milk",
+      "Spoon or pour a small dollop of foam on top of the espresso",
+      "The espresso should be 'stained' with milk — that's a macchiato",
+      "Serve immediately"
+    ],
+    "emoji": "☕"
+  },
+  {
+    "id": "cortado",
+    "name": "Cortado",
+    "compatiblePodIds": ["ristretto", "kazaar", "barista_corto", "odacio", "fortado", "india"],
+    "difficulty": "Easy",
+    "prepTime": "3 min",
+    "ingredients": ["1 Nespresso capsule", "30ml warm milk"],
+    "steps": [
+      "Brew your capsule as an espresso into a small glass",
+      "Warm 30ml of milk to just below boiling (do not foam)",
+      "Pour the warm milk over the espresso in equal ratio",
+      "The goal is to cut (cortar) the espresso's acidity with warm milk",
+      "Serve in a small glass without foam"
+    ],
+    "emoji": "☕"
+  },
+  {
+    "id": "iced_coffee",
+    "name": "Iced Coffee",
+    "compatiblePodIds": ["ristretto", "dharkan", "ethiopia", "elvazio", "roma"],
+    "difficulty": "Easy",
+    "prepTime": "5 min",
+    "ingredients": ["1 Nespresso capsule", "1 cup ice cubes", "100ml cold water or cold milk", "Sweetener (optional)"],
+    "steps": [
+      "Fill a tall glass with ice cubes",
+      "Brew your espresso capsule directly over the ice",
+      "The hot espresso will chill instantly as it hits the ice",
+      "Add cold water or cold milk to taste",
+      "Stir gently and add sweetener if desired",
+      "Serve immediately with a straw"
+    ],
+    "emoji": "🧊"
+  },
+  {
+    "id": "iced_latte",
+    "name": "Iced Latte",
+    "compatiblePodIds": ["livanto", "vanilio", "caramelito", "colombia", "bianco_leggero", "giornio"],
+    "difficulty": "Easy",
+    "prepTime": "5 min",
+    "ingredients": ["1 Nespresso capsule", "1 cup ice cubes", "150ml cold milk", "Simple syrup (optional)"],
+    "steps": [
+      "Brew your espresso capsule into a small cup and let it cool slightly",
+      "Fill a tall glass with ice cubes",
+      "Pour cold milk over the ice",
+      "Gently pour the cooled espresso over the milk",
+      "Stir gently — enjoy the swirling layers before mixing",
+      "Add simple syrup if you prefer sweetness, stir, and serve"
+    ],
+    "emoji": "🧊"
+  },
+  {
+    "id": "affogato",
+    "name": "Affogato",
+    "compatiblePodIds": ["ristretto", "dharkan", "ciocattino", "volluto", "voltesso"],
+    "difficulty": "Easy",
+    "prepTime": "3 min",
+    "ingredients": ["1 Nespresso capsule", "1-2 scoops vanilla gelato or ice cream"],
+    "steps": [
+      "Place 1-2 scoops of premium vanilla gelato in a chilled glass or bowl",
+      "Brew your espresso capsule into a separate small cup",
+      "Pour the hot espresso directly over the cold gelato",
+      "The gelato begins to melt into the espresso — serve immediately",
+      "Eat and drink together — the contrast of hot and cold is the magic",
+      "Optional: add a biscotti on the side"
+    ],
+    "emoji": "🍨"
+  },
+  {
+    "id": "espresso_tonic",
+    "name": "Espresso Tonic",
+    "compatiblePodIds": ["ethiopia", "elvazio", "diavolitto", "colombia"],
+    "difficulty": "Easy",
+    "prepTime": "4 min",
+    "ingredients": ["1 Nespresso capsule", "150ml premium tonic water (chilled)", "Ice cubes", "Lemon or lime slice (optional)"],
+    "steps": [
+      "Fill a tall glass with ice cubes",
+      "Pour chilled premium tonic water over the ice — fill halfway",
+      "Brew your espresso capsule into a separate cup and let cool 1 minute",
+      "Slowly pour the espresso over the tonic — pour over the back of a spoon for layering",
+      "Do not stir — enjoy the layered effect",
+      "Garnish with a lemon or lime slice if desired"
+    ],
+    "emoji": "🫧"
+  },
+  {
+    "id": "vienna_coffee",
+    "name": "Vienna Coffee",
+    "compatiblePodIds": ["vienna_roast", "roma", "livanto", "indonesia"],
+    "difficulty": "Easy",
+    "prepTime": "5 min",
+    "ingredients": ["1 Nespresso capsule", "150ml hot water", "2 tbsp whipped cream", "Cocoa or cinnamon for dusting"],
+    "steps": [
+      "Brew your capsule as a lungo (110ml) into a Vienna coffee glass or tall cup",
+      "Top the coffee with a generous dollop of lightly whipped cream",
+      "Do not stir — let the cream float on top",
+      "Dust with cocoa powder or cinnamon",
+      "Sip the coffee through the cream for the authentic Vienna experience",
+      "Serve with a small chocolate or biscotti on the side"
+    ],
+    "emoji": "☁️"
+  },
+  {
+    "id": "cafe_au_lait",
+    "name": "Café au Lait",
+    "compatiblePodIds": ["cosi", "volluto", "bianco_leggero", "giornio", "solelio", "melozio"],
+    "difficulty": "Easy",
+    "prepTime": "4 min",
+    "ingredients": ["1 Nespresso capsule", "200ml hot whole milk"],
+    "steps": [
+      "Heat 200ml of whole milk in a saucepan or microwave until steaming — do not boil",
+      "Brew your lungo capsule into a large, pre-warmed bowl or wide cup",
+      "Pour the hot milk and coffee simultaneously into the cup",
+      "The equal ratio creates the classic café au lait balance",
+      "No foam — this is not a latte. Simple, warm, and satisfying",
+      "Serve without stirring for best presentation"
+    ],
+    "emoji": "🥛"
+  },
+  {
+    "id": "ristretto_macchiato",
+    "name": "Ristretto Macchiato",
+    "compatiblePodIds": ["ristretto", "kazaar", "dharkan", "barista_corto", "ispirazione_napoli", "ispirazione_palermo"],
+    "difficulty": "Easy",
+    "prepTime": "2 min",
+    "ingredients": ["1 Nespresso capsule", "15ml frothed milk", "1 tsp milk foam"],
+    "steps": [
+      "Brew your capsule as a ristretto (25ml) into a tiny espresso cup",
+      "Froth just 15ml of cold milk into a light foam",
+      "Top the ristretto with a single teaspoon of milk foam",
+      "The foam barely marks the top — hence 'macchiato' (marked)",
+      "Serve immediately and drink in one or two sips for the full experience"
+    ],
+    "emoji": "⚡"
+  },
+  {
+    "id": "lungo_black",
+    "name": "Lungo Black",
+    "compatiblePodIds": ["cosi", "roma", "vienna_roast", "stormio", "nicaragua", "indonesia"],
+    "difficulty": "Easy",
+    "prepTime": "2 min",
+    "ingredients": ["1 Nespresso lungo capsule", "110ml hot water"],
+    "steps": [
+      "Use a lungo-compatible Nespresso capsule",
+      "Place a prewarmed mug under the machine",
+      "Select the lungo setting (110ml) on your Nespresso machine",
+      "Brew the full lungo volume — the water extracts through slowly for a different character",
+      "The lungo is not just a long espresso — it has its own distinct flavor",
+      "Serve black or with a drop of cold water to open up the flavors"
+    ],
+    "emoji": "☕"
+  },
+  {
+    "id": "cold_brew_style",
+    "name": "Cold Brew Style",
+    "compatiblePodIds": ["stormio", "melozio", "nicaragua", "solelio", "bianco_leggero"],
+    "difficulty": "Medium",
+    "prepTime": "20 min",
+    "ingredients": ["2 Nespresso capsules", "300ml cold water", "Ice cubes", "Sweetener (optional)"],
+    "steps": [
+      "Brew both capsules as a double lungo into a container",
+      "Allow the coffee to cool to room temperature (10-15 minutes)",
+      "Transfer to the refrigerator and chill until very cold (or add to ice)",
+      "When chilled, pour over a glass filled with ice",
+      "Add cold water to dilute to your preferred strength",
+      "Sweeten with simple syrup if desired — cold brew needs more sweetener than hot coffee",
+      "Stir gently and serve immediately"
+    ],
+    "emoji": "🧊"
+  },
+  {
+    "id": "vanilla_latte",
+    "name": "Vanilla Latte",
+    "compatiblePodIds": ["vanilio", "livanto", "caramelito", "hazelino", "volluto", "voltesso"],
+    "difficulty": "Easy",
+    "prepTime": "4 min",
+    "ingredients": ["1 Nespresso capsule", "150ml whole milk", "2 tsp vanilla syrup", "Vanilla bean or extract (optional)"],
+    "steps": [
+      "Add vanilla syrup to the bottom of a large cup or glass",
+      "Brew your espresso capsule directly into the cup with the syrup",
+      "Stir lightly to combine espresso and vanilla",
+      "Steam or froth 150ml of cold whole milk to velvety microfoam",
+      "Pour steamed milk over the espresso mixture",
+      "Top with a small amount of foam and serve immediately",
+      "Optional: add a pinch of vanilla powder on top"
+    ],
+    "emoji": "🌿"
+  }
+]
