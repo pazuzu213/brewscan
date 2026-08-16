@@ -52,7 +52,13 @@ class OpenAIService {
         guard Config.openAIKey != "YOUR_OPENAI_API_KEY_HERE" && !Config.openAIKey.isEmpty else {
             throw OpenAIError.invalidAPIKey
         }
+        return try await identifyPodWithRetry(imageData: imageData, attempt: 1)
+    }
 
+    // MARK: - Retry Logic
+
+    private func identifyPodWithRetry(imageData: Data, attempt: Int) async throws -> PodIdentificationResult {
+        let maxAttempts = 3
         let base64Image = imageData.base64EncodedString()
 
         let prompt = """
@@ -69,15 +75,12 @@ class OpenAIService {
                 [
                     "role": "user",
                     "content": [
-                        [
-                            "type": "text",
-                            "text": prompt
-                        ],
+                        ["type": "text", "text": prompt],
                         [
                             "type": "image_url",
                             "image_url": [
                                 "url": "data:image/jpeg;base64,\(base64Image)",
-                                "detail": "high"
+                                "detail": "low"  // low = faster + fewer tokens, sufficient for pod ID
                             ]
                         ]
                     ]
@@ -107,9 +110,21 @@ class OpenAIService {
         case 401:
             throw OpenAIError.invalidAPIKey
         case 429:
-            throw OpenAIError.rateLimited
+            guard attempt < maxAttempts else { throw OpenAIError.rateLimited }
+            // Honour Retry-After header if present, otherwise exponential backoff
+            let retryAfter: Double
+            if let header = httpResponse.value(forHTTPHeaderField: "Retry-After"),
+               let seconds = Double(header) {
+                retryAfter = min(seconds, 10)
+            } else {
+                retryAfter = pow(2.0, Double(attempt))  // 2s, 4s, 8s
+            }
+            try await Task.sleep(nanoseconds: UInt64(retryAfter * 1_000_000_000))
+            return try await identifyPodWithRetry(imageData: imageData, attempt: attempt + 1)
         case 500...599:
-            throw OpenAIError.serverError(httpResponse.statusCode)
+            guard attempt < maxAttempts else { throw OpenAIError.serverError(httpResponse.statusCode) }
+            try await Task.sleep(nanoseconds: UInt64(pow(2.0, Double(attempt)) * 1_000_000_000))
+            return try await identifyPodWithRetry(imageData: imageData, attempt: attempt + 1)
         default:
             throw OpenAIError.serverError(httpResponse.statusCode)
         }
