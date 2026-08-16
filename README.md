@@ -23,8 +23,8 @@ A native iOS app that scans Nespresso pods with your camera, identifies them usi
 
 - App bundle IDs: `com.sunnydays.<appname>`
 - Subscription products: `com.sunnydays.<appname>.pro.monthly` and `com.sunnydays.<appname>.pro.yearly`
-- BrewScan bundle ID: `com.sunnydays.brewscan`
-- BrewScan subscriptions: `com.sunnydays.brewscan.pro.monthly` and `com.sunnydays.brewscan.pro.yearly`
+- BrewScan bundle ID: `com.sunnydays.brewscanapp`
+- BrewScan subscriptions: `com.sunnydays.brewscanapp.pro.monthly` and `com.sunnydays.brewscanapp.pro.yearly`
 
 ### 1. Clone the repo
 ```bash
@@ -109,6 +109,27 @@ The catalog and recipes work fully in the simulator. The camera (scanner) requir
 5. **Testers install via TestFlight app**
    - They receive an email invite
    - Install TestFlight → tap invite link → install BrewScan
+
+---
+
+## Xcode Cloud Setup
+
+Apple does not allow creating the first Xcode Cloud product through the public App Store Connect API. First-time setup has to be completed once in Xcode or App Store Connect so Apple can connect the GitHub repository and create the CI product.
+
+Recommended workflow:
+
+1. Open `BrewScan.xcodeproj` in Xcode
+2. Choose **Product → Xcode Cloud → Create Workflow**
+3. Select the BrewScan app / scheme
+4. Connect GitHub repository `pazuzu213/brewscan` if prompted
+5. Configure:
+   - Branch: `main`
+   - Start condition: every push to `main`
+   - Actions: Archive
+   - Post-action: Distribute to TestFlight
+6. Save and start the first build
+
+After the first workflow exists, App Store Connect API can read workflows and trigger build runs programmatically.
 
 ---
 
