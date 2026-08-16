@@ -65,6 +65,7 @@ struct CatalogView: View {
 
                     // Pod grid
                     ScrollView {
+
                         LazyVGrid(columns: columns, spacing: 12) {
                             ForEach(filteredPods) { pod in
                                 PodCard(pod: pod)
@@ -104,6 +105,7 @@ struct CatalogView: View {
                 }
                 .foregroundColor(.white)
                 .font(.system(size: 16))
+                .onSubmit { hideKeyboard() }
 
             if !searchText.isEmpty {
                 Button(action: { searchText = "" }) {
@@ -295,5 +297,9 @@ extension View {
             placeholder().opacity(shouldShow ? 1 : 0)
             self
         }
+    }
+
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
