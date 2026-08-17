@@ -169,6 +169,12 @@ class AppState: ObservableObject {
         savedScans.removeAll { ids.contains($0.id) }
     }
 
+    func updateScan(_ scan: SavedScan) {
+        if let index = savedScans.firstIndex(where: { $0.id == scan.id }) {
+            savedScans[index] = scan
+        }
+    }
+
     // MARK: - Persistence Helpers
 
     private func persistUserProfile() {

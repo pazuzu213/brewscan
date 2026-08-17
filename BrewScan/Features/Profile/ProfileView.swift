@@ -3,6 +3,7 @@ import SwiftUI
 struct ProfileView: View {
     @EnvironmentObject var appState: AppState
     @State private var showEditProfile = false
+    @State private var selectedScan: SavedScan? = nil
 
     private let db = PodDatabase.shared
 
@@ -43,6 +44,10 @@ struct ProfileView: View {
             .toolbarColorScheme(.dark, for: .navigationBar)
             .sheet(isPresented: $showEditProfile) {
                 EditProfileView()
+                    .environmentObject(appState)
+            }
+            .sheet(item: $selectedScan) { scan in
+                SavedScanDetailView(scan: scan)
                     .environmentObject(appState)
             }
         }
@@ -125,14 +130,28 @@ struct ProfileView: View {
             } else {
                 List {
                     ForEach(sortedScans) { scan in
-                        scanRow(scan)
-                            .listRowBackground(Color(hex: "#2D1F15"))
+                        Button {
+                            selectedScan = scan
+                        } label: {
+                            scanRow(scan)
+                        }
+                        .buttonStyle(.plain)
+                        .listRowBackground(Color(hex: "#2D1F15"))
+                        .listRowSeparatorTint(Color(hex: "#3D2A1A"))
+                        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                            Button(role: .destructive) {
+                                appState.deleteScans(ids: [scan.id])
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
+                        }
                     }
-                    .onDelete(perform: deleteScans)
                 }
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden)
-                .frame(height: CGFloat(min(max(sortedScans.count, 1), 6)) * 68)
+                .frame(height: CGFloat(min(max(sortedScans.count, 1), 6)) * 76)
+                .background(Color(hex: "#2D1F15"))
                 .cornerRadius(16)
             }
         }
@@ -280,9 +299,21 @@ struct ProfileView: View {
                 Text(scan.podName)
                     .font(.system(size: 15, weight: .semibold))
                     .foregroundColor(.white)
-                Text(scan.date.formatted(date: .abbreviated, time: .shortened))
-                    .font(.system(size: 12))
-                    .foregroundColor(Color(hex: "#B0A090"))
+
+                HStack(spacing: 5) {
+                    Text(scan.date.formatted(date: .abbreviated, time: .shortened))
+                        .font(.system(size: 12))
+                        .foregroundColor(Color(hex: "#B0A090"))
+
+                    if !scan.notes.isEmpty {
+                        Text("·")
+                            .font(.system(size: 12))
+                            .foregroundColor(Color(hex: "#B0A090"))
+                        Text("\(scan.notes.count) note\(scan.notes.count == 1 ? "" : "s")")
+                            .font(.system(size: 12))
+                            .foregroundColor(Color(hex: "#C8860A"))
+                    }
+                }
             }
 
             Spacer()
@@ -290,8 +321,13 @@ struct ProfileView: View {
             Text("\(Int(scan.confidence * 100))%")
                 .font(.system(size: 12, weight: .semibold))
                 .foregroundColor(Color(hex: "#C8860A"))
+
+            Image(systemName: "chevron.right")
+                .font(.system(size: 11, weight: .semibold))
+                .foregroundColor(Color(hex: "#B0A090").opacity(0.4))
         }
-        .padding(.vertical, 4)
+        .padding(.horizontal, 14)
+        .padding(.vertical, 12)
     }
 
     private func preferenceButton(title: String, isSelected: Bool, action: @escaping () -> Void) -> some View {

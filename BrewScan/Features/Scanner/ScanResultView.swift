@@ -9,6 +9,9 @@ struct ScanResultView: View {
     @State private var showCatalogDetail = false
     @State private var recentlySavedPodIds: Set<String> = []
     @State private var didShowSavedConfirmation = false
+    @State private var showSaveSheet = false
+    @State private var podToSave: Pod? = nil
+    @State private var saveNoteText = ""
 
     private var db: PodDatabase { PodDatabase.shared }
 
@@ -35,6 +38,9 @@ struct ScanResultView: View {
             }
         }
         .navigationViewStyle(.stack)
+        .sheet(isPresented: $showSaveSheet) {
+            saveSheet
+        }
     }
 
     // MARK: - Identified Pod View
@@ -382,25 +388,9 @@ struct ScanResultView: View {
 
         return Button {
             guard !alreadySaved else { return }
-
-            let scan = SavedScan(
-                id: UUID(),
-                date: Date(),
-                podName: pod.name,
-                podId: pod.id,
-                podColor: pod.color,
-                confidence: result.identificationResult.confidence,
-                line: "\(pod.line) Line",
-                intensity: pod.intensity
-            )
-
-            appState.saveScan(scan)
-            recentlySavedPodIds.insert(pod.id)
-            didShowSavedConfirmation = true
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                didShowSavedConfirmation = false
-            }
+            podToSave = pod
+            saveNoteText = ""
+            showSaveSheet = true
         } label: {
             HStack {
                 Image(systemName: alreadySaved ? "checkmark.circle.fill" : "tray.and.arrow.down.fill")
@@ -415,6 +405,131 @@ struct ScanResultView: View {
         }
         .disabled(alreadySaved)
         .padding(.horizontal, 20)
+    }
+
+    // MARK: - Save Sheet
+
+    private var saveSheet: some View {
+        NavigationView {
+            ZStack {
+                Color(hex: "#1A0F0A").ignoresSafeArea()
+
+                VStack(alignment: .leading, spacing: 20) {
+                    if let pod = podToSave {
+                        HStack(spacing: 14) {
+                            Circle()
+                                .fill(Color(hex: pod.color))
+                                .frame(width: 44, height: 44)
+                                .overlay(Circle().stroke(.white.opacity(0.3), lineWidth: 1.5))
+                                .shadow(color: Color(hex: pod.color).opacity(0.5), radius: 8)
+
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(pod.name)
+                                    .font(.system(size: 18, weight: .bold))
+                                    .foregroundColor(.white)
+                                Text("\(pod.line) · Intensity \(pod.intensity)")
+                                    .font(.system(size: 13))
+                                    .foregroundColor(Color(hex: "#B0A090"))
+                            }
+                            Spacer()
+                        }
+                        .padding(16)
+                        .background(Color(hex: "#2D1F15"))
+                        .cornerRadius(14)
+                    }
+
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("ADD A NOTE (OPTIONAL)")
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundColor(Color(hex: "#B0A090"))
+                            .tracking(1)
+
+                        ZStack(alignment: .topLeading) {
+                            TextEditor(text: $saveNoteText)
+                                .font(.system(size: 15))
+                                .foregroundColor(.white)
+                                .padding(12)
+                                .frame(minHeight: 110)
+                                .background(Color(hex: "#2D1F15"))
+                                .cornerRadius(14)
+                                .scrollContentBackground(.hidden)
+
+                            if saveNoteText.isEmpty {
+                                Text("Your impressions, who you made it for, brew tips...")
+                                    .font(.system(size: 15))
+                                    .foregroundColor(Color(hex: "#B0A090").opacity(0.5))
+                                    .padding(20)
+                                    .allowsHitTesting(false)
+                            }
+                        }
+                    }
+
+                    Spacer()
+
+                    Button {
+                        performSave()
+                    } label: {
+                        Text("Save to Collection")
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                            .background(Color(hex: "#C8860A"))
+                            .foregroundColor(Color(hex: "#1A0F0A"))
+                            .font(.system(size: 16, weight: .semibold))
+                            .cornerRadius(16)
+                    }
+                }
+                .padding(20)
+            }
+            .navigationTitle("Save Scan")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(Color(hex: "#1A0F0A"), for: .navigationBar)
+            .toolbarColorScheme(.dark, for: .navigationBar)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancel") {
+                        showSaveSheet = false
+                        podToSave = nil
+                        saveNoteText = ""
+                    }
+                    .foregroundColor(Color(hex: "#B0A090"))
+                }
+            }
+        }
+        .navigationViewStyle(.stack)
+        .preferredColorScheme(.dark)
+    }
+
+    private func performSave() {
+        guard let pod = podToSave else { return }
+
+        var initialNotes: [ScanNote] = []
+        let trimmed = saveNoteText.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !trimmed.isEmpty {
+            initialNotes = [ScanNote(id: UUID(), date: Date(), text: trimmed)]
+        }
+
+        let scan = SavedScan(
+            id: UUID(),
+            date: Date(),
+            podName: pod.name,
+            podId: pod.id,
+            podColor: pod.color,
+            confidence: result.identificationResult.confidence,
+            line: "\(pod.line) Line",
+            intensity: pod.intensity,
+            notes: initialNotes
+        )
+
+        appState.saveScan(scan)
+        recentlySavedPodIds.insert(pod.id)
+        didShowSavedConfirmation = true
+        showSaveSheet = false
+        podToSave = nil
+        saveNoteText = ""
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            didShowSavedConfirmation = false
+        }
     }
 
     // MARK: - Helper Views

@@ -7,8 +7,8 @@ struct Config {
         if let envKey = ProcessInfo.processInfo.environment["OPENAI_API_KEY"], !envKey.isEmpty {
             return envKey
         }
-        // Local dev fallback — never committed with real key in CI
-        return "YOUR_LOCAL_KEY_HERE"
+        // Local dev: set OPENAI_API_KEY in your scheme's env vars
+        return ""
     }()
 
     static let openAIBaseURL = "https://api.openai.com/v1"
