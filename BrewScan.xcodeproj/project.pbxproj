@@ -34,6 +34,7 @@
 		B025 /* StoreKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A025 /* StoreKitService.swift */; };
 		B026 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A026 /* PaywallView.swift */; };
 		B027 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A027 /* Assets.xcassets */; };
+		B028 /* SavedScanDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A028 /* SavedScanDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +65,7 @@
 		A025 /* StoreKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitService.swift; sourceTree = "<group>"; };
 		A026 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
 		A027 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A028 /* SavedScanDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedScanDetailView.swift; sourceTree = "<group>"; };
 		PLIST /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		PROD /* BrewScan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BrewScan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -131,9 +133,18 @@
 				GRPCATALOG /* Catalog */,
 				GRPRECIPES /* Recipes */,
 				GRPPROFILE /* Profile */,
+				GRPSAVEDSCANS /* SavedScans */,
 				GRPPAYWALL /* Paywall */,
 			);
 			path = Features;
+			sourceTree = "<group>";
+		};
+		GRPSAVEDSCANS /* SavedScans */ = {
+			isa = PBXGroup;
+			children = (
+				A028 /* SavedScanDetailView.swift */,
+			);
+			path = SavedScans;
 			sourceTree = "<group>";
 		};
 		GRPFWK /* Frameworks */ = {
@@ -337,6 +348,7 @@
 				B024 /* SavedScan.swift in Sources */,
 				B025 /* StoreKitService.swift in Sources */,
 				B026 /* PaywallView.swift in Sources */,
+				B028 /* SavedScanDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
