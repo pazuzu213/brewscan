@@ -8,6 +8,9 @@ struct ContentView: View {
     var body: some View {
         if !appState.hasCompletedOnboarding {
             WelcomeView()
+        } else if !appState.isAuthenticated {
+            AuthView()
+                .environmentObject(appState)
         } else if !appState.hasAccess && !store.isSubscribed {
             PaywallView()
                 .environmentObject(appState)

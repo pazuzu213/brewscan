@@ -35,6 +35,10 @@
 		B026 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A026 /* PaywallView.swift */; };
 		B027 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A027 /* Assets.xcassets */; };
 		B028 /* SavedScanDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A028 /* SavedScanDetailView.swift */; };
+		B029 /* AuthSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = A029 /* AuthSession.swift */; };
+		B030 /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A030 /* KeychainStore.swift */; };
+		B031 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A031 /* AuthService.swift */; };
+		B032 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A032 /* AuthView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +70,10 @@
 		A026 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
 		A027 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A028 /* SavedScanDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedScanDetailView.swift; sourceTree = "<group>"; };
+		A029 /* AuthSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSession.swift; sourceTree = "<group>"; };
+		A030 /* KeychainStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
+		A031 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		A032 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		PLIST /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		PROD /* BrewScan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BrewScan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -130,6 +138,7 @@
 				GRPWELCOME /* Welcome */,
 				GRPHOME /* Home */,
 				GRPSCANNER /* Scanner */,
+				GRPAUTH /* Auth */,
 				GRPCATALOG /* Catalog */,
 				GRPRECIPES /* Recipes */,
 				GRPPROFILE /* Profile */,
@@ -163,9 +172,18 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
+		GRPAUTH /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				A032 /* AuthView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		GRPMODELS /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				GRPAUTHMODELS /* Auth */,
 				A003 /* Pod.swift */,
 				A004 /* Recipe.swift */,
 				A019 /* UserProfile.swift */,
@@ -173,6 +191,14 @@
 				A024 /* SavedScan.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		GRPAUTHMODELS /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				A029 /* AuthSession.swift */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 		GRPPAYWALL /* Paywall */ = {
@@ -230,11 +256,21 @@
 		GRPSERVICES /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				GRPAUTHSERVICES /* Auth */,
 				A005 /* PodDatabase.swift */,
 				A006 /* OpenAIService.swift */,
 				A025 /* StoreKitService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		GRPAUTHSERVICES /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				A030 /* KeychainStore.swift */,
+				A031 /* AuthService.swift */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 		GRPWELCOME /* Welcome */ = {
@@ -349,6 +385,10 @@
 				B025 /* StoreKitService.swift in Sources */,
 				B026 /* PaywallView.swift in Sources */,
 				B028 /* SavedScanDetailView.swift in Sources */,
+				B029 /* AuthSession.swift in Sources */,
+				B030 /* KeychainStore.swift in Sources */,
+				B031 /* AuthService.swift in Sources */,
+				B032 /* AuthView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

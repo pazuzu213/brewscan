@@ -21,6 +21,7 @@ Podfile.lock
 Carthage/Build/
 
 # API Keys — never commit
+auth-server/data/
 
 # macOS
 .DS_Store

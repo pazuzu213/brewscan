@@ -202,14 +202,24 @@ struct ProfileView: View {
 
     private var accountSection: some View {
         section(title: "Account") {
-            VStack(alignment: .leading, spacing: 8) {
-                Text(appState.userProfile?.email ?? "No email added")
-                    .font(.system(size: 15, weight: .semibold))
-                    .foregroundColor(.white)
+            VStack(alignment: .leading, spacing: 14) {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(appState.authSession?.user.email ?? appState.userProfile?.email ?? "No email added")
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundColor(.white)
 
-                Text("Magic-link auth coming soon")
-                    .font(.system(size: 13))
-                    .foregroundColor(Color(hex: "#B0A090"))
+                    Text(appState.isAuthenticated ? "Signed in with email" : "Not signed in")
+                        .font(.system(size: 13))
+                        .foregroundColor(Color(hex: "#B0A090"))
+                }
+
+                if appState.isAuthenticated {
+                    Button("Sign Out") {
+                        appState.signOut()
+                    }
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(Color(hex: "#C8860A"))
+                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(16)

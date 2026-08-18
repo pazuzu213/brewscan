@@ -13,6 +13,9 @@ struct BrewScanApp: App {
             ContentView()
                 .environmentObject(appState)
                 .preferredColorScheme(.dark)
+                .onOpenURL { url in
+                    appState.handleMagicLink(url)
+                }
         }
     }
 

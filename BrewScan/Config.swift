@@ -13,4 +13,5 @@ struct Config {
 
     static let openAIBaseURL = "https://api.openai.com/v1"
     static let openAIModel   = "gpt-4o-mini"
+    static let authBaseURL   = "https://populations-tunnel-rabbit-scratch.trycloudflare.com"
 }

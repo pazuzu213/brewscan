@@ -54,6 +54,12 @@ class AppState: ObservableObject {
         didSet { persistUserProfile() }
     }
 
+    @Published var authSession: AuthSession?
+
+    var isAuthenticated: Bool {
+        authSession != nil
+    }
+
     @Published var savedScans: [SavedScan] {
         didSet { persistSavedScans() }
     }
@@ -123,12 +129,54 @@ class AppState: ObservableObject {
         self.savedScans = Self.loadJSON(from: FileManager.default
             .urls(for: .documentDirectory, in: .userDomainMask)[0]
             .appendingPathComponent("savedScans.json")) ?? []
+
+        self.authSession = AuthService.shared.loadSession()
     }
 
     // MARK: - Public Actions
 
     func saveProfile(_ profile: UserProfile) {
         self.userProfile = profile
+    }
+
+    func signIn(_ session: AuthSession) {
+        authSession = session
+        AuthService.shared.saveSession(session)
+
+        var profile = userProfile ?? UserProfile.empty
+        if profile.email.isEmpty {
+            profile.email = session.user.email
+        }
+        if profile.name.isEmpty {
+            profile.name = session.user.name
+        }
+        saveProfile(profile)
+    }
+
+    func signOut() {
+        authSession = nil
+        AuthService.shared.clearSession()
+    }
+
+    func handleMagicLink(_ url: URL) {
+        guard url.scheme == "brewscan",
+              url.host == "auth",
+              let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+              let token = components.queryItems?.first(where: { $0.name == "token" })?.value,
+              !token.isEmpty else {
+            return
+        }
+
+        Task {
+            do {
+                let session = try await AuthService.shared.verifyMagicToken(token)
+                await MainActor.run {
+                    self.signIn(session)
+                }
+            } catch {
+                print("[AppState] Magic link login failed: \(error.localizedDescription)")
+            }
+        }
     }
 
     func saveScan(_ scan: SavedScan) {
