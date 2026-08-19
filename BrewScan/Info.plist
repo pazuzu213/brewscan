@@ -37,6 +37,10 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>BrewScan needs camera access to identify your Nespresso pods</string>
+	<key>AuthBaseURL</key>
+	<string>https://cultures-makeup-conf-rank.trycloudflare.com</string>
+	<key>OpenAIAPIKey</key>
+	<string></string>
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIColorName</key>

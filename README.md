@@ -39,13 +39,9 @@ open BrewScan.xcodeproj
 Or double-click `BrewScan.xcodeproj` in Finder.
 
 ### 3. Add your OpenAI API key
-Open `BrewScan/Config.swift` and replace the placeholder:
+For Xcode Cloud, set `OPENAI_API_KEY` in the workflow environment. `ci_scripts/ci_pre_xcodebuild.sh` writes it into `Info.plist` at build time, and the app reads it from the bundle.
 
-```swift
-struct Config {
-    static let openAIKey = "YOUR_OPENAI_API_KEY_HERE"  // ← Replace this
-}
-```
+For local device testing, temporarily add your key to the `OpenAIAPIKey` value in `BrewScan/Info.plist`. Do not commit a real key.
 
 Get your key at: https://platform.openai.com/api-keys
 

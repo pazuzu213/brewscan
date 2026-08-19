@@ -52,7 +52,7 @@ class OpenAIService {
     }
 
     func identifyPod(imageData: Data) async throws -> PodIdentificationResult {
-        guard Config.openAIKey != "YOUR_OPENAI_API_KEY_HERE" && !Config.openAIKey.isEmpty else {
+        guard !Config.openAIKey.isEmpty else {
             throw OpenAIError.invalidAPIKey
         }
         return try await identifyPodWithRetry(imageData: imageData, attempt: 1)

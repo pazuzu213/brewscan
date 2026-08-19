@@ -1,7 +1,9 @@
 import Foundation
 
 struct Config {
-    static let openAIKey = "YOUR_OPENAI_API_KEY_HERE"
+    static let openAIKey = Bundle.main.infoDictionary?["OpenAIAPIKey"] as? String ?? ""
     static let openAIBaseURL = "https://api.openai.com/v1"
-    static let openAIModel = "gpt-4o"
+    static let openAIModel = "gpt-4o-mini"
+    static let authBaseURL = Bundle.main.infoDictionary?["AuthBaseURL"] as? String
+        ?? "https://cultures-makeup-conf-rank.trycloudflare.com"
 }
