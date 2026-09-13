@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>PodSnap</string>
+	<string>PodSnap AI</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -36,7 +36,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>PodSnap needs camera access to identify your coffee pods</string>
+	<string>PodSnap AI needs camera access to identify your coffee pods</string>
 	<key>OpenAIAPIKey</key>
 	<string></string>
 	<key>UILaunchScreen</key>

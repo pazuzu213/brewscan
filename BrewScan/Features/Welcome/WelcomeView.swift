@@ -23,7 +23,7 @@ struct WelcomeView: View {
                             .font(.system(size: 32, weight: .bold))
                             .foregroundColor(.white)
 
-                        Text("Pick your pod system so PodSnap can tune the scanner and catalog.")
+                        Text("Pick your pod system so PodSnap AI can tune the scanner and catalog.")
                             .font(.system(size: 15))
                             .foregroundColor(Color(hex: "#B0A090"))
                     }

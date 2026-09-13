@@ -10,7 +10,7 @@ const PORT = Number(process.env.PORT || 3000);
 const DATA_PATH = process.env.DATA_PATH || join(__dirname, "data", "auth.json");
 const APP_SCHEME = process.env.APP_SCHEME || "podsnap";
 const PUBLIC_BASE_URL = (process.env.PUBLIC_BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, "");
-const FROM_EMAIL = process.env.FROM_EMAIL || "PodSnap <onboarding@resend.dev>";
+const FROM_EMAIL = process.env.FROM_EMAIL || "PodSnap AI <onboarding@resend.dev>";
 const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
 const TOKEN_SECRET = process.env.TOKEN_SECRET || crypto.randomBytes(32).toString("hex");
 const CODE_TTL_MS = 10 * 60 * 1000;
@@ -100,14 +100,14 @@ async function sendLoginEmail(email, code, magicUrl) {
     body: JSON.stringify({
       from: FROM_EMAIL,
       to: email,
-      subject: "Your PodSnap login code",
+      subject: "Your PodSnap AI login code",
       html: `
         <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1a0f0a;line-height:1.5">
-          <h1 style="margin:0 0 12px">Sign in to PodSnap</h1>
+          <h1 style="margin:0 0 12px">Sign in to PodSnap AI</h1>
           <p>Your login code is:</p>
           <div style="font-size:32px;font-weight:800;letter-spacing:6px;margin:20px 0;color:#c8860a">${code}</div>
           <p>Or tap this magic link:</p>
-          <p><a href="${magicUrl}" style="color:#c8860a;font-weight:700">Open PodSnap</a></p>
+          <p><a href="${magicUrl}" style="color:#c8860a;font-weight:700">Open PodSnap AI</a></p>
           <p style="color:#7b6f65;font-size:13px">This link and code expire in 10 minutes.</p>
         </div>
       `
@@ -244,7 +244,7 @@ const server = createServer(async (req, res) => {
       if (token) return redirect(res, `${APP_SCHEME}://auth?token=${encodeURIComponent(token)}`);
       return html(res, 400, "<h1>Missing login token</h1>");
     }
-    html(res, 404, "<h1>PodSnap Auth</h1><p>Not found.</p>");
+    html(res, 404, "<h1>PodSnap AI Auth</h1><p>Not found.</p>");
   } catch (error) {
     console.error(error);
     json(res, 500, { error: "Something went wrong. Try again." });
@@ -252,5 +252,5 @@ const server = createServer(async (req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`PodSnap auth listening on ${PORT}`);
+  console.log(`PodSnap AI auth listening on ${PORT}`);
 });
