@@ -20,7 +20,7 @@ struct ScannerView: View {
 
     var body: some View {
         ZStack {
-            Color(hex: "#1A0F0A")
+            Color(hex: "#FFFFFF")
                 .ignoresSafeArea()
 
             // Full screen camera or placeholder
@@ -81,21 +81,21 @@ struct ScannerView: View {
             .ignoresSafeArea()
         } else {
             ZStack {
-                Color(hex: "#1A0F0A")
+                Color(hex: "#FFFFFF")
                     .ignoresSafeArea()
                 VStack(spacing: 20) {
                     Image(systemName: "camera.slash")
                         .font(.system(size: 60))
-                        .foregroundColor(Color(hex: "#B0A090"))
+                        .foregroundColor(Color(hex: "#717171"))
 
                     Text("Camera not available")
-                        .foregroundColor(Color(hex: "#B0A090"))
+                        .foregroundColor(Color(hex: "#717171"))
                         .font(.headline)
 
                     Text(cameraPermissionStatus == .notDetermined
                          ? "Camera access is needed to scan pods."
                          : "Camera access was denied. Enable it to scan pods.")
-                        .foregroundColor(Color(hex: "#B0A090").opacity(0.7))
+                        .foregroundColor(Color(hex: "#717171").opacity(0.7))
                         .font(.subheadline)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 32)
@@ -106,10 +106,10 @@ struct ScannerView: View {
                             Text(cameraPermissionStatus == .notDetermined ? "Enable Camera" : "Open Settings")
                         }
                         .font(.system(size: 15, weight: .semibold))
-                        .foregroundColor(Color(hex: "#1A0F0A"))
+                        .foregroundColor(Color(hex: "#FFFFFF"))
                         .padding(.horizontal, 28)
                         .padding(.vertical, 12)
-                        .background(Color(hex: "#C8860A"))
+                        .background(Color(hex: "#B97812"))
                         .cornerRadius(24)
                     }
                     .padding(.top, 8)
@@ -145,7 +145,7 @@ struct ScannerView: View {
                 // Pulsing ring
                 Circle()
                     .stroke(
-                        Color(hex: "#C8860A").opacity(pulseAnimation ? 0.3 : 0.8),
+                        Color(hex: "#B97812").opacity(pulseAnimation ? 0.3 : 0.8),
                         lineWidth: pulseAnimation ? 1 : 3
                     )
                     .frame(
@@ -160,7 +160,7 @@ struct ScannerView: View {
 
                 // Inner border ring
                 Circle()
-                    .stroke(Color(hex: "#C8860A"), lineWidth: 2)
+                    .stroke(Color(hex: "#B97812"), lineWidth: 2)
                     .frame(width: circleSize, height: circleSize)
                     .position(x: circleX, y: circleY)
 
@@ -190,7 +190,7 @@ struct ScannerView: View {
             path.addLine(to: CGPoint(x: 0, y: 0))
             path.addLine(to: CGPoint(x: 20, y: 0))
         }
-        .stroke(Color(hex: "#C8860A"), lineWidth: 3)
+        .stroke(Color(hex: "#B97812"), lineWidth: 3)
         .frame(width: 20, height: 20)
     }
 
@@ -212,12 +212,12 @@ struct ScannerView: View {
                 // Spinning coffee icon
                 ZStack {
                     Circle()
-                        .stroke(Color(hex: "#C8860A").opacity(0.2), lineWidth: 2)
+                        .stroke(Color(hex: "#B97812").opacity(0.2), lineWidth: 2)
                         .frame(width: 64, height: 64)
                     Circle()
                         .trim(from: 0, to: 0.65)
                         .stroke(
-                            Color(hex: "#C8860A"),
+                            Color(hex: "#B97812"),
                             style: StrokeStyle(lineWidth: 2.5, lineCap: .round)
                         )
                         .frame(width: 64, height: 64)
@@ -239,9 +239,9 @@ struct ScannerView: View {
                             ZStack {
                                 Circle()
                                     .fill(isDone
-                                          ? Color(hex: "#C8860A")
+                                          ? Color(hex: "#B97812")
                                           : isActive
-                                            ? Color(hex: "#C8860A").opacity(0.15)
+                                            ? Color(hex: "#B97812").opacity(0.15)
                                             : Color.white.opacity(0.05))
                                     .frame(width: 36, height: 36)
 
@@ -253,7 +253,7 @@ struct ScannerView: View {
                                     Image(systemName: step.icon)
                                         .font(.system(size: 15))
                                         .foregroundColor(
-                                            isActive ? Color(hex: "#C8860A") : Color.white.opacity(0.25)
+                                            isActive ? Color(hex: "#B97812") : Color.white.opacity(0.25)
                                         )
                                 }
                             }
@@ -265,7 +265,7 @@ struct ScannerView: View {
                                 Text(step.label)
                                     .font(.system(size: 15, weight: isActive ? .semibold : .regular))
                                     .foregroundColor(
-                                        isDone ? Color(hex: "#C8860A")
+                                        isDone ? Color(hex: "#B97812")
                                         : isActive ? .white
                                         : Color.white.opacity(0.3)
                                     )
@@ -273,7 +273,7 @@ struct ScannerView: View {
                                 if isActive {
                                     Text(step.detail)
                                         .font(.system(size: 12))
-                                        .foregroundColor(Color(hex: "#B0A090"))
+                                        .foregroundColor(Color(hex: "#717171"))
                                         .transition(.opacity.combined(with: .move(edge: .top)))
                                 }
                             }
@@ -284,7 +284,7 @@ struct ScannerView: View {
                             // Active pulse dot
                             if isActive {
                                 Circle()
-                                    .fill(Color(hex: "#C8860A"))
+                                    .fill(Color(hex: "#B97812"))
                                     .frame(width: 7, height: 7)
                                     .opacity(pulseAnimation ? 0.2 : 1.0)
                                     .animation(.easeInOut(duration: 0.6).repeatForever(autoreverses: true), value: pulseAnimation)
@@ -323,7 +323,7 @@ struct ScannerView: View {
                         .foregroundColor(.white)
                     Text("Tap the button to scan")
                         .font(.system(size: 13))
-                        .foregroundColor(Color(hex: "#B0A090"))
+                        .foregroundColor(Color(hex: "#717171"))
                 }
 
                 if let error = errorMessage {
@@ -342,12 +342,12 @@ struct ScannerView: View {
                             .frame(width: 72, height: 72)
 
                         Circle()
-                            .stroke(Color(hex: "#C8860A"), lineWidth: 3)
+                            .stroke(Color(hex: "#B97812"), lineWidth: 3)
                             .frame(width: 84, height: 84)
 
                         Image(systemName: "camera.fill")
                             .font(.system(size: 28))
-                            .foregroundColor(Color(hex: "#1A0F0A"))
+                            .foregroundColor(Color(hex: "#B97812"))
                     }
                 }
                 .disabled(isLoading || !cameraReady)
@@ -355,7 +355,7 @@ struct ScannerView: View {
 
                 Text(cameraReady ? "Scan Pod" : "Initializing camera...")
                     .font(.system(size: 13))
-                    .foregroundColor(Color(hex: "#B0A090"))
+                    .foregroundColor(Color(hex: "#717171"))
             }
             .padding(.bottom, UIDevice.current.userInterfaceIdiom == .pad ? 72 : 48)
         }

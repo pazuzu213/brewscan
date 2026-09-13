@@ -38,8 +38,8 @@ struct ContentView: View {
                 .tabItem { Label("Profile", systemImage: "person.fill") }
                 .tag(4)
         }
-        .accentColor(Color(hex: "#C8860A"))
-        .preferredColorScheme(.dark)
+        .accentColor(Color(hex: "#B97812"))
+        .preferredColorScheme(.light)
         .onReceive(NotificationCenter.default.publisher(for: .brewScanSelectTab)) { notification in
             if let tab = notification.object as? Int {
                 selectedTab = tab

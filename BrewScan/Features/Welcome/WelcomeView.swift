@@ -7,13 +7,13 @@ struct WelcomeView: View {
 
     var body: some View {
         setupPage
-        .background(Color(hex: "#1A0F0A").ignoresSafeArea())
-        .preferredColorScheme(.dark)
+        .background(Color.white.ignoresSafeArea())
+        .preferredColorScheme(.light)
     }
 
     private var setupPage: some View {
         ZStack {
-            Color(hex: "#1A0F0A")
+            Color(hex: "#FFFFFF")
                 .ignoresSafeArea()
 
             ScrollView {
@@ -21,11 +21,11 @@ struct WelcomeView: View {
                     VStack(alignment: .leading, spacing: 8) {
                         Text("What do you brew with?")
                             .font(.system(size: 32, weight: .bold))
-                            .foregroundColor(.white)
+                            .foregroundColor(Color(hex: "#222222"))
 
                         Text("Pick your pod system so PodSnap AI can tune the scanner and catalog.")
                             .font(.system(size: 15))
-                            .foregroundColor(Color(hex: "#B0A090"))
+                            .foregroundColor(Color(hex: "#717171"))
                     }
                     .padding(.top, 56)
 
@@ -59,8 +59,8 @@ struct WelcomeView: View {
                             .font(.system(size: 17, weight: .semibold))
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 16)
-                            .background(Color(hex: "#C8860A"))
-                            .foregroundColor(Color(hex: "#1A0F0A"))
+                            .background(Color(hex: "#B97812"))
+                            .foregroundColor(Color(hex: "#FFFFFF"))
                             .cornerRadius(24)
                     }
                     .padding(.top, 8)
@@ -74,7 +74,7 @@ struct WelcomeView: View {
     private func setupLabel(_ text: String) -> some View {
         Text(text.uppercased())
             .font(.system(size: 12, weight: .semibold))
-            .foregroundColor(Color(hex: "#B0A090"))
+            .foregroundColor(Color(hex: "#717171"))
             .tracking(1.5)
     }
 
@@ -84,12 +84,12 @@ struct WelcomeView: View {
                 .font(.system(size: 15, weight: .semibold))
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 16)
-                .background(isSelected ? Color(hex: "#C8860A") : Color(hex: "#2D1F15"))
-                .foregroundColor(isSelected ? Color(hex: "#1A0F0A") : Color(hex: "#B0A090"))
+                .background(isSelected ? Color(hex: "#B97812") : Color.white)
+                .foregroundColor(isSelected ? Color.white : Color(hex: "#222222"))
                 .cornerRadius(16)
                 .overlay(
                     RoundedRectangle(cornerRadius: 16)
-                        .stroke(isSelected ? Color.clear : Color(hex: "#3D2A1A"), lineWidth: 1)
+                        .stroke(isSelected ? Color.clear : Color(hex: "#F7F7F7"), lineWidth: 1)
                 )
         }
     }
@@ -101,19 +101,19 @@ struct WelcomeView: View {
             HStack(spacing: 14) {
                 Image(systemName: iconName(for: type))
                     .font(.system(size: 19, weight: .semibold))
-                    .foregroundColor(machineType == type ? Color(hex: "#1A0F0A") : Color(hex: "#C8860A"))
+                    .foregroundColor(machineType == type ? Color.white : Color(hex: "#B97812"))
                     .frame(width: 34, height: 34)
-                    .background(machineType == type ? Color.white.opacity(0.28) : Color(hex: "#1A0F0A"))
+                    .background(machineType == type ? Color.white.opacity(0.28) : Color(hex: "#F7F7F7"))
                     .clipShape(Circle())
 
                 VStack(alignment: .leading, spacing: 3) {
                     Text(type.displayName)
                         .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(machineType == type ? Color(hex: "#1A0F0A") : .white)
+                        .foregroundColor(machineType == type ? Color.white : Color(hex: "#222222"))
 
                     Text(subtitle(for: type))
                         .font(.system(size: 13))
-                        .foregroundColor(machineType == type ? Color(hex: "#1A0F0A").opacity(0.72) : Color(hex: "#B0A090"))
+                        .foregroundColor(machineType == type ? Color.white.opacity(0.78) : Color(hex: "#717171"))
                 }
 
                 Spacer()
@@ -121,15 +121,15 @@ struct WelcomeView: View {
                 if machineType == type {
                     Image(systemName: "checkmark.circle.fill")
                         .font(.system(size: 20, weight: .semibold))
-                        .foregroundColor(Color(hex: "#1A0F0A"))
+                        .foregroundColor(Color.white)
                 }
             }
             .padding(16)
-            .background(machineType == type ? Color(hex: "#C8860A") : Color(hex: "#2D1F15"))
+            .background(machineType == type ? Color(hex: "#B97812") : Color.white)
             .cornerRadius(16)
             .overlay(
                 RoundedRectangle(cornerRadius: 16)
-                    .stroke(machineType == type ? Color.clear : Color(hex: "#3D2A1A"), lineWidth: 1)
+                    .stroke(machineType == type ? Color.clear : Color(hex: "#F7F7F7"), lineWidth: 1)
             )
         }
         .buttonStyle(.plain)
@@ -141,12 +141,12 @@ struct WelcomeView: View {
                 .font(.system(size: 14, weight: .semibold))
                 .padding(.horizontal, 18)
                 .padding(.vertical, 10)
-                .background(isSelected ? Color(hex: "#C8860A") : Color(hex: "#2D1F15"))
-                .foregroundColor(isSelected ? Color(hex: "#1A0F0A") : Color(hex: "#B0A090"))
+                .background(isSelected ? Color(hex: "#B97812") : Color(hex: "#F7F7F7"))
+                .foregroundColor(isSelected ? Color.white : Color(hex: "#222222"))
                 .cornerRadius(24)
                 .overlay(
                     RoundedRectangle(cornerRadius: 24)
-                        .stroke(isSelected ? Color.clear : Color(hex: "#3D2A1A"), lineWidth: 1)
+                        .stroke(isSelected ? Color.clear : Color(hex: "#F7F7F7"), lineWidth: 1)
                 )
         }
     }

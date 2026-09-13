@@ -12,7 +12,7 @@ struct AuthView: View {
 
     var body: some View {
         ZStack {
-            Color(hex: "#1A0F0A")
+            Color(hex: "#FFFFFF")
                 .ignoresSafeArea()
 
             ScrollView {
@@ -28,26 +28,26 @@ struct AuthView: View {
                     }
 
                     if !message.isEmpty {
-                        statusText(message, color: Color(hex: "#B0A090"))
+                        statusText(message, color: Color(hex: "#717171"))
                     }
 
                     if !errorMessage.isEmpty {
-                        statusText(errorMessage, color: Color(hex: "#C8860A"))
+                        statusText(errorMessage, color: Color(hex: "#B97812"))
                     }
 
                     Button(action: primaryAction) {
                         HStack {
                             if isLoading {
                                 ProgressView()
-                                    .tint(Color(hex: "#1A0F0A"))
+                                    .tint(Color(hex: "#FFFFFF"))
                             }
                             Text(isCodeSent ? "Verify Code" : "Email Me a Code")
                         }
                         .font(.system(size: 17, weight: .semibold))
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 16)
-                        .background(Color(hex: "#C8860A"))
-                        .foregroundColor(Color(hex: "#1A0F0A"))
+                        .background(Color(hex: "#B97812"))
+                        .foregroundColor(Color(hex: "#FFFFFF"))
                         .cornerRadius(24)
                     }
                     .disabled(isLoading)
@@ -60,7 +60,7 @@ struct AuthView: View {
                         }
                         .font(.system(size: 14, weight: .semibold))
                         .frame(maxWidth: .infinity)
-                        .foregroundColor(Color(hex: "#C8860A"))
+                        .foregroundColor(Color(hex: "#B97812"))
                         .disabled(isLoading)
                     }
                 }
@@ -69,7 +69,7 @@ struct AuthView: View {
                 .padding(.bottom, 44)
             }
         }
-        .preferredColorScheme(.dark)
+        .preferredColorScheme(.light)
         .onAppear {
             email = appState.userProfile?.email ?? appState.authSession?.user.email ?? ""
         }
@@ -79,11 +79,11 @@ struct AuthView: View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Sign in to save")
                 .font(.system(size: 36, weight: .bold))
-                .foregroundColor(.white)
+                .foregroundColor(Color(hex: "#222222"))
 
             Text("Enter your email and we'll send you a one-time code. No password needed.")
                 .font(.system(size: 16))
-                .foregroundColor(Color(hex: "#B0A090"))
+                .foregroundColor(Color(hex: "#717171"))
                 .lineSpacing(3)
         }
     }
@@ -92,19 +92,19 @@ struct AuthView: View {
         TextField("", text: $email)
             .placeholder(when: email.isEmpty) {
                 Text("Email address")
-                    .foregroundColor(Color(hex: "#B0A090").opacity(0.7))
+                    .foregroundColor(Color(hex: "#717171").opacity(0.7))
             }
             .keyboardType(.emailAddress)
             .textInputAutocapitalization(.never)
             .autocorrectionDisabled()
             .font(.system(size: 16))
-            .foregroundColor(.white)
+            .foregroundColor(Color(hex: "#222222"))
             .padding(16)
-            .background(Color(hex: "#2D1F15"))
+            .background(Color.white)
             .cornerRadius(16)
             .overlay(
                 RoundedRectangle(cornerRadius: 16)
-                    .stroke(Color(hex: "#3D2A1A"), lineWidth: 1)
+                    .stroke(Color(hex: "#E8E2DC"), lineWidth: 1)
             )
             .disabled(isCodeSent)
     }
@@ -113,18 +113,18 @@ struct AuthView: View {
         TextField("", text: $code)
             .placeholder(when: code.isEmpty) {
                 Text("6-digit code")
-                    .foregroundColor(Color(hex: "#B0A090").opacity(0.7))
+                    .foregroundColor(Color(hex: "#717171").opacity(0.7))
             }
             .keyboardType(.numberPad)
             .textContentType(.oneTimeCode)
             .font(.system(size: 22, weight: .semibold, design: .monospaced))
-            .foregroundColor(.white)
+            .foregroundColor(Color(hex: "#222222"))
             .padding(16)
-            .background(Color(hex: "#2D1F15"))
+            .background(Color.white)
             .cornerRadius(16)
             .overlay(
                 RoundedRectangle(cornerRadius: 16)
-                    .stroke(Color(hex: "#3D2A1A"), lineWidth: 1)
+                    .stroke(Color(hex: "#E8E2DC"), lineWidth: 1)
             )
             .onChange(of: code) { newValue in
                 code = String(newValue.filter(\.isNumber).prefix(6))

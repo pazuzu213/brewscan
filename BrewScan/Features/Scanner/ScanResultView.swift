@@ -18,7 +18,7 @@ struct ScanResultView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color(hex: "#1A0F0A")
+                Color(hex: "#FFFFFF")
                     .ignoresSafeArea()
 
                 if let pod = result.matchedPod, result.identificationResult.confidence > 0.3 {
@@ -35,7 +35,7 @@ struct ScanResultView: View {
                     Button("Done") {
                         dismiss()
                     }
-                    .foregroundColor(Color(hex: "#C8860A"))
+                    .foregroundColor(Color(hex: "#B97812"))
                 }
             }
         }
@@ -71,12 +71,12 @@ struct ScanResultView: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 16)
-                        .background(Color(hex: "#2D1F15"))
-                        .foregroundColor(Color(hex: "#C8860A"))
+                        .background(Color.white)
+                        .foregroundColor(Color(hex: "#B97812"))
                         .cornerRadius(16)
                         .overlay(
                             RoundedRectangle(cornerRadius: 16)
-                                .stroke(Color(hex: "#C8860A").opacity(0.4), lineWidth: 1)
+                                .stroke(Color(hex: "#B97812").opacity(0.4), lineWidth: 1)
                         )
                     }
                     .padding(.horizontal, 20)
@@ -87,7 +87,7 @@ struct ScanResultView: View {
                 .padding(.top, 24)
             }
         }
-        .background(Color(hex: "#1A0F0A"))
+        .background(Color(hex: "#FEF3E2"))
         .sheet(isPresented: $showCatalogDetail) {
             PodDetailView(pod: pod)
         }
@@ -103,7 +103,7 @@ struct ScanResultView: View {
                     LinearGradient(
                         gradient: Gradient(colors: [
                             Color(hex: pod.color).opacity(0.8),
-                            Color(hex: "#1A0F0A")
+                            Color(hex: "#FFFFFF")
                         ]),
                         startPoint: .top,
                         endPoint: .bottom
@@ -114,22 +114,22 @@ struct ScanResultView: View {
             VStack(alignment: .leading, spacing: 12) {
                 HStack(spacing: 8) {
                     Image(systemName: "checkmark.seal.fill")
-                        .foregroundColor(Color(hex: "#C8860A"))
+                        .foregroundColor(Color(hex: "#B97812"))
                         .font(.system(size: 14))
                     Text("\(Int(result.identificationResult.confidence * 100))% match")
                         .font(.system(size: 13, weight: .medium))
-                        .foregroundColor(Color(hex: "#C8860A"))
+                        .foregroundColor(Color(hex: "#B97812"))
                 }
                 .padding(.horizontal, 12)
                 .padding(.vertical, 6)
-                .background(Color.black.opacity(0.4))
+                .background(Color.white.opacity(0.92))
                 .cornerRadius(20)
 
                 HStack(alignment: .bottom) {
                     VStack(alignment: .leading, spacing: 8) {
                         Text(pod.name)
                             .font(.system(size: 28, weight: .bold))
-                            .foregroundColor(.white)
+                            .foregroundColor(Color(hex: "#222222"))
 
                         HStack(spacing: 8) {
                             lineBadge(pod: pod)
@@ -173,13 +173,13 @@ struct ScanResultView: View {
                 Spacer()
                 Text("\(pod.intensity)/\(pod.intensityScale)")
                     .font(.system(size: 14, weight: .semibold))
-                    .foregroundColor(Color(hex: "#C8860A"))
+                    .foregroundColor(Color(hex: "#B97812"))
             }
 
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
                     RoundedRectangle(cornerRadius: 8)
-                        .fill(Color(hex: "#2D1F15"))
+                        .fill(Color(hex: "#FFFFFF"))
                         .frame(height: 12)
 
                     RoundedRectangle(cornerRadius: 8)
@@ -211,16 +211,16 @@ struct ScanResultView: View {
             VStack(spacing: 0) {
                 infoRow(icon: "globe", label: "Origin", value: pod.origin)
                 Divider()
-                    .background(Color(hex: "#2D1F15"))
+                    .background(Color.white)
                 infoRow(icon: "flame", label: "Roast", value: pod.roast)
                 Divider()
-                    .background(Color(hex: "#2D1F15"))
+                    .background(Color.white)
                 infoRow(icon: "cup.and.saucer", label: "Cup Size", value: pod.recommendedCupSize)
                 Divider()
-                    .background(Color(hex: "#2D1F15"))
+                    .background(Color.white)
                 infoRow(icon: "thermometer", label: "Brew Temp", value: pod.brewTemp)
             }
-            .background(Color(hex: "#2D1F15"))
+            .background(Color.white)
             .cornerRadius(16)
         }
         .padding(.horizontal, 20)
@@ -233,16 +233,16 @@ struct ScanResultView: View {
             VStack(alignment: .leading, spacing: 8) {
                 Text(pod.description)
                     .font(.system(size: 15))
-                    .foregroundColor(Color(hex: "#B0A090"))
+                    .foregroundColor(Color(hex: "#717171"))
                     .lineSpacing(4)
 
                 Text(pod.aromaProfile)
                     .font(.system(size: 13, weight: .medium))
-                    .foregroundColor(Color(hex: "#C8860A"))
+                    .foregroundColor(Color(hex: "#B97812"))
                     .padding(.top, 4)
             }
             .padding(16)
-            .background(Color(hex: "#2D1F15"))
+            .background(Color.white)
             .cornerRadius(16)
         }
         .padding(.horizontal, 20)
@@ -278,14 +278,14 @@ struct ScanResultView: View {
                 } label: {
                     Image(systemName: appState.isRecipeSaved(recipe.id) ? "bookmark.fill" : "bookmark")
                         .font(.system(size: 14, weight: .semibold))
-                        .foregroundColor(Color(hex: "#C8860A"))
+                        .foregroundColor(Color(hex: "#B97812"))
                 }
                 .buttonStyle(.plain)
             }
 
             Text(recipe.name)
                 .font(.system(size: 15, weight: .semibold))
-                .foregroundColor(.white)
+                .foregroundColor(Color(hex: "#222222"))
                 .lineLimit(2)
 
             HStack(spacing: 6) {
@@ -299,16 +299,16 @@ struct ScanResultView: View {
 
                 Text(recipe.prepTime)
                     .font(.system(size: 11))
-                    .foregroundColor(Color(hex: "#B0A090"))
+                    .foregroundColor(Color(hex: "#717171"))
             }
         }
         .frame(width: 150)
         .padding(16)
-        .background(Color(hex: "#2D1F15"))
+        .background(Color.white)
         .cornerRadius(16)
         .overlay(
             RoundedRectangle(cornerRadius: 16)
-                .stroke(Color(hex: "#3D2A1A"), lineWidth: 1)
+                .stroke(Color(hex: "#F7F7F7"), lineWidth: 1)
         )
     }
 
@@ -322,7 +322,7 @@ struct ScanResultView: View {
                 // Header
                 ZStack(alignment: .bottomLeading) {
                     LinearGradient(
-                        colors: [Color(hex: "#3D2A1A"), Color(hex: "#1A0F0A")],
+                        colors: [Color(hex: "#F7F7F7"), Color(hex: "#FFFFFF")],
                         startPoint: .top, endPoint: .bottom
                     )
                     .frame(height: 200)
@@ -334,31 +334,31 @@ struct ScanResultView: View {
                             Text("\(Int(ai.confidence * 100))% AI Match")
                                 .font(.system(size: 13, weight: .medium))
                         }
-                        .foregroundColor(Color(hex: "#C8860A"))
+                        .foregroundColor(Color(hex: "#B97812"))
                         .padding(.horizontal, 12).padding(.vertical, 6)
-                        .background(Color.black.opacity(0.4))
+                        .background(Color.white.opacity(0.92))
                         .cornerRadius(20)
 
                         Text(ai.podName ?? "Unidentified Pod")
                             .font(.system(size: 26, weight: .bold))
-                            .foregroundColor(.white)
+                            .foregroundColor(Color(hex: "#222222"))
 
                         HStack(spacing: 8) {
                             if let system = ai.podSystem {
                                 Text(system)
                                     .font(.system(size: 12, weight: .semibold))
                                     .padding(.horizontal, 10).padding(.vertical, 4)
-                                    .background(Color(hex: "#C8860A").opacity(0.2))
-                                    .foregroundColor(Color(hex: "#C8860A"))
+                                    .background(Color(hex: "#B97812").opacity(0.2))
+                                    .foregroundColor(Color(hex: "#B97812"))
                                     .cornerRadius(8)
-                                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(hex: "#C8860A").opacity(0.4), lineWidth: 1))
+                                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(hex: "#B97812").opacity(0.4), lineWidth: 1))
                             }
                             if let roast = ai.roastLevel {
                                 Text(roast + " Roast")
                                     .font(.system(size: 12, weight: .medium))
                                     .padding(.horizontal, 10).padding(.vertical, 4)
-                                    .background(Color(hex: "#2D1F15"))
-                                    .foregroundColor(Color(hex: "#B0A090"))
+                                    .background(Color.white)
+                                    .foregroundColor(Color(hex: "#717171"))
                                     .cornerRadius(8)
                             }
                         }
@@ -383,10 +383,10 @@ struct ScanResultView: View {
                             sectionTitle("About This Blend")
                             Text(story)
                                 .font(.system(size: 15))
-                                .foregroundColor(Color(hex: "#B0A090"))
+                                .foregroundColor(Color(hex: "#717171"))
                                 .lineSpacing(4)
                                 .padding(16)
-                                .background(Color(hex: "#2D1F15"))
+                                .background(Color.white)
                                 .cornerRadius(14)
                         }
                         .padding(.horizontal, 20)
@@ -398,10 +398,10 @@ struct ScanResultView: View {
                             sectionTitle("About the Brand")
                             Text(brand)
                                 .font(.system(size: 15))
-                                .foregroundColor(Color(hex: "#B0A090"))
+                                .foregroundColor(Color(hex: "#717171"))
                                 .lineSpacing(4)
                                 .padding(16)
-                                .background(Color(hex: "#2D1F15"))
+                                .background(Color.white)
                                 .cornerRadius(14)
                         }
                         .padding(.horizontal, 20)
@@ -411,25 +411,25 @@ struct ScanResultView: View {
                     VStack(spacing: 0) {
                         if let brand = ai.brand {
                             infoRow(icon: "tag", label: "Brand", value: brand)
-                            Divider().background(Color(hex: "#3D2A1A"))
+                            Divider().background(Color(hex: "#F7F7F7"))
                         }
                         if let system = ai.podSystem {
                             infoRow(icon: "capsule", label: "Pod Type", value: system)
-                            Divider().background(Color(hex: "#3D2A1A"))
+                            Divider().background(Color(hex: "#F7F7F7"))
                         }
                         if let roast = ai.roastLevel {
                             infoRow(icon: "flame", label: "Roast", value: roast + " Roast")
-                            Divider().background(Color(hex: "#3D2A1A"))
+                            Divider().background(Color(hex: "#F7F7F7"))
                         }
                         if let origin = ai.origin {
                             infoRow(icon: "globe", label: "Origin", value: origin)
-                            Divider().background(Color(hex: "#3D2A1A"))
+                            Divider().background(Color(hex: "#F7F7F7"))
                         }
                         if !ai.colorObserved.isEmpty && ai.colorObserved != "Unknown" {
                             infoRow(icon: "paintpalette", label: "Pod Color", value: ai.colorObserved)
                         }
                     }
-                    .background(Color(hex: "#2D1F15"))
+                    .background(Color.white)
                     .cornerRadius(16)
                     .padding(.horizontal, 20)
 
@@ -448,10 +448,10 @@ struct ScanResultView: View {
                             sectionTitle("Additional Info")
                             Text(ai.notes)
                                 .font(.system(size: 14))
-                                .foregroundColor(Color(hex: "#B0A090"))
+                                .foregroundColor(Color(hex: "#717171"))
                                 .lineSpacing(4)
                                 .padding(14)
-                                .background(Color(hex: "#2D1F15"))
+                                .background(Color.white)
                                 .cornerRadius(14)
                         }
                         .padding(.horizontal, 20)
@@ -466,8 +466,8 @@ struct ScanResultView: View {
                             }
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 16)
-                            .background(Color(hex: "#C8860A"))
-                            .foregroundColor(Color(hex: "#1A0F0A"))
+                            .background(Color(hex: "#B97812"))
+                            .foregroundColor(Color(hex: "#FFFFFF"))
                             .font(.system(size: 16, weight: .semibold))
                             .cornerRadius(16)
                         }
@@ -475,8 +475,8 @@ struct ScanResultView: View {
                             Text("Browse Catalog")
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 16)
-                                .background(Color(hex: "#2D1F15"))
-                                .foregroundColor(Color(hex: "#B0A090"))
+                                .background(Color.white)
+                                .foregroundColor(Color(hex: "#717171"))
                                 .font(.system(size: 16))
                                 .cornerRadius(16)
                         }
@@ -498,23 +498,23 @@ struct ScanResultView: View {
             VStack(spacing: 20) {
                 ZStack {
                     Circle()
-                        .fill(Color(hex: "#2D1F15"))
+                        .fill(Color(hex: "#FFFFFF"))
                         .frame(width: 120, height: 120)
                     Image(systemName: "questionmark.circle")
                         .font(.system(size: 56))
-                        .foregroundColor(Color(hex: "#B0A090"))
+                        .foregroundColor(Color(hex: "#717171"))
                 }
 
                 VStack(spacing: 12) {
                     Text("Pod Not Recognized")
                         .font(.system(size: 24, weight: .bold))
-                        .foregroundColor(.white)
+                        .foregroundColor(Color(hex: "#222222"))
 
                     Text(result.identificationResult.notes.isEmpty ?
                          "Try again with better lighting and hold the pod steady in the viewfinder." :
                          result.identificationResult.notes)
                         .font(.system(size: 15))
-                        .foregroundColor(Color(hex: "#B0A090"))
+                        .foregroundColor(Color(hex: "#717171"))
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 32)
 
@@ -522,7 +522,7 @@ struct ScanResultView: View {
                         result.identificationResult.colorObserved != "Unknown" {
                         Text("Observed: \(result.identificationResult.colorObserved) pod")
                             .font(.system(size: 13))
-                            .foregroundColor(Color(hex: "#C8860A"))
+                            .foregroundColor(Color(hex: "#B97812"))
                     }
                 }
             }
@@ -538,7 +538,7 @@ struct ScanResultView: View {
                     }
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 16)
-                    .background(Color(hex: "#C8860A"))
+                    .background(Color(hex: "#B97812"))
                     .foregroundColor(.white)
                     .font(.system(size: 16, weight: .semibold))
                     .cornerRadius(16)
@@ -548,8 +548,8 @@ struct ScanResultView: View {
                     Text("Browse Catalog Instead")
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 16)
-                        .background(Color(hex: "#2D1F15"))
-                        .foregroundColor(Color(hex: "#B0A090"))
+                        .background(Color.white)
+                        .foregroundColor(Color(hex: "#717171"))
                         .font(.system(size: 16))
                         .cornerRadius(16)
                 }
@@ -578,8 +578,8 @@ struct ScanResultView: View {
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 16)
-            .background(alreadySaved ? Color(hex: "#3D2A1A") : Color(hex: "#C8860A"))
-            .foregroundColor(alreadySaved ? Color(hex: "#B0A090") : Color(hex: "#1A0F0A"))
+            .background(alreadySaved ? Color(hex: "#F7F7F7") : Color(hex: "#B97812"))
+            .foregroundColor(alreadySaved ? Color(hex: "#717171") : Color(hex: "#FFFFFF"))
             .font(.system(size: 16, weight: .semibold))
             .cornerRadius(16)
         }
@@ -592,7 +592,7 @@ struct ScanResultView: View {
     private var saveSheet: some View {
         NavigationView {
             ZStack {
-                Color(hex: "#1A0F0A").ignoresSafeArea()
+                Color(hex: "#FFFFFF").ignoresSafeArea()
 
                 VStack(alignment: .leading, spacing: 20) {
                     if let pod = podToSave {
@@ -606,38 +606,38 @@ struct ScanResultView: View {
                             VStack(alignment: .leading, spacing: 4) {
                                 Text(pod.name)
                                     .font(.system(size: 18, weight: .bold))
-                                    .foregroundColor(.white)
+                                    .foregroundColor(Color(hex: "#222222"))
                                 Text("\(pod.displayLine) · Intensity \(pod.intensity)")
                                     .font(.system(size: 13))
-                                    .foregroundColor(Color(hex: "#B0A090"))
+                                    .foregroundColor(Color(hex: "#717171"))
                             }
                             Spacer()
                         }
                         .padding(16)
-                        .background(Color(hex: "#2D1F15"))
+                        .background(Color.white)
                         .cornerRadius(14)
                     }
 
                     VStack(alignment: .leading, spacing: 8) {
                         Text("ADD A NOTE (OPTIONAL)")
                             .font(.system(size: 12, weight: .semibold))
-                            .foregroundColor(Color(hex: "#B0A090"))
+                            .foregroundColor(Color(hex: "#717171"))
                             .tracking(1)
 
                         ZStack(alignment: .topLeading) {
                             TextEditor(text: $saveNoteText)
                                 .font(.system(size: 15))
-                                .foregroundColor(.white)
+                                .foregroundColor(Color(hex: "#222222"))
                                 .padding(12)
                                 .frame(minHeight: 110)
-                                .background(Color(hex: "#2D1F15"))
+                                .background(Color.white)
                                 .cornerRadius(14)
                                 .scrollContentBackground(.hidden)
 
                             if saveNoteText.isEmpty {
                                 Text("Your impressions, who you made it for, brew tips...")
                                     .font(.system(size: 15))
-                                    .foregroundColor(Color(hex: "#B0A090").opacity(0.5))
+                                    .foregroundColor(Color(hex: "#717171").opacity(0.5))
                                     .padding(20)
                                     .allowsHitTesting(false)
                             }
@@ -652,8 +652,8 @@ struct ScanResultView: View {
                         Text("Save to Collection")
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 16)
-                            .background(Color(hex: "#C8860A"))
-                            .foregroundColor(Color(hex: "#1A0F0A"))
+                            .background(Color(hex: "#B97812"))
+                            .foregroundColor(Color(hex: "#FFFFFF"))
                             .font(.system(size: 16, weight: .semibold))
                             .cornerRadius(16)
                     }
@@ -662,8 +662,8 @@ struct ScanResultView: View {
             }
             .navigationTitle("Save Scan")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackground(Color(hex: "#1A0F0A"), for: .navigationBar)
-            .toolbarColorScheme(.dark, for: .navigationBar)
+
+
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Cancel") {
@@ -671,12 +671,12 @@ struct ScanResultView: View {
                         podToSave = nil
                         saveNoteText = ""
                     }
-                    .foregroundColor(Color(hex: "#B0A090"))
+                    .foregroundColor(Color(hex: "#717171"))
                 }
             }
         }
         .navigationViewStyle(.stack)
-        .preferredColorScheme(.dark)
+        .preferredColorScheme(.light)
     }
 
     private func performSave() {
@@ -717,7 +717,7 @@ struct ScanResultView: View {
     private func sectionTitle(_ title: String) -> some View {
         Text(title)
             .font(.system(size: 13, weight: .semibold))
-            .foregroundColor(Color(hex: "#B0A090"))
+            .foregroundColor(Color(hex: "#717171"))
             .textCase(.uppercase)
             .tracking(1.5)
     }
@@ -741,8 +741,8 @@ struct ScanResultView: View {
             .font(.system(size: 12, weight: .medium))
             .padding(.horizontal, 10)
             .padding(.vertical, 4)
-            .background(Color(hex: "#2D1F15"))
-            .foregroundColor(Color(hex: "#C8860A"))
+            .background(Color.white)
+            .foregroundColor(Color(hex: "#B97812"))
             .cornerRadius(8)
     }
 
@@ -753,12 +753,12 @@ struct ScanResultView: View {
                     .font(.system(size: 14, weight: .medium))
                     .padding(.horizontal, 14)
                     .padding(.vertical, 8)
-                    .background(Color(hex: "#2D1F15"))
-                    .foregroundColor(Color(hex: "#C8860A"))
+                    .background(Color.white)
+                    .foregroundColor(Color(hex: "#B97812"))
                     .cornerRadius(20)
                     .overlay(
                         RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color(hex: "#C8860A").opacity(0.3), lineWidth: 1)
+                            .stroke(Color(hex: "#B97812").opacity(0.3), lineWidth: 1)
                     )
             }
         }
@@ -768,18 +768,18 @@ struct ScanResultView: View {
         HStack(spacing: 12) {
             Image(systemName: icon)
                 .font(.system(size: 14))
-                .foregroundColor(Color(hex: "#C8860A"))
+                .foregroundColor(Color(hex: "#B97812"))
                 .frame(width: 24)
 
             Text(label)
                 .font(.system(size: 14))
-                .foregroundColor(Color(hex: "#B0A090"))
+                .foregroundColor(Color(hex: "#717171"))
 
             Spacer()
 
             Text(value)
                 .font(.system(size: 14, weight: .medium))
-                .foregroundColor(.white)
+                .foregroundColor(Color(hex: "#222222"))
                 .multilineTextAlignment(.trailing)
         }
         .padding(.horizontal, 16)

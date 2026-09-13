@@ -47,35 +47,27 @@ struct CatalogView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color(hex: "#1A0F0A")
+                Color(hex: "#FFFFFF")
                     .ignoresSafeArea()
 
                 VStack(spacing: 0) {
-                    // Search bar
                     searchBar
-
-                    // Filter chips
                     filterChipsView
 
-                    // Results count
                     HStack {
                         Text("\(filteredPods.count) pods")
                             .font(.system(size: 13))
-                            .foregroundColor(Color(hex: "#B0A090"))
+                            .foregroundColor(Color(hex: "#717171"))
                         Spacer()
                     }
                     .padding(.horizontal, 20)
                     .padding(.vertical, 8)
 
-                    // Pod grid
                     ScrollView {
-
                         LazyVGrid(columns: columns, spacing: 12) {
                             ForEach(filteredPods) { pod in
                                 PodCard(pod: pod)
-                                    .onTapGesture {
-                                        selectedPod = pod
-                                    }
+                                    .onTapGesture { selectedPod = pod }
                             }
                         }
                         .padding(.horizontal, 16)
@@ -85,8 +77,6 @@ struct CatalogView: View {
             }
             .navigationTitle("Pod Catalog")
             .navigationBarTitleDisplayMode(.large)
-            .toolbarBackground(Color(hex: "#1A0F0A"), for: .navigationBar)
-            .toolbarColorScheme(.dark, for: .navigationBar)
             .sheet(item: $selectedPod) { pod in
                 PodDetailView(pod: pod)
             }
@@ -99,28 +89,29 @@ struct CatalogView: View {
     private var searchBar: some View {
         HStack(spacing: 12) {
             Image(systemName: "magnifyingglass")
-                .foregroundColor(Color(hex: "#B0A090"))
+                .foregroundColor(Color(hex: "#717171"))
                 .font(.system(size: 16))
 
             TextField("", text: $searchText)
                 .placeholder(when: searchText.isEmpty) {
                     Text("Search pods, origins, flavors...")
-                        .foregroundColor(Color(hex: "#B0A090").opacity(0.6))
+                        .foregroundColor(Color(hex: "#717171").opacity(0.7))
                 }
-                .foregroundColor(.white)
+                .foregroundColor(Color(hex: "#222222"))
                 .font(.system(size: 16))
                 .onSubmit { hideKeyboard() }
 
             if !searchText.isEmpty {
                 Button(action: { searchText = "" }) {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(Color(hex: "#B0A090"))
+                        .foregroundColor(Color(hex: "#717171"))
                 }
             }
         }
         .padding(14)
-        .background(Color(hex: "#2D1F15"))
+        .background(.white)
         .cornerRadius(14)
+        .shadow(color: .black.opacity(0.05), radius: 6, x: 0, y: 1)
         .padding(.horizontal, 16)
         .padding(.vertical, 8)
     }
@@ -158,15 +149,15 @@ struct FilterChip: View {
         Button(action: action) {
             Text(title)
                 .font(.system(size: 13, weight: isSelected ? .semibold : .regular))
-                .foregroundColor(isSelected ? Color(hex: "#1A0F0A") : Color(hex: "#B0A090"))
+                .foregroundColor(isSelected ? .white : Color(hex: "#717171"))
                 .padding(.horizontal, 14)
                 .padding(.vertical, 8)
-                .background(isSelected ? Color(hex: "#C8860A") : Color(hex: "#2D1F15"))
+                .background(isSelected ? Color(hex: "#B97812") : Color(hex: "#F7F7F7"))
                 .cornerRadius(20)
                 .overlay(
                     RoundedRectangle(cornerRadius: 20)
                         .stroke(
-                            isSelected ? Color.clear : Color(hex: "#3D2A1A"),
+                            isSelected ? Color.clear : Color(hex: "#E5DDD5"),
                             lineWidth: 1
                         )
                 )
@@ -184,7 +175,6 @@ struct PodCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            // Color circle and line badge
             HStack(alignment: .top) {
                 ZStack {
                     Circle()
@@ -200,13 +190,11 @@ struct PodCard: View {
                             )
                         )
                         .frame(width: 52, height: 52)
-                        .shadow(color: Color(hex: pod.color).opacity(0.4), radius: 8, x: 0, y: 4)
+                        .shadow(color: Color(hex: pod.color).opacity(0.3), radius: 8, x: 0, y: 4)
 
-                    // Pod shape hint
                     RoundedRectangle(cornerRadius: 4)
-                        .fill(Color.white.opacity(0.15))
+                        .fill(Color.white.opacity(0.2))
                         .frame(width: 18, height: 26)
-                        .rotationEffect(.degrees(0))
                 }
 
                 Spacer()
@@ -217,9 +205,9 @@ struct PodCard: View {
                     } label: {
                         Image(systemName: appState.isPodFavorite(pod.id) ? "heart.fill" : "heart")
                             .font(.system(size: 14, weight: .semibold))
-                            .foregroundColor(Color(hex: "#C8860A"))
+                            .foregroundColor(Color(hex: "#B97812"))
                             .frame(width: 30, height: 30)
-                            .background(Color(hex: "#1A0F0A"))
+                            .background(Color(hex: "#FEF3E2"))
                             .clipShape(Circle())
                     }
                     .buttonStyle(.plain)
@@ -230,41 +218,36 @@ struct PodCard: View {
                             .foregroundColor(pod.lineColor)
                             .padding(.horizontal, 8)
                             .padding(.vertical, 3)
-                            .background(
-                                pod.lineColor.opacity(0.3)
-                            )
+                            .background(pod.lineColor.opacity(0.15))
                             .cornerRadius(6)
 
                         Text("\(pod.intensity)")
                             .font(.system(size: 12, weight: .bold))
-                            .foregroundColor(Color(hex: "#C8860A"))
+                            .foregroundColor(Color(hex: "#B97812"))
                     }
                 }
             }
 
-            // Pod name
             Text(pod.name)
                 .font(.system(size: 15, weight: .semibold))
-                .foregroundColor(.white)
+                .foregroundColor(Color(hex: "#222222"))
                 .lineLimit(2)
                 .fixedSize(horizontal: false, vertical: true)
 
-            // Intensity label
             Text(pod.intensityLabel)
                 .font(.system(size: 12))
-                .foregroundColor(Color(hex: "#B0A090"))
+                .foregroundColor(Color(hex: "#717171"))
 
-            // Mini intensity bar
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
                     RoundedRectangle(cornerRadius: 4)
-                        .fill(Color(hex: "#1A0F0A"))
+                        .fill(Color(hex: "#EBEBEB"))
                         .frame(height: 4)
 
                     RoundedRectangle(cornerRadius: 4)
                         .fill(
                             LinearGradient(
-                                gradient: Gradient(colors: [Color(hex: "#C8A96E"), Color(hex: "#3D1A08")]),
+                                gradient: Gradient(colors: [Color(hex: "#C8A96E"), Color(hex: "#8B5A2B")]),
                                 startPoint: .leading,
                                 endPoint: .trailing
                             )
@@ -278,12 +261,9 @@ struct PodCard: View {
             .frame(height: 4)
         }
         .padding(16)
-        .background(Color(hex: "#2D1F15"))
+        .background(.white)
         .cornerRadius(16)
-        .overlay(
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(Color(hex: "#3D2A1A"), lineWidth: 1)
-        )
+        .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 2)
         .scaleEffect(isPressed ? 0.97 : 1.0)
         .animation(.easeInOut(duration: 0.1), value: isPressed)
     }

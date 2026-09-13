@@ -9,7 +9,7 @@ struct PodDetailView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color(hex: "#1A0F0A")
+                Color(hex: "#FFFFFF")
                     .ignoresSafeArea()
 
                 ScrollView {
@@ -53,17 +53,17 @@ struct PodDetailView: View {
                         appState.toggleFavoritePod(pod.id)
                     } label: {
                         Image(systemName: appState.isPodFavorite(pod.id) ? "heart.fill" : "heart")
-                            .foregroundColor(Color(hex: "#C8860A"))
+                            .foregroundColor(Color(hex: "#B97812"))
                     }
                 }
 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Done") { dismiss() }
-                        .foregroundColor(Color(hex: "#C8860A"))
+                        .foregroundColor(Color(hex: "#B97812"))
                 }
             }
-            .toolbarBackground(Color(hex: "#1A0F0A"), for: .navigationBar)
-            .toolbarColorScheme(.dark, for: .navigationBar)
+
+
         }
         .navigationViewStyle(.stack)
     }
@@ -79,7 +79,7 @@ struct PodDetailView: View {
                         gradient: Gradient(colors: [
                             Color(hex: pod.color).opacity(0.7),
                             Color(hex: pod.color).opacity(0.3),
-                            Color(hex: "#1A0F0A")
+                            Color(hex: "#FFFFFF")
                         ]),
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
@@ -106,7 +106,7 @@ struct PodDetailView: View {
                     VStack(alignment: .leading, spacing: 8) {
                         Text(pod.name)
                             .font(.system(size: 30, weight: .bold))
-                            .foregroundColor(.white)
+                            .foregroundColor(Color(hex: "#222222"))
 
                         HStack(spacing: 8) {
                             lineBadge
@@ -153,7 +153,7 @@ struct PodDetailView: View {
     private var descriptionSection: some View {
         Text(pod.description)
             .font(.system(size: 16))
-            .foregroundColor(Color(hex: "#B0A090"))
+            .foregroundColor(Color(hex: "#717171"))
             .lineSpacing(5)
             .padding(.horizontal, 20)
     }
@@ -178,14 +178,14 @@ struct PodDetailView: View {
                 Spacer()
                 Text("\(pod.intensity) / \(pod.intensityScale)")
                     .font(.system(size: 15, weight: .bold))
-                    .foregroundColor(Color(hex: "#C8860A"))
+                    .foregroundColor(Color(hex: "#B97812"))
                     .padding(.trailing, 20)
             }
 
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
                     RoundedRectangle(cornerRadius: 8)
-                        .fill(Color(hex: "#2D1F15"))
+                        .fill(Color(hex: "#FFFFFF"))
                         .frame(height: 14)
 
                     RoundedRectangle(cornerRadius: 8)
@@ -207,7 +207,7 @@ struct PodDetailView: View {
 
             Text(pod.intensityLabel)
                 .font(.system(size: 13))
-                .foregroundColor(Color(hex: "#B0A090"))
+                .foregroundColor(Color(hex: "#717171"))
                 .padding(.horizontal, 20)
         }
     }
@@ -222,7 +222,7 @@ struct PodDetailView: View {
                 flavorBar(label: "Bitterness", level: pod.bitternessLevel)
             }
             .padding(16)
-            .background(Color(hex: "#2D1F15"))
+            .background(Color.white)
             .cornerRadius(16)
             .padding(.horizontal, 20)
         }
@@ -234,16 +234,16 @@ struct PodDetailView: View {
 
             VStack(spacing: 0) {
                 infoRow(icon: "globe", label: "Origin", value: pod.origin)
-                Divider().background(Color(hex: "#1A0F0A"))
+                Divider().background(Color(hex: "#FEF3E2"))
                 infoRow(icon: "flame.fill", label: "Roast Level", value: pod.roast)
-                Divider().background(Color(hex: "#1A0F0A"))
+                Divider().background(Color(hex: "#FEF3E2"))
                 infoRow(icon: "cup.and.saucer.fill", label: "Recommended Cup", value: pod.recommendedCupSize)
-                Divider().background(Color(hex: "#1A0F0A"))
+                Divider().background(Color(hex: "#FEF3E2"))
                 infoRow(icon: "thermometer.medium", label: "Brew Temperature", value: pod.brewTemp)
-                Divider().background(Color(hex: "#1A0F0A"))
+                Divider().background(Color(hex: "#FEF3E2"))
                 infoRow(icon: "wind", label: "Aroma Profile", value: pod.aromaProfile)
             }
-            .background(Color(hex: "#2D1F15"))
+            .background(Color.white)
             .cornerRadius(16)
             .padding(.horizontal, 20)
         }
@@ -288,15 +288,15 @@ struct PodDetailView: View {
             .font(.system(size: 12, weight: .medium))
             .padding(.horizontal, 10)
             .padding(.vertical, 5)
-            .background(Color(hex: "#2D1F15"))
-            .foregroundColor(Color(hex: "#C8860A"))
+            .background(Color.white)
+            .foregroundColor(Color(hex: "#B97812"))
             .cornerRadius(8)
     }
 
     private func sectionHeader(_ title: String) -> some View {
         Text(title.uppercased())
             .font(.system(size: 12, weight: .semibold))
-            .foregroundColor(Color(hex: "#B0A090"))
+            .foregroundColor(Color(hex: "#717171"))
             .tracking(1.5)
             .padding(.horizontal, 20)
     }
@@ -306,12 +306,12 @@ struct PodDetailView: View {
             .font(.system(size: 14, weight: .medium))
             .padding(.horizontal, 14)
             .padding(.vertical, 8)
-            .background(Color(hex: "#2D1F15"))
-            .foregroundColor(Color(hex: "#C8860A"))
+            .background(Color.white)
+            .foregroundColor(Color(hex: "#B97812"))
             .cornerRadius(20)
             .overlay(
                 RoundedRectangle(cornerRadius: 20)
-                    .stroke(Color(hex: "#C8860A").opacity(0.3), lineWidth: 1)
+                    .stroke(Color(hex: "#B97812").opacity(0.3), lineWidth: 1)
             )
     }
 
@@ -319,17 +319,17 @@ struct PodDetailView: View {
         HStack(spacing: 12) {
             Text(label)
                 .font(.system(size: 14))
-                .foregroundColor(Color(hex: "#B0A090"))
+                .foregroundColor(Color(hex: "#717171"))
                 .frame(width: 80, alignment: .leading)
 
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
                     RoundedRectangle(cornerRadius: 4)
-                        .fill(Color(hex: "#1A0F0A"))
+                        .fill(Color(hex: "#FFFFFF"))
                         .frame(height: 8)
 
                     RoundedRectangle(cornerRadius: 4)
-                        .fill(Color(hex: "#C8860A"))
+                        .fill(Color(hex: "#B97812"))
                         .frame(
                             width: geo.size.width * CGFloat(level) / 5.0,
                             height: 8
@@ -340,7 +340,7 @@ struct PodDetailView: View {
 
             Text("\(level)/5")
                 .font(.system(size: 12))
-                .foregroundColor(Color(hex: "#B0A090"))
+                .foregroundColor(Color(hex: "#717171"))
                 .frame(width: 30, alignment: .trailing)
         }
     }
@@ -349,18 +349,18 @@ struct PodDetailView: View {
         HStack(spacing: 12) {
             Image(systemName: icon)
                 .font(.system(size: 14))
-                .foregroundColor(Color(hex: "#C8860A"))
+                .foregroundColor(Color(hex: "#B97812"))
                 .frame(width: 24)
 
             Text(label)
                 .font(.system(size: 14))
-                .foregroundColor(Color(hex: "#B0A090"))
+                .foregroundColor(Color(hex: "#717171"))
 
             Spacer()
 
             Text(value)
                 .font(.system(size: 13, weight: .medium))
-                .foregroundColor(.white)
+                .foregroundColor(Color(hex: "#222222"))
                 .multilineTextAlignment(.trailing)
                 .frame(maxWidth: 180, alignment: .trailing)
         }
@@ -375,7 +375,7 @@ struct PodDetailView: View {
 
             Text(recipe.name)
                 .font(.system(size: 14, weight: .semibold))
-                .foregroundColor(.white)
+                .foregroundColor(Color(hex: "#222222"))
                 .lineLimit(2)
 
             HStack(spacing: 6) {
@@ -389,16 +389,16 @@ struct PodDetailView: View {
 
                 Text(recipe.prepTime)
                     .font(.system(size: 11))
-                    .foregroundColor(Color(hex: "#B0A090"))
+                    .foregroundColor(Color(hex: "#717171"))
             }
         }
         .frame(width: 140)
         .padding(14)
-        .background(Color(hex: "#2D1F15"))
+        .background(Color.white)
         .cornerRadius(14)
         .overlay(
             RoundedRectangle(cornerRadius: 14)
-                .stroke(Color(hex: "#3D2A1A"), lineWidth: 1)
+                .stroke(Color(hex: "#F7F7F7"), lineWidth: 1)
         )
     }
 }

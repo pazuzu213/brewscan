@@ -16,7 +16,7 @@ struct RecipeDetailView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color(hex: "#1A0F0A")
+                Color(hex: "#FFFFFF")
                     .ignoresSafeArea()
 
                 ScrollView {
@@ -50,17 +50,17 @@ struct RecipeDetailView: View {
                         appState.toggleSavedRecipe(recipe.id)
                     } label: {
                         Image(systemName: appState.isRecipeSaved(recipe.id) ? "bookmark.fill" : "bookmark")
-                            .foregroundColor(Color(hex: "#C8860A"))
+                            .foregroundColor(Color(hex: "#B97812"))
                     }
                 }
 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Done") { dismiss() }
-                        .foregroundColor(Color(hex: "#C8860A"))
+                        .foregroundColor(Color(hex: "#B97812"))
                 }
             }
-            .toolbarBackground(Color(hex: "#1A0F0A"), for: .navigationBar)
-            .toolbarColorScheme(.dark, for: .navigationBar)
+
+
         }
         .navigationViewStyle(.stack)
     }
@@ -75,8 +75,8 @@ struct RecipeDetailView: View {
                     LinearGradient(
                         gradient: Gradient(colors: [
                             Color(hex: "#8B4513").opacity(0.5),
-                            Color(hex: "#2D1F15").opacity(0.8),
-                            Color(hex: "#1A0F0A")
+                            Color(hex: "#FFFFFF").opacity(0.8),
+                            Color(hex: "#FFFFFF")
                         ]),
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
@@ -93,7 +93,7 @@ struct RecipeDetailView: View {
                 VStack(alignment: .leading, spacing: 10) {
                     Text(recipe.name)
                         .font(.system(size: 30, weight: .bold))
-                        .foregroundColor(.white)
+                        .foregroundColor(Color(hex: "#222222"))
 
                     HStack(spacing: 10) {
                         // Difficulty badge
@@ -122,8 +122,8 @@ struct RecipeDetailView: View {
                         }
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)
-                        .background(Color(hex: "#2D1F15"))
-                        .foregroundColor(Color(hex: "#B0A090"))
+                        .background(Color.white)
+                        .foregroundColor(Color(hex: "#717171"))
                         .cornerRadius(10)
                     }
                 }
@@ -155,14 +155,14 @@ struct RecipeDetailView: View {
                                 Circle()
                                     .stroke(
                                         checkedIngredients.contains(index) ?
-                                        Color(hex: "#C8860A") : Color(hex: "#B0A090").opacity(0.4),
+                                        Color(hex: "#B97812") : Color(hex: "#717171").opacity(0.4),
                                         lineWidth: 1.5
                                     )
                                     .frame(width: 24, height: 24)
 
                                 if checkedIngredients.contains(index) {
                                     Circle()
-                                        .fill(Color(hex: "#C8860A"))
+                                        .fill(Color(hex: "#B97812"))
                                         .frame(width: 16, height: 16)
 
                                     Image(systemName: "checkmark")
@@ -176,9 +176,9 @@ struct RecipeDetailView: View {
                             .font(.system(size: 15))
                             .foregroundColor(
                                 checkedIngredients.contains(index) ?
-                                Color(hex: "#B0A090") : .white
+                                Color(hex: "#717171") : Color(hex: "#222222")
                             )
-                            .strikethrough(checkedIngredients.contains(index), color: Color(hex: "#B0A090"))
+                            .strikethrough(checkedIngredients.contains(index), color: Color(hex: "#717171"))
 
                         Spacer()
                     }
@@ -188,12 +188,12 @@ struct RecipeDetailView: View {
 
                     if index < recipe.ingredients.count - 1 {
                         Divider()
-                            .background(Color(hex: "#1A0F0A"))
+                            .background(Color(hex: "#FEF3E2"))
                             .padding(.leading, 54)
                     }
                 }
             }
-            .background(Color(hex: "#2D1F15"))
+            .background(Color.white)
             .cornerRadius(16)
             .padding(.horizontal, 20)
         }
@@ -222,7 +222,7 @@ struct RecipeDetailView: View {
                                 Circle()
                                     .fill(
                                         completedSteps.contains(index) ?
-                                        Color(hex: "#C8860A") : Color(hex: "#2D1F15")
+                                        Color(hex: "#B97812") : Color(hex: "#FFFFFF")
                                     )
                                     .frame(width: 32, height: 32)
 
@@ -233,7 +233,7 @@ struct RecipeDetailView: View {
                                 } else {
                                     Text("\(index + 1)")
                                         .font(.system(size: 14, weight: .bold))
-                                        .foregroundColor(Color(hex: "#C8860A"))
+                                        .foregroundColor(Color(hex: "#B97812"))
                                 }
                             }
                         }
@@ -242,22 +242,22 @@ struct RecipeDetailView: View {
                             .font(.system(size: 15))
                             .foregroundColor(
                                 completedSteps.contains(index) ?
-                                Color(hex: "#B0A090") : .white
+                                Color(hex: "#717171") : Color(hex: "#222222")
                             )
                             .lineSpacing(4)
                             .padding(.top, 6)
-                            .strikethrough(completedSteps.contains(index), color: Color(hex: "#B0A090"))
+                            .strikethrough(completedSteps.contains(index), color: Color(hex: "#717171"))
 
                         Spacer()
                     }
                     .padding(14)
-                    .background(Color(hex: "#2D1F15"))
+                    .background(Color.white)
                     .cornerRadius(14)
                     .overlay(
                         RoundedRectangle(cornerRadius: 14)
                             .stroke(
                                 completedSteps.contains(index) ?
-                                Color(hex: "#C8860A").opacity(0.3) : Color(hex: "#3D2A1A"),
+                                Color(hex: "#B97812").opacity(0.3) : Color(hex: "#F7F7F7"),
                                 lineWidth: 1
                             )
                     )
@@ -295,19 +295,19 @@ struct RecipeDetailView: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text(pod.name)
                     .font(.system(size: 13, weight: .semibold))
-                    .foregroundColor(.white)
+                    .foregroundColor(Color(hex: "#222222"))
                 Text(pod.displayLine)
                     .font(.system(size: 10))
-                    .foregroundColor(Color(hex: "#B0A090"))
+                    .foregroundColor(Color(hex: "#717171"))
             }
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 10)
-        .background(Color(hex: "#2D1F15"))
+        .background(Color.white)
         .cornerRadius(12)
         .overlay(
             RoundedRectangle(cornerRadius: 12)
-                .stroke(Color(hex: "#3D2A1A"), lineWidth: 1)
+                .stroke(Color(hex: "#F7F7F7"), lineWidth: 1)
         )
     }
 
@@ -316,7 +316,7 @@ struct RecipeDetailView: View {
     private func sectionHeader(_ title: String) -> some View {
         Text(title.uppercased())
             .font(.system(size: 12, weight: .semibold))
-            .foregroundColor(Color(hex: "#B0A090"))
+            .foregroundColor(Color(hex: "#717171"))
             .tracking(1.5)
             .padding(.horizontal, 20)
     }

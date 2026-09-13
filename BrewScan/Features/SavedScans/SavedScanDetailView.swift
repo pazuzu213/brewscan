@@ -25,7 +25,7 @@ struct SavedScanDetailView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color(hex: "#1A0F0A").ignoresSafeArea()
+                Color(hex: "#FFFFFF").ignoresSafeArea()
 
                 ScrollView {
                     VStack(alignment: .leading, spacing: 0) {
@@ -46,12 +46,12 @@ struct SavedScanDetailView: View {
             }
             .navigationTitle(scan.podName)
             .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackground(Color(hex: "#1A0F0A"), for: .navigationBar)
-            .toolbarColorScheme(.dark, for: .navigationBar)
+
+
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Done") { dismiss() }
-                        .foregroundColor(Color(hex: "#B0A090"))
+                        .foregroundColor(Color(hex: "#717171"))
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
@@ -84,7 +84,7 @@ struct SavedScanDetailView: View {
             }
         }
         .navigationViewStyle(.stack)
-        .preferredColorScheme(.dark)
+        .preferredColorScheme(.light)
     }
 
     // MARK: - Pod Header
@@ -96,7 +96,7 @@ struct SavedScanDetailView: View {
                     LinearGradient(
                         gradient: Gradient(colors: [
                             Color(hex: scan.podColor).opacity(0.8),
-                            Color(hex: "#1A0F0A")
+                            Color(hex: "#FFFFFF")
                         ]),
                         startPoint: .top,
                         endPoint: .bottom
@@ -107,48 +107,48 @@ struct SavedScanDetailView: View {
             VStack(alignment: .leading, spacing: 10) {
                 HStack(spacing: 8) {
                     Image(systemName: "checkmark.seal.fill")
-                        .foregroundColor(Color(hex: "#C8860A"))
+                        .foregroundColor(Color(hex: "#B97812"))
                         .font(.system(size: 13))
                     Text("\(Int(scan.confidence * 100))% match")
                         .font(.system(size: 13, weight: .medium))
-                        .foregroundColor(Color(hex: "#C8860A"))
+                        .foregroundColor(Color(hex: "#B97812"))
 
                     Spacer()
 
                     Text(scan.date.formatted(date: .abbreviated, time: .shortened))
                         .font(.system(size: 12))
-                        .foregroundColor(Color(hex: "#B0A090"))
+                        .foregroundColor(Color(hex: "#717171"))
                 }
                 .padding(.horizontal, 12)
                 .padding(.vertical, 6)
-                .background(Color.black.opacity(0.4))
+                .background(Color.white.opacity(0.92))
                 .cornerRadius(20)
 
                 HStack(alignment: .bottom) {
                     VStack(alignment: .leading, spacing: 8) {
                         Text(scan.podName)
                             .font(.system(size: 26, weight: .bold))
-                            .foregroundColor(.white)
+                            .foregroundColor(Color(hex: "#222222"))
 
                         HStack(spacing: 8) {
                             Text(scan.line)
                                 .font(.system(size: 12, weight: .semibold))
                                 .padding(.horizontal, 10)
                                 .padding(.vertical, 4)
-                                .background(Color(hex: "#C8860A").opacity(0.3))
-                                .foregroundColor(Color(hex: "#C8860A"))
+                                .background(Color(hex: "#B97812").opacity(0.3))
+                                .foregroundColor(Color(hex: "#B97812"))
                                 .cornerRadius(8)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 8)
-                                        .stroke(Color(hex: "#C8860A").opacity(0.4), lineWidth: 1)
+                                        .stroke(Color(hex: "#B97812").opacity(0.4), lineWidth: 1)
                                 )
 
                             Text("Intensity \(scan.intensity)")
                                 .font(.system(size: 12, weight: .medium))
                                 .padding(.horizontal, 10)
                                 .padding(.vertical, 4)
-                                .background(Color(hex: "#2D1F15"))
-                                .foregroundColor(Color(hex: "#C8860A"))
+                                .background(Color.white)
+                                .foregroundColor(Color(hex: "#B97812"))
                                 .cornerRadius(8)
                         }
                     }
@@ -179,12 +179,12 @@ struct SavedScanDetailView: View {
                         .font(.system(size: 14, weight: .medium))
                         .padding(.horizontal, 14)
                         .padding(.vertical, 8)
-                        .background(Color(hex: "#2D1F15"))
-                        .foregroundColor(Color(hex: "#C8860A"))
+                        .background(Color.white)
+                        .foregroundColor(Color(hex: "#B97812"))
                         .cornerRadius(20)
                         .overlay(
                             RoundedRectangle(cornerRadius: 20)
-                                .stroke(Color(hex: "#C8860A").opacity(0.3), lineWidth: 1)
+                                .stroke(Color(hex: "#B97812").opacity(0.3), lineWidth: 1)
                         )
                 }
             }
@@ -200,13 +200,13 @@ struct SavedScanDetailView: View {
                 Spacer()
                 Text("\(pod.intensity)/\(pod.intensityScale)")
                     .font(.system(size: 14, weight: .semibold))
-                    .foregroundColor(Color(hex: "#C8860A"))
+                    .foregroundColor(Color(hex: "#B97812"))
             }
 
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
                     RoundedRectangle(cornerRadius: 8)
-                        .fill(Color(hex: "#2D1F15"))
+                        .fill(Color(hex: "#FFFFFF"))
                         .frame(height: 12)
 
                     RoundedRectangle(cornerRadius: 8)
@@ -237,12 +237,12 @@ struct SavedScanDetailView: View {
             sectionTitle("Origin & Roast")
             VStack(spacing: 0) {
                 infoRow(icon: "globe", label: "Origin", value: pod.origin)
-                Divider().background(Color(hex: "#2D1F15"))
+                Divider().background(Color.white)
                 infoRow(icon: "flame", label: "Roast", value: pod.roast)
-                Divider().background(Color(hex: "#2D1F15"))
+                Divider().background(Color.white)
                 infoRow(icon: "thermometer", label: "Brew Temp", value: pod.brewTemp)
             }
-            .background(Color(hex: "#2D1F15"))
+            .background(Color.white)
             .cornerRadius(16)
         }
         .padding(.horizontal, 20)
@@ -256,12 +256,12 @@ struct SavedScanDetailView: View {
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 16)
-            .background(Color(hex: "#2D1F15"))
-            .foregroundColor(Color(hex: "#C8860A"))
+            .background(Color.white)
+            .foregroundColor(Color(hex: "#B97812"))
             .cornerRadius(16)
             .overlay(
                 RoundedRectangle(cornerRadius: 16)
-                    .stroke(Color(hex: "#C8860A").opacity(0.4), lineWidth: 1)
+                    .stroke(Color(hex: "#B97812").opacity(0.4), lineWidth: 1)
             )
         }
         .padding(.horizontal, 20)
@@ -277,9 +277,9 @@ struct SavedScanDetailView: View {
                 if !scan.notes.isEmpty {
                     Text("\(scan.notes.count)")
                         .font(.system(size: 11, weight: .bold))
-                        .foregroundColor(Color(hex: "#1A0F0A"))
+                        .foregroundColor(Color(hex: "#FFFFFF"))
                         .frame(width: 18, height: 18)
-                        .background(Color(hex: "#C8860A"))
+                        .background(Color(hex: "#B97812"))
                         .clipShape(Circle())
                 }
 
@@ -294,7 +294,7 @@ struct SavedScanDetailView: View {
                         Text("Add Note")
                     }
                     .font(.system(size: 13, weight: .semibold))
-                    .foregroundColor(Color(hex: "#C8860A"))
+                    .foregroundColor(Color(hex: "#B97812"))
                 }
             }
             .padding(.horizontal, 20)
@@ -302,10 +302,10 @@ struct SavedScanDetailView: View {
             if scan.notes.isEmpty {
                 Text("No notes yet. Tap Add Note to capture your impressions.")
                     .font(.system(size: 14))
-                    .foregroundColor(Color(hex: "#B0A090"))
+                    .foregroundColor(Color(hex: "#717171"))
                     .padding(16)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(Color(hex: "#2D1F15"))
+                    .background(Color.white)
                     .cornerRadius(16)
                     .padding(.horizontal, 20)
             } else {
@@ -314,7 +314,7 @@ struct SavedScanDetailView: View {
                         noteRow(note: note)
                     }
                 }
-                .background(Color(hex: "#2D1F15"))
+                .background(Color.white)
                 .cornerRadius(16)
                 .padding(.horizontal, 20)
             }
@@ -327,7 +327,7 @@ struct SavedScanDetailView: View {
             HStack {
                 Text(note.date.formatted(date: .abbreviated, time: .shortened))
                     .font(.system(size: 11))
-                    .foregroundColor(Color(hex: "#B0A090").opacity(0.7))
+                    .foregroundColor(Color(hex: "#717171").opacity(0.7))
 
                 Spacer()
 
@@ -337,7 +337,7 @@ struct SavedScanDetailView: View {
                 } label: {
                     Image(systemName: "pencil")
                         .font(.system(size: 13))
-                        .foregroundColor(Color(hex: "#C8860A"))
+                        .foregroundColor(Color(hex: "#B97812"))
                         .padding(6)
                 }
 
@@ -353,7 +353,7 @@ struct SavedScanDetailView: View {
 
             Text(note.text)
                 .font(.system(size: 15))
-                .foregroundColor(.white)
+                .foregroundColor(Color(hex: "#222222"))
                 .fixedSize(horizontal: false, vertical: true)
                 .lineSpacing(3)
         }
@@ -366,27 +366,27 @@ struct SavedScanDetailView: View {
     private var addNoteSheet: some View {
         NavigationView {
             ZStack {
-                Color(hex: "#1A0F0A").ignoresSafeArea()
+                Color(hex: "#FFFFFF").ignoresSafeArea()
 
                 VStack(alignment: .leading, spacing: 12) {
                     Text("What did you notice about this pod?")
                         .font(.system(size: 14))
-                        .foregroundColor(Color(hex: "#B0A090"))
+                        .foregroundColor(Color(hex: "#717171"))
 
                     ZStack(alignment: .topLeading) {
                         TextEditor(text: $newNoteText)
                             .font(.system(size: 16))
-                            .foregroundColor(.white)
+                            .foregroundColor(Color(hex: "#222222"))
                             .padding(12)
                             .frame(minHeight: 130)
-                            .background(Color(hex: "#2D1F15"))
+                            .background(Color.white)
                             .cornerRadius(16)
                             .scrollContentBackground(.hidden)
 
                         if newNoteText.isEmpty {
                             Text("Flavors, impressions, who you shared it with...")
                                 .font(.system(size: 16))
-                                .foregroundColor(Color(hex: "#B0A090").opacity(0.5))
+                                .foregroundColor(Color(hex: "#717171").opacity(0.5))
                                 .padding(20)
                                 .allowsHitTesting(false)
                         }
@@ -398,12 +398,12 @@ struct SavedScanDetailView: View {
             }
             .navigationTitle("Add Note")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackground(Color(hex: "#1A0F0A"), for: .navigationBar)
-            .toolbarColorScheme(.dark, for: .navigationBar)
+
+
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Cancel") { showAddNote = false }
-                        .foregroundColor(Color(hex: "#B0A090"))
+                        .foregroundColor(Color(hex: "#717171"))
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Save") {
@@ -411,13 +411,13 @@ struct SavedScanDetailView: View {
                         showAddNote = false
                     }
                     .font(.system(size: 16, weight: .semibold))
-                    .foregroundColor(Color(hex: "#C8860A"))
+                    .foregroundColor(Color(hex: "#B97812"))
                     .disabled(newNoteText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 }
             }
         }
         .navigationViewStyle(.stack)
-        .preferredColorScheme(.dark)
+        .preferredColorScheme(.light)
     }
 
     // MARK: - Edit Note Sheet
@@ -425,19 +425,19 @@ struct SavedScanDetailView: View {
     private func editNoteSheet(note: ScanNote) -> some View {
         NavigationView {
             ZStack {
-                Color(hex: "#1A0F0A").ignoresSafeArea()
+                Color(hex: "#FFFFFF").ignoresSafeArea()
 
                 VStack(alignment: .leading, spacing: 12) {
                     Text("Edit your note")
                         .font(.system(size: 14))
-                        .foregroundColor(Color(hex: "#B0A090"))
+                        .foregroundColor(Color(hex: "#717171"))
 
                     TextEditor(text: $editNoteText)
                         .font(.system(size: 16))
-                        .foregroundColor(.white)
+                        .foregroundColor(Color(hex: "#222222"))
                         .padding(12)
                         .frame(minHeight: 130)
-                        .background(Color(hex: "#2D1F15"))
+                        .background(Color.white)
                         .cornerRadius(16)
                         .scrollContentBackground(.hidden)
 
@@ -447,12 +447,12 @@ struct SavedScanDetailView: View {
             }
             .navigationTitle("Edit Note")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackground(Color(hex: "#1A0F0A"), for: .navigationBar)
-            .toolbarColorScheme(.dark, for: .navigationBar)
+
+
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Cancel") { editingNote = nil }
-                        .foregroundColor(Color(hex: "#B0A090"))
+                        .foregroundColor(Color(hex: "#717171"))
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Save") {
@@ -460,13 +460,13 @@ struct SavedScanDetailView: View {
                         editingNote = nil
                     }
                     .font(.system(size: 16, weight: .semibold))
-                    .foregroundColor(Color(hex: "#C8860A"))
+                    .foregroundColor(Color(hex: "#B97812"))
                     .disabled(editNoteText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 }
             }
         }
         .navigationViewStyle(.stack)
-        .preferredColorScheme(.dark)
+        .preferredColorScheme(.light)
     }
 
     // MARK: - Actions
@@ -499,7 +499,7 @@ struct SavedScanDetailView: View {
     private func sectionTitle(_ title: String) -> some View {
         Text(title)
             .font(.system(size: 12, weight: .semibold))
-            .foregroundColor(Color(hex: "#B0A090"))
+            .foregroundColor(Color(hex: "#717171"))
             .textCase(.uppercase)
             .tracking(1.5)
     }
@@ -508,15 +508,15 @@ struct SavedScanDetailView: View {
         HStack(spacing: 12) {
             Image(systemName: icon)
                 .font(.system(size: 14))
-                .foregroundColor(Color(hex: "#C8860A"))
+                .foregroundColor(Color(hex: "#B97812"))
                 .frame(width: 24)
             Text(label)
                 .font(.system(size: 14))
-                .foregroundColor(Color(hex: "#B0A090"))
+                .foregroundColor(Color(hex: "#717171"))
             Spacer()
             Text(value)
                 .font(.system(size: 14, weight: .medium))
-                .foregroundColor(.white)
+                .foregroundColor(Color(hex: "#222222"))
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)

@@ -115,6 +115,31 @@
 			path = App;
 			sourceTree = "<group>";
 		};
+		GRPAUTH /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				A032 /* AuthView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		GRPAUTHMODELS /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				A029 /* AuthSession.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		GRPAUTHSERVICES /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				A030 /* KeychainStore.swift */,
+				A031 /* AuthService.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		GRPCATALOG /* Catalog */ = {
 			isa = PBXGroup;
 			children = (
@@ -148,14 +173,6 @@
 			path = Features;
 			sourceTree = "<group>";
 		};
-		GRPSAVEDSCANS /* SavedScans */ = {
-			isa = PBXGroup;
-			children = (
-				A028 /* SavedScanDetailView.swift */,
-			);
-			path = SavedScans;
-			sourceTree = "<group>";
-		};
 		GRPFWK /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -172,14 +189,6 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
-		GRPAUTH /* Auth */ = {
-			isa = PBXGroup;
-			children = (
-				A032 /* AuthView.swift */,
-			);
-			path = Auth;
-			sourceTree = "<group>";
-		};
 		GRPMODELS /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -191,14 +200,6 @@
 				A024 /* SavedScan.swift */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		GRPAUTHMODELS /* Auth */ = {
-			isa = PBXGroup;
-			children = (
-				A029 /* AuthSession.swift */,
-			);
-			path = Auth;
 			sourceTree = "<group>";
 		};
 		GRPPAYWALL /* Paywall */ = {
@@ -243,6 +244,14 @@
 			path = ../Resources;
 			sourceTree = "<group>";
 		};
+		GRPSAVEDSCANS /* SavedScans */ = {
+			isa = PBXGroup;
+			children = (
+				A028 /* SavedScanDetailView.swift */,
+			);
+			path = SavedScans;
+			sourceTree = "<group>";
+		};
 		GRPSCANNER /* Scanner */ = {
 			isa = PBXGroup;
 			children = (
@@ -262,15 +271,6 @@
 				A025 /* StoreKitService.swift */,
 			);
 			path = Services;
-			sourceTree = "<group>";
-		};
-		GRPAUTHSERVICES /* Auth */ = {
-			isa = PBXGroup;
-			children = (
-				A030 /* KeychainStore.swift */,
-				A031 /* AuthService.swift */,
-			);
-			path = Auth;
 			sourceTree = "<group>";
 		};
 		GRPWELCOME /* Welcome */ = {
@@ -541,7 +541,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 57LBSM2N3U;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -554,6 +555,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sunnydays.brewscanapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "BrewScan App Store 1786901787";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

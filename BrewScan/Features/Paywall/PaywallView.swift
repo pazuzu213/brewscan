@@ -36,7 +36,7 @@ struct PaywallView: View {
                 ctaSection
             }
         }
-        .preferredColorScheme(.dark)
+        .preferredColorScheme(.light)
         .alert("Purchase failed", isPresented: $showError) {
             Button("OK", role: .cancel) {}
         } message: {
@@ -51,9 +51,9 @@ struct PaywallView: View {
 
     private var background: some View {
         ZStack {
-            Color(hex: "#0D0805").ignoresSafeArea()
+            Color.white.ignoresSafeArea()
             LinearGradient(
-                colors: [Color(hex: "#C8860A").opacity(0.12), .clear],
+                colors: [Color(hex: "#B97812").opacity(0.08), .clear],
                 startPoint: .top,
                 endPoint: .center
             )
@@ -70,20 +70,20 @@ struct PaywallView: View {
 
             Text("PodSnap AI Pro")
                 .font(.system(size: 34, weight: .bold))
-                .foregroundColor(.white)
+                .foregroundColor(Color(hex: "#222222"))
 
             if appState.isTrialExpired {
                 Label("Your free trial has ended", systemImage: "clock")
                     .font(.system(size: 14, weight: .medium))
-                    .foregroundColor(Color(hex: "#C8860A"))
+                    .foregroundColor(Color(hex: "#B97812"))
                     .padding(.horizontal, 14)
                     .padding(.vertical, 7)
-                    .background(Color(hex: "#C8860A").opacity(0.15))
+                    .background(Color(hex: "#B97812").opacity(0.15))
                     .cornerRadius(20)
             } else {
                 Text("Start your 7-day free trial")
                     .font(.system(size: 16))
-                    .foregroundColor(Color(hex: "#B0A090"))
+                    .foregroundColor(Color(hex: "#717171"))
             }
         }
     }
@@ -96,23 +96,24 @@ struct PaywallView: View {
                 HStack(spacing: 14) {
                     Image(systemName: icon)
                         .font(.system(size: 15, weight: .semibold))
-                        .foregroundColor(Color(hex: "#C8860A"))
+                        .foregroundColor(Color(hex: "#B97812"))
                         .frame(width: 22)
 
                     Text(text)
                         .font(.system(size: 15))
-                        .foregroundColor(.white)
+                        .foregroundColor(Color(hex: "#222222"))
 
                     Spacer()
 
                     Image(systemName: "checkmark")
                         .font(.system(size: 12, weight: .bold))
-                        .foregroundColor(Color(hex: "#C8860A"))
+                        .foregroundColor(Color(hex: "#B97812"))
                 }
                 .padding(.horizontal, 18)
                 .padding(.vertical, 13)
-                .background(Color(hex: "#2D1F15"))
+                .background(Color.white)
                 .cornerRadius(14)
+                .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color(hex: "#E8E2DC"), lineWidth: 1))
             }
         }
     }
@@ -143,21 +144,21 @@ struct PaywallView: View {
                     HStack(spacing: 8) {
                         Text(title)
                             .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(isSelected ? .white : Color(hex: "#B0A090"))
+                            .foregroundColor(Color(hex: "#222222"))
                         if let badge {
                             Text(badge)
                                 .font(.system(size: 11, weight: .bold))
-                                .foregroundColor(Color(hex: "#1A0F0A"))
+                                .foregroundColor(Color(hex: "#FFFFFF"))
                                 .padding(.horizontal, 8)
                                 .padding(.vertical, 3)
-                                .background(Color(hex: "#C8860A"))
+                                .background(Color(hex: "#B97812"))
                                 .cornerRadius(8)
                         }
                     }
                     if let saving {
                         Text(saving)
                             .font(.system(size: 12))
-                            .foregroundColor(Color(hex: "#C8860A"))
+                            .foregroundColor(Color(hex: "#B97812"))
                     }
                 }
 
@@ -165,15 +166,15 @@ struct PaywallView: View {
 
                 Text(product.displayPrice + (title == "Annual" ? "/yr" : "/mo"))
                     .font(.system(size: 16, weight: .bold))
-                    .foregroundColor(isSelected ? .white : Color(hex: "#B0A090"))
+                    .foregroundColor(Color(hex: "#222222"))
             }
             .padding(.horizontal, 18)
             .padding(.vertical, 16)
-            .background(isSelected ? Color(hex: "#3D2A1A") : Color(hex: "#2D1F15"))
+            .background(isSelected ? Color(hex: "#F7F7F7") : Color(hex: "#FFFFFF"))
             .cornerRadius(16)
             .overlay(
                 RoundedRectangle(cornerRadius: 16)
-                    .stroke(isSelected ? Color(hex: "#C8860A") : Color.clear, lineWidth: 1.5)
+                    .stroke(isSelected ? Color(hex: "#B97812") : Color.clear, lineWidth: 1.5)
             )
         }
     }
@@ -185,14 +186,14 @@ struct PaywallView: View {
                     HStack(spacing: 8) {
                         Text(title)
                             .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(isSelected ? .white : Color(hex: "#B0A090"))
+                            .foregroundColor(Color(hex: "#222222"))
                         if let badge {
                             Text(badge)
                                 .font(.system(size: 11, weight: .bold))
-                                .foregroundColor(Color(hex: "#1A0F0A"))
+                                .foregroundColor(Color(hex: "#FFFFFF"))
                                 .padding(.horizontal, 8)
                                 .padding(.vertical, 3)
-                                .background(Color(hex: "#C8860A"))
+                                .background(Color(hex: "#B97812"))
                                 .cornerRadius(8)
                         }
                     }
@@ -200,15 +201,15 @@ struct PaywallView: View {
                 Spacer()
                 Text(price)
                     .font(.system(size: 16, weight: .bold))
-                    .foregroundColor(isSelected ? .white : Color(hex: "#B0A090"))
+                    .foregroundColor(Color(hex: "#222222"))
             }
             .padding(.horizontal, 18)
             .padding(.vertical, 16)
-            .background(isSelected ? Color(hex: "#3D2A1A") : Color(hex: "#2D1F15"))
+            .background(isSelected ? Color(hex: "#F7F7F7") : Color(hex: "#FFFFFF"))
             .cornerRadius(16)
             .overlay(
                 RoundedRectangle(cornerRadius: 16)
-                    .stroke(isSelected ? Color(hex: "#C8860A") : Color.clear, lineWidth: 1.5)
+                    .stroke(isSelected ? Color(hex: "#B97812") : Color.clear, lineWidth: 1.5)
             )
         }
     }
@@ -221,13 +222,13 @@ struct PaywallView: View {
             Button(action: purchaseSelected) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 24)
-                        .fill(Color(hex: "#C8860A"))
+                        .fill(Color(hex: "#B97812"))
                     if store.isPurchasing {
                         ProgressView().tint(.white)
                     } else {
                         Text(appState.isTrialExpired ? "Subscribe Now" : "Start Free Trial")
                             .font(.system(size: 17, weight: .semibold))
-                            .foregroundColor(Color(hex: "#1A0F0A"))
+                            .foregroundColor(Color(hex: "#FFFFFF"))
                     }
                 }
                 .frame(maxWidth: .infinity)
@@ -245,25 +246,25 @@ struct PaywallView: View {
             } label: {
                 Text(isRestoring ? "Restoring…" : "Restore Purchases")
                     .font(.system(size: 14))
-                    .foregroundColor(Color(hex: "#B0A090"))
+                    .foregroundColor(Color(hex: "#717171"))
             }
             .disabled(store.isPurchasing || isRestoring)
 
             // Legal
             HStack(spacing: 16) {
                 Link("Privacy Policy", destination: URL(string: "https://brewscan.app/privacy")!)
-                Text("•").foregroundColor(Color(hex: "#B0A090").opacity(0.4))
+                Text("•").foregroundColor(Color(hex: "#717171").opacity(0.4))
                 Link("Terms of Use", destination: URL(string: "https://brewscan.app/terms")!)
             }
             .font(.system(size: 11))
-            .foregroundColor(Color(hex: "#B0A090").opacity(0.5))
+            .foregroundColor(Color(hex: "#717171").opacity(0.5))
         }
         .padding(.horizontal, 24)
         .padding(.top, 12)
         .padding(.bottom, 32)
         .background(
-            Color(hex: "#0D0805")
-                .shadow(color: .black.opacity(0.4), radius: 12, y: -4)
+            Color.white
+                .shadow(color: .black.opacity(0.08), radius: 12, y: -4)
         )
     }
 

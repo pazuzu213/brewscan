@@ -14,11 +14,11 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color(hex: "#1A0F0A")
+                Color(hex: "#FFFFFF")
                     .ignoresSafeArea()
 
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 24) {
+                    VStack(alignment: .leading, spacing: 28) {
                         header
                         statsRow
                         recentScansSection
@@ -32,20 +32,20 @@ struct HomeView: View {
             .navigationBarHidden(true)
         }
         .navigationViewStyle(.stack)
-        .preferredColorScheme(.dark)
+        .preferredColorScheme(.light)
     }
 
     private var header: some View {
         HStack(alignment: .top, spacing: 16) {
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 6) {
                 Text(greeting)
                     .font(.system(size: 28, weight: .bold))
-                    .foregroundColor(.white)
+                    .foregroundColor(Color(hex: "#222222"))
                     .lineLimit(2)
 
                 Text("Ready to discover your next favourite pod?")
                     .font(.system(size: 15))
-                    .foregroundColor(Color(hex: "#B0A090"))
+                    .foregroundColor(Color(hex: "#717171"))
             }
 
             Spacer()
@@ -55,9 +55,9 @@ struct HomeView: View {
             } label: {
                 Text(initials)
                     .font(.system(size: 15, weight: .bold))
-                    .foregroundColor(Color(hex: "#1A0F0A"))
+                    .foregroundColor(.white)
                     .frame(width: 46, height: 46)
-                    .background(Color(hex: "#C8860A"))
+                    .background(Color(hex: "#B97812"))
                     .clipShape(Circle())
             }
         }
@@ -76,7 +76,7 @@ struct HomeView: View {
             HStack {
                 Text("Recent Brews")
                     .font(.system(size: 20, weight: .semibold))
-                    .foregroundColor(.white)
+                    .foregroundColor(Color(hex: "#222222"))
 
                 Spacer()
 
@@ -84,21 +84,17 @@ struct HomeView: View {
                     NotificationCenter.default.post(name: .brewScanSelectTab, object: 4)
                 }
                 .font(.system(size: 13, weight: .semibold))
-                .foregroundColor(Color(hex: "#C8860A"))
+                .foregroundColor(Color(hex: "#B97812"))
             }
 
             if recentScans.isEmpty {
-                Text("No scans yet - point your camera at a pod!")
+                Text("No scans yet — point your camera at a pod!")
                     .font(.system(size: 15))
-                    .foregroundColor(Color(hex: "#B0A090"))
+                    .foregroundColor(Color(hex: "#717171"))
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(18)
-                    .background(Color(hex: "#2D1F15"))
+                    .background(Color(hex: "#F7F7F7"))
                     .cornerRadius(16)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 16)
-                            .stroke(Color(hex: "#3D2A1A"), lineWidth: 1)
-                    )
             } else {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 12) {
@@ -123,8 +119,8 @@ struct HomeView: View {
             .font(.system(size: 17, weight: .semibold))
             .frame(maxWidth: .infinity)
             .padding(.vertical, 16)
-            .background(Color(hex: "#C8860A"))
-            .foregroundColor(Color(hex: "#1A0F0A"))
+            .background(Color(hex: "#B97812"))
+            .foregroundColor(.white)
             .cornerRadius(24)
         }
     }
@@ -133,21 +129,18 @@ struct HomeView: View {
         VStack(alignment: .leading, spacing: 8) {
             Text(value)
                 .font(.system(size: 24, weight: .bold))
-                .foregroundColor(.white)
+                .foregroundColor(Color(hex: "#222222"))
 
             Text(title)
                 .font(.system(size: 11, weight: .semibold))
-                .foregroundColor(Color(hex: "#B0A090"))
+                .foregroundColor(Color(hex: "#717171"))
                 .lineLimit(2)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(14)
-        .background(Color(hex: "#2D1F15"))
+        .background(.white)
         .cornerRadius(16)
-        .overlay(
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(Color(hex: "#3D2A1A"), lineWidth: 1)
-        )
+        .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 2)
     }
 
     private func recentScanCard(_ scan: SavedScan) -> some View {
@@ -162,30 +155,27 @@ struct HomeView: View {
 
                 Text("\(Int(scan.confidence * 100))%")
                     .font(.system(size: 11, weight: .semibold))
-                    .foregroundColor(Color(hex: "#C8860A"))
+                    .foregroundColor(Color(hex: "#B97812"))
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
-                    .background(Color(hex: "#1A0F0A"))
+                    .background(Color(hex: "#FEF3E2"))
                     .cornerRadius(12)
             }
 
             Text(scan.podName)
                 .font(.system(size: 15, weight: .semibold))
-                .foregroundColor(.white)
+                .foregroundColor(Color(hex: "#222222"))
                 .lineLimit(2)
 
             Text(scan.date.formatted(date: .abbreviated, time: .shortened))
                 .font(.system(size: 12))
-                .foregroundColor(Color(hex: "#B0A090"))
+                .foregroundColor(Color(hex: "#717171"))
         }
         .frame(width: 170, alignment: .leading)
         .padding(14)
-        .background(Color(hex: "#2D1F15"))
+        .background(.white)
         .cornerRadius(16)
-        .overlay(
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(Color(hex: "#3D2A1A"), lineWidth: 1)
-        )
+        .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 2)
     }
 
     private var greeting: String {
@@ -206,7 +196,7 @@ struct HomeView: View {
     }
 
     private var initials: String {
-        guard let name = appState.userProfile?.name, !name.isEmpty else { return "BS" }
+        guard let name = appState.userProfile?.name, !name.isEmpty else { return "PS" }
         let parts = name.split(separator: " ")
         let letters = parts.prefix(2).compactMap { $0.first }.map(String.init)
         return letters.joined().uppercased()

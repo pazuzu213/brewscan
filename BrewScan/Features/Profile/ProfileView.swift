@@ -22,7 +22,7 @@ struct ProfileView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color(hex: "#1A0F0A")
+                Color(hex: "#FFFFFF")
                     .ignoresSafeArea()
 
                 ScrollView {
@@ -40,8 +40,8 @@ struct ProfileView: View {
             }
             .navigationTitle("Profile")
             .navigationBarTitleDisplayMode(.large)
-            .toolbarBackground(Color(hex: "#1A0F0A"), for: .navigationBar)
-            .toolbarColorScheme(.dark, for: .navigationBar)
+            .toolbarBackground(Color(hex: "#FFFFFF"), for: .navigationBar)
+            .toolbarColorScheme(.light, for: .navigationBar)
             .sheet(isPresented: $showEditProfile) {
                 EditProfileView()
                     .environmentObject(appState)
@@ -52,7 +52,7 @@ struct ProfileView: View {
             }
         }
         .navigationViewStyle(.stack)
-        .preferredColorScheme(.dark)
+        .preferredColorScheme(.light)
     }
 
     private var profileCard: some View {
@@ -61,11 +61,11 @@ struct ProfileView: View {
                 VStack(alignment: .leading, spacing: 6) {
                     Text(appState.userProfile?.name ?? "PodSnap AI User")
                         .font(.system(size: 24, weight: .bold))
-                        .foregroundColor(.white)
+                        .foregroundColor(Color(hex: "#222222"))
 
                     Text(appState.userProfile?.email ?? "No email added")
                         .font(.system(size: 14))
-                        .foregroundColor(Color(hex: "#B0A090"))
+                        .foregroundColor(Color(hex: "#717171"))
                 }
 
                 Spacer()
@@ -74,7 +74,7 @@ struct ProfileView: View {
                     showEditProfile = true
                 }
                 .font(.system(size: 14, weight: .semibold))
-                .foregroundColor(Color(hex: "#C8860A"))
+                .foregroundColor(Color(hex: "#B97812"))
             }
 
             HStack(spacing: 10) {
@@ -83,12 +83,13 @@ struct ProfileView: View {
             }
         }
         .padding(18)
-        .background(Color(hex: "#2D1F15"))
+        .background(Color(hex: "#FFFFFF"))
         .cornerRadius(16)
         .overlay(
             RoundedRectangle(cornerRadius: 16)
-                .stroke(Color(hex: "#3D2A1A"), lineWidth: 1)
+                .stroke(Color(hex: "#E8E2DC"), lineWidth: 1)
         )
+        .shadow(color: .black.opacity(0.05), radius: 10, x: 0, y: 3)
     }
 
     private var savedRecipesSection: some View {
@@ -101,8 +102,9 @@ struct ProfileView: View {
                         row(icon: recipe.emoji, title: recipe.name, subtitle: recipe.prepTime)
                     }
                 }
-                .background(Color(hex: "#2D1F15"))
+                .background(Color(hex: "#FFFFFF"))
                 .cornerRadius(16)
+                .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color(hex: "#E8E2DC"), lineWidth: 1))
             }
         }
     }
@@ -117,8 +119,9 @@ struct ProfileView: View {
                         podRow(pod)
                     }
                 }
-                .background(Color(hex: "#2D1F15"))
+                .background(Color(hex: "#FFFFFF"))
                 .cornerRadius(16)
+                .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color(hex: "#E8E2DC"), lineWidth: 1))
             }
         }
     }
@@ -136,8 +139,8 @@ struct ProfileView: View {
                             scanRow(scan)
                         }
                         .buttonStyle(.plain)
-                        .listRowBackground(Color(hex: "#2D1F15"))
-                        .listRowSeparatorTint(Color(hex: "#3D2A1A"))
+                        .listRowBackground(Color(hex: "#FFFFFF"))
+                        .listRowSeparatorTint(Color(hex: "#E8E2DC"))
                         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                             Button(role: .destructive) {
@@ -151,8 +154,9 @@ struct ProfileView: View {
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden)
                 .frame(height: CGFloat(min(max(sortedScans.count, 1), 6)) * 76)
-                .background(Color(hex: "#2D1F15"))
+                .background(Color(hex: "#FFFFFF"))
                 .cornerRadius(16)
+                .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color(hex: "#E8E2DC"), lineWidth: 1))
             }
         }
     }
@@ -163,7 +167,7 @@ struct ProfileView: View {
                 VStack(alignment: .leading, spacing: 10) {
                     Text("Machine type")
                         .font(.system(size: 13, weight: .semibold))
-                        .foregroundColor(Color(hex: "#B0A090"))
+                        .foregroundColor(Color(hex: "#717171"))
 
                     HStack(spacing: 10) {
                         ForEach(MachineType.onboardingCases, id: \.self) { type in
@@ -180,7 +184,7 @@ struct ProfileView: View {
                 VStack(alignment: .leading, spacing: 10) {
                     Text("Preferred strength")
                         .font(.system(size: 13, weight: .semibold))
-                        .foregroundColor(Color(hex: "#B0A090"))
+                        .foregroundColor(Color(hex: "#717171"))
 
                     FlowLayout(spacing: 8) {
                         ForEach(BrewStrength.allCases, id: \.self) { strength in
@@ -195,8 +199,9 @@ struct ProfileView: View {
                 }
             }
             .padding(16)
-            .background(Color(hex: "#2D1F15"))
+            .background(Color(hex: "#FFFFFF"))
             .cornerRadius(16)
+            .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color(hex: "#E8E2DC"), lineWidth: 1))
         }
     }
 
@@ -206,11 +211,11 @@ struct ProfileView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     Text(appState.authSession?.user.email ?? appState.userProfile?.email ?? "No email added")
                         .font(.system(size: 15, weight: .semibold))
-                        .foregroundColor(.white)
+                        .foregroundColor(Color(hex: "#222222"))
 
                     Text(appState.isAuthenticated ? "Signed in with email" : "Not signed in")
                         .font(.system(size: 13))
-                        .foregroundColor(Color(hex: "#B0A090"))
+                        .foregroundColor(Color(hex: "#717171"))
                 }
 
                 if appState.isAuthenticated {
@@ -218,19 +223,20 @@ struct ProfileView: View {
                         appState.signOut()
                     }
                     .font(.system(size: 14, weight: .semibold))
-                    .foregroundColor(Color(hex: "#C8860A"))
+                    .foregroundColor(Color(hex: "#B97812"))
                 } else {
                     Button("Sign In") {
                         appState.isShowingAuth = true
                     }
                     .font(.system(size: 14, weight: .semibold))
-                    .foregroundColor(Color(hex: "#C8860A"))
+                    .foregroundColor(Color(hex: "#B97812"))
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(16)
-            .background(Color(hex: "#2D1F15"))
+            .background(Color(hex: "#FFFFFF"))
             .cornerRadius(16)
+            .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color(hex: "#E8E2DC"), lineWidth: 1))
         }
     }
 
@@ -238,7 +244,7 @@ struct ProfileView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text(title.uppercased())
                 .font(.system(size: 12, weight: .semibold))
-                .foregroundColor(Color(hex: "#B0A090"))
+                .foregroundColor(Color(hex: "#717171"))
                 .tracking(1.5)
 
             content()
@@ -250,19 +256,20 @@ struct ProfileView: View {
             .font(.system(size: 12, weight: .semibold))
             .padding(.horizontal, 12)
             .padding(.vertical, 7)
-            .background(Color(hex: "#3D2A1A"))
-            .foregroundColor(Color(hex: "#C8860A"))
+            .background(Color(hex: "#E8E2DC"))
+            .foregroundColor(Color(hex: "#B97812"))
             .cornerRadius(24)
     }
 
     private func emptyState(_ text: String) -> some View {
         Text(text)
             .font(.system(size: 14))
-            .foregroundColor(Color(hex: "#B0A090"))
+            .foregroundColor(Color(hex: "#717171"))
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(16)
-            .background(Color(hex: "#2D1F15"))
+            .background(Color(hex: "#FFFFFF"))
             .cornerRadius(16)
+            .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color(hex: "#E8E2DC"), lineWidth: 1))
     }
 
     private func row(icon: String, title: String, subtitle: String) -> some View {
@@ -274,10 +281,10 @@ struct ProfileView: View {
             VStack(alignment: .leading, spacing: 3) {
                 Text(title)
                     .font(.system(size: 15, weight: .semibold))
-                    .foregroundColor(.white)
+                    .foregroundColor(Color(hex: "#222222"))
                 Text(subtitle)
                     .font(.system(size: 12))
-                    .foregroundColor(Color(hex: "#B0A090"))
+                    .foregroundColor(Color(hex: "#717171"))
             }
 
             Spacer()
@@ -294,10 +301,10 @@ struct ProfileView: View {
             VStack(alignment: .leading, spacing: 3) {
                 Text(pod.name)
                     .font(.system(size: 15, weight: .semibold))
-                    .foregroundColor(.white)
+                    .foregroundColor(Color(hex: "#222222"))
                 Text("\(pod.displayLine) • Intensity \(pod.intensity)")
                     .font(.system(size: 12))
-                    .foregroundColor(Color(hex: "#B0A090"))
+                    .foregroundColor(Color(hex: "#717171"))
             }
 
             Spacer()
@@ -314,20 +321,20 @@ struct ProfileView: View {
             VStack(alignment: .leading, spacing: 3) {
                 Text(scan.podName)
                     .font(.system(size: 15, weight: .semibold))
-                    .foregroundColor(.white)
+                    .foregroundColor(Color(hex: "#222222"))
 
                 HStack(spacing: 5) {
                     Text(scan.date.formatted(date: .abbreviated, time: .shortened))
                         .font(.system(size: 12))
-                        .foregroundColor(Color(hex: "#B0A090"))
+                        .foregroundColor(Color(hex: "#717171"))
 
                     if !scan.notes.isEmpty {
                         Text("·")
                             .font(.system(size: 12))
-                            .foregroundColor(Color(hex: "#B0A090"))
+                            .foregroundColor(Color(hex: "#717171"))
                         Text("\(scan.notes.count) note\(scan.notes.count == 1 ? "" : "s")")
                             .font(.system(size: 12))
-                            .foregroundColor(Color(hex: "#C8860A"))
+                            .foregroundColor(Color(hex: "#B97812"))
                     }
                 }
             }
@@ -336,11 +343,11 @@ struct ProfileView: View {
 
             Text("\(Int(scan.confidence * 100))%")
                 .font(.system(size: 12, weight: .semibold))
-                .foregroundColor(Color(hex: "#C8860A"))
+                .foregroundColor(Color(hex: "#B97812"))
 
             Image(systemName: "chevron.right")
                 .font(.system(size: 11, weight: .semibold))
-                .foregroundColor(Color(hex: "#B0A090").opacity(0.4))
+                .foregroundColor(Color(hex: "#717171").opacity(0.4))
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 12)
@@ -352,8 +359,8 @@ struct ProfileView: View {
                 .font(.system(size: 14, weight: .semibold))
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 12)
-                .background(isSelected ? Color(hex: "#C8860A") : Color(hex: "#3D2A1A"))
-                .foregroundColor(isSelected ? Color(hex: "#1A0F0A") : Color(hex: "#B0A090"))
+                .background(isSelected ? Color(hex: "#B97812") : Color(hex: "#E8E2DC"))
+                .foregroundColor(isSelected ? Color(hex: "#FFFFFF") : Color(hex: "#717171"))
                 .cornerRadius(16)
         }
     }
@@ -364,8 +371,8 @@ struct ProfileView: View {
                 .font(.system(size: 13, weight: .semibold))
                 .padding(.horizontal, 16)
                 .padding(.vertical, 9)
-                .background(isSelected ? Color(hex: "#C8860A") : Color(hex: "#3D2A1A"))
-                .foregroundColor(isSelected ? Color(hex: "#1A0F0A") : Color(hex: "#B0A090"))
+                .background(isSelected ? Color(hex: "#B97812") : Color(hex: "#E8E2DC"))
+                .foregroundColor(isSelected ? Color(hex: "#FFFFFF") : Color(hex: "#717171"))
                 .cornerRadius(24)
         }
     }
@@ -399,7 +406,7 @@ private struct EditProfileView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color(hex: "#1A0F0A")
+                Color(hex: "#FFFFFF")
                     .ignoresSafeArea()
 
                 VStack(spacing: 14) {
@@ -418,7 +425,7 @@ private struct EditProfileView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Cancel") { dismiss() }
-                        .foregroundColor(Color(hex: "#B0A090"))
+                        .foregroundColor(Color(hex: "#717171"))
                 }
 
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -426,12 +433,12 @@ private struct EditProfileView: View {
                         save()
                         dismiss()
                     }
-                    .foregroundColor(Color(hex: "#C8860A"))
+                    .foregroundColor(Color(hex: "#B97812"))
                 }
             }
         }
         .navigationViewStyle(.stack)
-        .preferredColorScheme(.dark)
+        .preferredColorScheme(.light)
         .onAppear {
             name = appState.userProfile?.name ?? ""
             email = appState.userProfile?.email ?? ""
@@ -442,13 +449,14 @@ private struct EditProfileView: View {
         TextField("", text: text)
             .placeholder(when: text.wrappedValue.isEmpty) {
                 Text(title)
-                    .foregroundColor(Color(hex: "#B0A090").opacity(0.7))
+                    .foregroundColor(Color(hex: "#717171").opacity(0.7))
             }
             .font(.system(size: 16))
-            .foregroundColor(.white)
+            .foregroundColor(Color(hex: "#222222"))
             .padding(16)
-            .background(Color(hex: "#2D1F15"))
+            .background(Color(hex: "#FFFFFF"))
             .cornerRadius(16)
+            .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color(hex: "#E8E2DC"), lineWidth: 1))
     }
 
     private func save() {

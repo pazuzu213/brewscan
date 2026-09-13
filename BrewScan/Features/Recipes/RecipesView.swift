@@ -15,7 +15,7 @@ struct RecipesView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color(hex: "#1A0F0A")
+                Color(hex: "#FFFFFF")
                     .ignoresSafeArea()
 
                 ScrollView {
@@ -35,10 +35,10 @@ struct RecipesView: View {
                             if visibleRecipes.isEmpty {
                                 Text("Saved recipes will appear here.")
                                     .font(.system(size: 14))
-                                    .foregroundColor(Color(hex: "#B0A090"))
+                                    .foregroundColor(Color(hex: "#717171"))
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .padding(16)
-                                    .background(Color(hex: "#2D1F15"))
+                                    .background(Color.white)
                                     .cornerRadius(16)
                                     .padding(.horizontal, 16)
                             } else {
@@ -51,12 +51,12 @@ struct RecipesView: View {
 
                                         if recipe.id != visibleRecipes.last?.id {
                                             Divider()
-                                                .background(Color(hex: "#2D1F15"))
+                                                .background(Color.white)
                                                 .padding(.leading, 72)
                                         }
                                     }
                                 }
-                                .background(Color(hex: "#2D1F15"))
+                                .background(Color.white)
                                 .cornerRadius(16)
                                 .padding(.horizontal, 16)
                             }
@@ -67,8 +67,8 @@ struct RecipesView: View {
             }
             .navigationTitle("Recipes")
             .navigationBarTitleDisplayMode(.large)
-            .toolbarBackground(Color(hex: "#1A0F0A"), for: .navigationBar)
-            .toolbarColorScheme(.dark, for: .navigationBar)
+
+
             .sheet(item: $selectedRecipe) { recipe in
                 RecipeDetailView(recipe: recipe)
             }
@@ -83,7 +83,7 @@ struct RecipesView: View {
                     LinearGradient(
                         gradient: Gradient(colors: [
                             Color(hex: "#8B4513").opacity(0.4),
-                            Color(hex: "#1A0F0A")
+                            Color(hex: "#FFFFFF")
                         ]),
                         startPoint: .top,
                         endPoint: .bottom
@@ -95,10 +95,10 @@ struct RecipesView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("\(db.allRecipes().count) Recipes")
                         .font(.system(size: 28, weight: .bold))
-                        .foregroundColor(.white)
+                        .foregroundColor(Color(hex: "#222222"))
                     Text("Crafted for coffee pods")
                         .font(.system(size: 14))
-                        .foregroundColor(Color(hex: "#B0A090"))
+                        .foregroundColor(Color(hex: "#717171"))
                 }
                 Spacer()
                 Text("☕")
@@ -122,7 +122,7 @@ struct RecipeRow: View {
             // Emoji circle
             ZStack {
                 Circle()
-                    .fill(Color(hex: "#1A0F0A"))
+                    .fill(Color(hex: "#FFFFFF"))
                     .frame(width: 48, height: 48)
                 Text(recipe.emoji)
                     .font(.system(size: 24))
@@ -132,7 +132,7 @@ struct RecipeRow: View {
             VStack(alignment: .leading, spacing: 5) {
                 Text(recipe.name)
                     .font(.system(size: 16, weight: .semibold))
-                    .foregroundColor(.white)
+                    .foregroundColor(Color(hex: "#222222"))
 
                 HStack(spacing: 8) {
                     // Difficulty badge
@@ -151,7 +151,7 @@ struct RecipeRow: View {
                         Text(recipe.prepTime)
                             .font(.system(size: 12))
                     }
-                    .foregroundColor(Color(hex: "#B0A090"))
+                    .foregroundColor(Color(hex: "#717171"))
 
                     // Compatible pods count
                     HStack(spacing: 4) {
@@ -160,7 +160,7 @@ struct RecipeRow: View {
                         Text("\(recipe.compatiblePodIds.count) pods")
                             .font(.system(size: 12))
                     }
-                    .foregroundColor(Color(hex: "#B0A090"))
+                    .foregroundColor(Color(hex: "#717171"))
                 }
             }
 
@@ -171,21 +171,21 @@ struct RecipeRow: View {
             } label: {
                 Image(systemName: appState.isRecipeSaved(recipe.id) ? "bookmark.fill" : "bookmark")
                     .font(.system(size: 16, weight: .semibold))
-                    .foregroundColor(Color(hex: "#C8860A"))
+                    .foregroundColor(Color(hex: "#B97812"))
                     .frame(width: 34, height: 34)
-                    .background(Color(hex: "#1A0F0A"))
+                    .background(Color(hex: "#FEF3E2"))
                     .clipShape(Circle())
             }
             .buttonStyle(.plain)
 
             Image(systemName: "chevron.right")
                 .font(.system(size: 13, weight: .semibold))
-                .foregroundColor(Color(hex: "#B0A090").opacity(0.6))
+                .foregroundColor(Color(hex: "#717171").opacity(0.6))
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 14)
         .background(
-            isPressed ? Color(hex: "#3D2A1A") : Color(hex: "#2D1F15")
+            isPressed ? Color(hex: "#F7F7F7") : Color(hex: "#FFFFFF")
         )
         .contentShape(Rectangle())
         .animation(.easeInOut(duration: 0.1), value: isPressed)
