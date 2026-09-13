@@ -90,14 +90,14 @@ class StoreKitService: ObservableObject {
         var hasActive = false
         for await result in Transaction.currentEntitlements {
             if case .verified(let transaction) = result {
-                let isBrewScanSubscription = [
+                let isPodSnapSubscription = [
                     Self.monthlyId,
                     Self.yearlyId
                 ].contains(transaction.productID)
                 let isNotRevoked = transaction.revocationDate == nil
                 let isNotExpired = transaction.expirationDate.map { $0 > Date() } ?? true
 
-                if isBrewScanSubscription && isNotRevoked && isNotExpired {
+                if isPodSnapSubscription && isNotRevoked && isNotExpired {
                     hasActive = true
                 }
             }

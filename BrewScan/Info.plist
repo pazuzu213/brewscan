@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>PodScan</string>
+	<string>PodSnap</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -25,7 +25,7 @@
 			<string>com.sunnydays.brewscanapp.auth</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>podscan</string>
+				<string>podsnap</string>
 			</array>
 		</dict>
 	</array>
@@ -36,7 +36,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>PodScan needs camera access to identify your coffee pods</string>
+	<string>PodSnap needs camera access to identify your coffee pods</string>
 	<key>OpenAIAPIKey</key>
 	<string></string>
 	<key>UILaunchScreen</key>

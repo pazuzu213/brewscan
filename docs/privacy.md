@@ -1,15 +1,15 @@
-# Privacy Policy — BrewScan
+# Privacy Policy — PodSnap
 
 **Last updated: August 16, 2026**
 
 ## Overview
 
-BrewScan ("we", "our", or "us") is committed to protecting your privacy. This policy explains what data we collect and how we use it.
+PodSnap ("we", "our", or "us") is committed to protecting your privacy. This policy explains what data we collect and how we use it.
 
 ## Data We Collect
 
 ### Camera
-BrewScan requests camera access solely to photograph Nespresso capsules for AI identification. Photos are sent to OpenAI's API for analysis and are not stored on our servers.
+PodSnap requests camera access solely to photograph Nespresso capsules for AI identification. Photos are sent to OpenAI's API for analysis and are not stored on our servers.
 
 ### Account Information
 When you create an account, we collect your name and email address. This is stored locally on your device.

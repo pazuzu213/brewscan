@@ -59,7 +59,7 @@ struct ProfileView: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 6) {
-                    Text(appState.userProfile?.name ?? "PodScan User")
+                    Text(appState.userProfile?.name ?? "PodSnap User")
                         .font(.system(size: 24, weight: .bold))
                         .foregroundColor(.white)
 
@@ -372,7 +372,7 @@ struct ProfileView: View {
 
     private func updateProfile(_ mutate: (inout UserProfile) -> Void) {
         var profile = appState.userProfile ?? UserProfile(
-            name: "PodScan User",
+            name: "PodSnap User",
             email: "",
             machineType: .nespresso,
             milkPreference: false,

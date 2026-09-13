@@ -17,7 +17,7 @@ class PodDatabase: ObservableObject {
 
     private func loadJSON<T: Decodable>(filename: String, type: T.Type) -> T? {
         guard let url = Bundle.main.url(forResource: filename, withExtension: "json") else {
-            print("BrewScan: Could not find \(filename).json in bundle")
+            print("PodSnap: Could not find \(filename).json in bundle")
             return nil
         }
         do {
@@ -25,7 +25,7 @@ class PodDatabase: ObservableObject {
             let decoder = JSONDecoder()
             return try decoder.decode(T.self, from: data)
         } catch {
-            print("BrewScan: Failed to decode \(filename).json: \(error)")
+            print("PodSnap: Failed to decode \(filename).json: \(error)")
             return nil
         }
     }

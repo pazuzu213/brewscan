@@ -1,7 +1,7 @@
 # Product Hunt Listing
 
 ## Name:
-BrewScan
+PodSnap
 
 ## Tagline (60 chars max):
 AI Nespresso pod scanner — scan any pod, perfect your brew
@@ -14,7 +14,7 @@ AI Nespresso pod scanner — scan any pod, perfect your brew
 
 ## Description:
 
-BrewScan uses AI to instantly identify any Nespresso capsule.
+PodSnap uses AI to instantly identify any Nespresso capsule.
 
 Point your camera at any pod, sleeve, or box — and get:
 
@@ -29,7 +29,7 @@ Point your camera at any pod, sleeve, or box — and get:
 I had a drawer full of mystery pods and kept brewing the wrong one. I wanted to know what I was drinking before I made it. Turns out a lot of Nespresso people have the same problem.
 
 **What makes it different:**
-Most coffee apps are recipe apps. BrewScan starts with the pod — scan first, then discover. It's the Shazam for Nespresso.
+Most coffee apps are recipe apps. PodSnap starts with the pod — scan first, then discover. It's the Shazam for Nespresso.
 
 **Free to try:**
 7-day free trial, then $2.99/month or $19.99/year.
@@ -38,7 +38,7 @@ Most coffee apps are recipe apps. BrewScan starts with the pod — scan first, t
 
 Hey Product Hunt! 👋
 
-I'm Sunny, the maker of BrewScan. I built this because I'm a Nespresso obsessive with terrible pod memory.
+I'm Sunny, the maker of PodSnap. I built this because I'm a Nespresso obsessive with terrible pod memory.
 
 The core idea: make pod discovery feel like magic. You shouldn't need to remember 40 pod names — just point your phone.
 

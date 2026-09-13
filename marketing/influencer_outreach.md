@@ -19,12 +19,12 @@ Hey [Name],
 
 I watch your Nespresso content — [specific video reference if possible].
 
-I built an app called BrewScan — it uses AI to identify any Nespresso pod from a photo. Point your camera, get tasting notes, intensity, origin, and recipes instantly.
+I built an app called PodSnap — it uses AI to identify any Nespresso pod from a photo. Point your camera, get tasting notes, intensity, origin, and recipes instantly.
 
 Thought your audience might get a kick out of it.
 
 I'd love to offer you:
-- Free BrewScan Pro for life
+- Free PodSnap Pro for life
 - A simple affiliate link — you get 30% of every subscription your audience signs up for
 
 No obligations, no scripts. Just use it if you like it and share if you think your viewers would too.
@@ -32,7 +32,7 @@ No obligations, no scripts. Just use it if you like it and share if you think yo
 Want me to send you a promo code?
 
 — Sunny
-BrewScan | brewscan.app
+PodSnap | brewscan.app
 
 ---
 

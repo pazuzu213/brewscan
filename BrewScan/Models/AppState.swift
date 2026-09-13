@@ -161,7 +161,7 @@ class AppState: ObservableObject {
     }
 
     func handleMagicLink(_ url: URL) {
-        // BrewScan uses 6-digit email OTP. Magic-link handling is intentionally unused.
+        // PodSnap uses 6-digit email OTP. Magic-link handling is intentionally unused.
     }
 
     func saveScan(_ scan: SavedScan) {

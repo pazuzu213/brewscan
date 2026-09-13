@@ -54,7 +54,7 @@ struct ScannerView: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("PodScan needs camera access to identify your coffee pods. Please enable it in Settings.")
+            Text("PodSnap needs camera access to identify your coffee pods. Please enable it in Settings.")
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
             cameraPermissionStatus = AVCaptureDevice.authorizationStatus(for: .video)

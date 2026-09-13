@@ -12,7 +12,7 @@
 ---
 
 ## Build (3-15s):
-**[Open BrewScan, point camera at pod]**
+**[Open PodSnap, point camera at pod]**
 "I built an app for this"
 **[Scan animation plays, ring locks onto pod]**
 "Watch"
@@ -29,8 +29,8 @@
 ---
 
 ## CTA (30-45s):
-"It's called BrewScan. Free on the App Store."
-**[Text overlay: BrewScan — link in bio]**
+"It's called PodSnap. Free on the App Store."
+**[Text overlay: PodSnap — link in bio]**
 
 ---
 

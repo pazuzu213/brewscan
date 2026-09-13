@@ -13,7 +13,7 @@ Hey r/nespresso 👋
 
 Long-time Nespresso fan here. I kept having the same problem — a drawer full of pods I'd forgotten about, no idea what any of them tasted like, constantly brewing the wrong one for the mood I was in.
 
-So I built **BrewScan** — point your camera at any Nespresso pod (or the box), and it instantly tells you:
+So I built **PodSnap** — point your camera at any Nespresso pod (or the box), and it instantly tells you:
 - The pod name and line (Original or Vertuo)
 - Tasting notes (cereal, fruity, nutty, etc.)
 - Intensity rating out of 13

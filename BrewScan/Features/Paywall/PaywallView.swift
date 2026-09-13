@@ -68,7 +68,7 @@ struct PaywallView: View {
             Text("☕")
                 .font(.system(size: 64))
 
-            Text("PodScan Pro")
+            Text("PodSnap Pro")
                 .font(.system(size: 34, weight: .bold))
                 .foregroundColor(.white)
 
