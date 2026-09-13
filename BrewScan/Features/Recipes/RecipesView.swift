@@ -20,7 +20,6 @@ struct RecipesView: View {
 
                 ScrollView {
                     LazyVStack(spacing: 0) {
-                        // Header banner
                         recipeBanner
 
                         Picker("Recipes", selection: $showSavedOnly) {
@@ -64,11 +63,9 @@ struct RecipesView: View {
                         .padding(.bottom, 24)
                     }
                 }
+                .ignoresSafeArea(edges: .top)
             }
-            .navigationTitle("Recipes")
-            .navigationBarTitleDisplayMode(.large)
-
-
+            .navigationBarHidden(true)
             .sheet(item: $selectedRecipe) { recipe in
                 RecipeDetailView(recipe: recipe)
             }
@@ -89,7 +86,7 @@ struct RecipesView: View {
                         endPoint: .bottom
                     )
                 )
-                .frame(height: 100)
+                .frame(height: 180)
 
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
@@ -105,6 +102,7 @@ struct RecipesView: View {
                     .font(.system(size: 52))
             }
             .padding(.horizontal, 20)
+            .padding(.top, 56)
         }
         .padding(.bottom, 16)
     }
