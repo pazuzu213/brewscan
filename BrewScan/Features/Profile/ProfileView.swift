@@ -59,7 +59,7 @@ struct ProfileView: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 6) {
-                    Text(appState.userProfile?.name ?? "BrewScan User")
+                    Text(appState.userProfile?.name ?? "PodScan User")
                         .font(.system(size: 24, weight: .bold))
                         .foregroundColor(.white)
 
@@ -78,7 +78,7 @@ struct ProfileView: View {
             }
 
             HStack(spacing: 10) {
-                badge(appState.userProfile?.machineType.rawValue ?? "Original")
+                badge(appState.userProfile?.machineType.displayName ?? "Nespresso")
                 badge(appState.userProfile?.preferredStrength.rawValue ?? "Medium")
             }
         }
@@ -166,9 +166,9 @@ struct ProfileView: View {
                         .foregroundColor(Color(hex: "#B0A090"))
 
                     HStack(spacing: 10) {
-                        ForEach(MachineType.allCases, id: \.self) { type in
+                        ForEach(MachineType.onboardingCases, id: \.self) { type in
                             preferenceButton(
-                                title: type.rawValue,
+                                title: type.displayName,
                                 isSelected: appState.userProfile?.machineType == type
                             ) {
                                 updateProfile { $0.machineType = type }
@@ -216,6 +216,12 @@ struct ProfileView: View {
                 if appState.isAuthenticated {
                     Button("Sign Out") {
                         appState.signOut()
+                    }
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(Color(hex: "#C8860A"))
+                } else {
+                    Button("Sign In") {
+                        appState.isShowingAuth = true
                     }
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(Color(hex: "#C8860A"))
@@ -289,7 +295,7 @@ struct ProfileView: View {
                 Text(pod.name)
                     .font(.system(size: 15, weight: .semibold))
                     .foregroundColor(.white)
-                Text("\(pod.line) • Intensity \(pod.intensity)")
+                Text("\(pod.displayLine) • Intensity \(pod.intensity)")
                     .font(.system(size: 12))
                     .foregroundColor(Color(hex: "#B0A090"))
             }
@@ -366,9 +372,9 @@ struct ProfileView: View {
 
     private func updateProfile(_ mutate: (inout UserProfile) -> Void) {
         var profile = appState.userProfile ?? UserProfile(
-            name: "BrewScan User",
+            name: "PodScan User",
             email: "",
-            machineType: .original,
+            machineType: .nespresso,
             milkPreference: false,
             preferredStrength: .medium,
             createdAt: Date()
@@ -449,7 +455,7 @@ private struct EditProfileView: View {
         var profile = appState.userProfile ?? UserProfile(
             name: "",
             email: "",
-            machineType: .original,
+            machineType: .nespresso,
             milkPreference: false,
             preferredStrength: .medium,
             createdAt: Date()

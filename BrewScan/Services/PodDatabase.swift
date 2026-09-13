@@ -45,6 +45,7 @@ class PodDatabase: ObservableObject {
         let lowercasedQuery = query.lowercased()
         return pods.filter { pod in
             pod.name.lowercased().contains(lowercasedQuery) ||
+            pod.systemName.lowercased().contains(lowercasedQuery) ||
             pod.line.lowercased().contains(lowercasedQuery) ||
             pod.roast.lowercased().contains(lowercasedQuery) ||
             pod.origin.lowercased().contains(lowercasedQuery) ||

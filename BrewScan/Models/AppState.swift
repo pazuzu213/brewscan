@@ -55,6 +55,7 @@ class AppState: ObservableObject {
     }
 
     @Published var authSession: AuthSession?
+    @Published var isShowingAuth = false
 
     var isAuthenticated: Bool {
         authSession != nil
@@ -141,6 +142,7 @@ class AppState: ObservableObject {
 
     func signIn(_ session: AuthSession) {
         authSession = session
+        isShowingAuth = false
         AuthService.shared.saveSession(session)
 
         var profile = userProfile ?? UserProfile.empty
@@ -155,35 +157,20 @@ class AppState: ObservableObject {
 
     func signOut() {
         authSession = nil
-        AuthService.shared.clearSession()
+        Task { try? await AuthService.shared.signOut() }
     }
 
     func handleMagicLink(_ url: URL) {
-        guard url.scheme == "brewscan",
-              url.host == "auth",
-              let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
-              let token = components.queryItems?.first(where: { $0.name == "token" })?.value,
-              !token.isEmpty else {
-            return
-        }
-
-        Task {
-            do {
-                let session = try await AuthService.shared.verifyMagicToken(token)
-                await MainActor.run {
-                    self.signIn(session)
-                }
-            } catch {
-                print("[AppState] Magic link login failed: \(error.localizedDescription)")
-            }
-        }
+        // BrewScan uses 6-digit email OTP. Magic-link handling is intentionally unused.
     }
 
     func saveScan(_ scan: SavedScan) {
+        guard requireAuthForSave() else { return }
         savedScans.insert(scan, at: 0)
     }
 
     func toggleSavedRecipe(_ recipeId: String) {
+        guard requireAuthForSave() else { return }
         if savedRecipeIds.contains(recipeId) {
             savedRecipeIds.remove(recipeId)
         } else {
@@ -192,6 +179,7 @@ class AppState: ObservableObject {
     }
 
     func toggleFavoritePod(_ podId: String) {
+        guard requireAuthForSave() else { return }
         if favoritePodIds.contains(podId) {
             favoritePodIds.remove(podId)
         } else {
@@ -205,6 +193,15 @@ class AppState: ObservableObject {
 
     func isPodFavorite(_ podId: String) -> Bool {
         favoritePodIds.contains(podId)
+    }
+
+    @discardableResult
+    func requireAuthForSave() -> Bool {
+        guard isAuthenticated else {
+            isShowingAuth = true
+            return false
+        }
+        return true
     }
 
     func deleteScan(at offsets: IndexSet) {

@@ -198,7 +198,7 @@ struct SavedScanDetailView: View {
             HStack {
                 sectionTitle("Intensity")
                 Spacer()
-                Text("\(pod.intensity)/13")
+                Text("\(pod.intensity)/\(pod.intensityScale)")
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(Color(hex: "#C8860A"))
             }
@@ -221,7 +221,7 @@ struct SavedScanDetailView: View {
                             )
                         )
                         .frame(
-                            width: geo.size.width * CGFloat(pod.intensity) / 13.0,
+                            width: geo.size.width * CGFloat(pod.intensity) / CGFloat(pod.intensityScale),
                             height: 12
                         )
                 }

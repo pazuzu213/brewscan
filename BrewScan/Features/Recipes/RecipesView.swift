@@ -96,7 +96,7 @@ struct RecipesView: View {
                     Text("\(db.allRecipes().count) Recipes")
                         .font(.system(size: 28, weight: .bold))
                         .foregroundColor(.white)
-                    Text("Crafted for Nespresso pods")
+                    Text("Crafted for coffee pods")
                         .font(.system(size: 14))
                         .foregroundColor(Color(hex: "#B0A090"))
                 }

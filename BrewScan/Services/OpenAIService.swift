@@ -3,8 +3,16 @@ import UIKit
 
 struct PodIdentificationResult {
     let podName: String?
+    let brand: String?
+    let podSystem: String?       // e.g. "K-Cup", "Nespresso Original", "Nespresso Vertuo"
     let confidence: Double
     let line: String?
+    let roastLevel: String?     // Light / Medium / Medium-Dark / Dark
+    let flavorNotes: [String]   // e.g. ["Toffee", "Toast", "Nougat"]
+    let origin: String?         // Where the beans are from
+    let brandStory: String?     // Brief brand background
+    let productStory: String?   // How this blend was developed
+    let compatibleWith: [String] // Compatible machines
     let colorObserved: String
     let textObserved: String
     let notes: String
@@ -65,10 +73,42 @@ class OpenAIService {
         let base64Image = imageData.base64EncodedString()
 
         let prompt = """
-        You are a Nespresso capsule expert. Analyze this image of a Nespresso capsule. \
-        Identify the exact pod name and line (Original or Vertuo). \
-        Return JSON only: { "podName": string or null, "line": string or null, "confidence": number 0-1, \
-        "colorObserved": string, "textObserved": string, "notes": string }
+        You are a coffee pod expert with deep knowledge of every major coffee brand and pod system.
+        Analyze this image of a single-serve coffee pod or capsule.
+
+        STEP 1 — Identify what you see:
+        - Pod system: exactly one of "K-Cup", "Nespresso Original", "Nespresso Vertuo", "Dolce Gusto", "Tassimo", "ESE Pod", or "Unknown"
+        - Brand name (e.g. "Peet's Coffee", "Green Mountain", "Starbucks", "Dunkin'")
+        - Blend/product name (e.g. "Café Domingo", "Major Dickason's Blend", "Pike Place Roast")
+        - Full pod name = brand + blend (e.g. "Peet's Café Domingo")
+        - Roast level: "Light", "Medium", "Medium-Dark", "Dark", or null
+        - Flavor notes visible on packaging (e.g. ["Toffee", "Toast", "Nougat"])
+
+        STEP 2 — Using your knowledge, provide rich background on this pod:
+        - origin: where the coffee beans come from (country/region)
+        - brandStory: 1-2 sentences about the brand's history and identity
+        - productStory: 1-2 sentences on how this specific blend was developed or what makes it special
+        - compatibleWith: array of compatible machine models/series (e.g. ["Keurig K-Elite", "Keurig K-Select", "Any Keurig K-Cup brewer"])
+
+        If you cannot confidently identify the pod, still fill in as much as you can from what's visible. Do not make up a name you aren't reasonably sure of — use null for podName if unsure.
+
+        Return ONLY valid JSON with this exact structure (no markdown, no extra text):
+        {
+          "podName": string or null,
+          "brand": string or null,
+          "podSystem": string or null,
+          "line": string or null,
+          "confidence": number 0.0-1.0,
+          "roastLevel": string or null,
+          "flavorNotes": [string],
+          "origin": string or null,
+          "brandStory": string or null,
+          "productStory": string or null,
+          "compatibleWith": [string],
+          "colorObserved": string,
+          "textObserved": string,
+          "notes": string
+        }
         """
 
         let requestBody: [String: Any] = [
@@ -173,17 +213,33 @@ class OpenAIService {
             throw OpenAIError.parsingError("Could not parse JSON from response: \(content)")
         }
 
-        let podName = parsed["podName"] as? String
-        let confidence = parsed["confidence"] as? Double ?? 0.0
-        let line = parsed["line"] as? String
-        let colorObserved = parsed["colorObserved"] as? String ?? "Unknown"
-        let textObserved = parsed["textObserved"] as? String ?? "Unknown"
-        let notes = parsed["notes"] as? String ?? ""
+        let podName       = parsed["podName"]       as? String
+        let brand         = parsed["brand"]         as? String
+        let podSystem     = parsed["podSystem"]     as? String
+        let confidence    = parsed["confidence"]    as? Double ?? 0.0
+        let line          = parsed["line"]           as? String
+        let roastLevel    = parsed["roastLevel"]     as? String
+        let flavorNotes   = parsed["flavorNotes"]    as? [String] ?? []
+        let origin        = parsed["origin"]         as? String
+        let brandStory    = parsed["brandStory"]     as? String
+        let productStory  = parsed["productStory"]   as? String
+        let compatibleWith = parsed["compatibleWith"] as? [String] ?? []
+        let colorObserved = parsed["colorObserved"]  as? String ?? "Unknown"
+        let textObserved  = parsed["textObserved"]   as? String ?? "Unknown"
+        let notes         = parsed["notes"]          as? String ?? ""
 
         return PodIdentificationResult(
             podName: podName,
+            brand: brand,
+            podSystem: podSystem,
             confidence: confidence,
             line: line,
+            roastLevel: roastLevel,
+            flavorNotes: flavorNotes,
+            origin: origin,
+            brandStory: brandStory,
+            productStory: productStory,
+            compatibleWith: compatibleWith,
             colorObserved: colorObserved,
             textObserved: textObserved,
             notes: notes

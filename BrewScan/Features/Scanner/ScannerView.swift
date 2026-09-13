@@ -11,8 +11,10 @@ struct ScannerView: View {
     @State private var errorMessage: String?
     @State private var pulseAnimation = false
     @State private var rotationAngle = 0.0
-    @State private var coordinator: CameraView.Coordinator?
+    @State private var captureTrigger = 0
     @State private var cameraPermissionStatus: AVAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
+    @State private var scanPhase: Int = 0
+    @State private var stepVisible: [Bool] = [false, false, false, false]
 
     private let cameraDelegate = ScannerCameraDelegate()
 
@@ -52,7 +54,7 @@ struct ScannerView: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("BrewScan needs camera access to identify your Nespresso pods. Please enable it in Settings.")
+            Text("PodScan needs camera access to identify your coffee pods. Please enable it in Settings.")
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
             cameraPermissionStatus = AVCaptureDevice.authorizationStatus(for: .video)
@@ -73,10 +75,8 @@ struct ScannerView: View {
         if cameraPermissionStatus == .authorized {
             CameraContainerView(
                 isReady: $cameraReady,
-                cameraDelegate: cameraDelegate,
-                onCoordinatorReady: { coord in
-                    self.coordinator = coord
-                }
+                captureTrigger: $captureTrigger,
+                cameraDelegate: cameraDelegate
             )
             .ignoresSafeArea()
         } else {
@@ -122,9 +122,11 @@ struct ScannerView: View {
 
     private var scannerOverlay: some View {
         GeometryReader { geo in
-            let circleSize: CGFloat = min(geo.size.width, geo.size.height) * 0.72
+            let isIPad = UIDevice.current.userInterfaceIdiom == .pad
+            let rawSize = min(geo.size.width, geo.size.height) * 0.72
+            let circleSize: CGFloat = isIPad ? min(rawSize, 380) : rawSize
             let circleX = geo.size.width / 2
-            let circleY = geo.size.height * 0.42
+            let circleY = isIPad ? geo.size.height * 0.38 : geo.size.height * 0.42
 
             ZStack {
                 // Dark overlay
@@ -194,47 +196,116 @@ struct ScannerView: View {
 
     // MARK: - Loading Overlay
 
+    private let scanSteps: [(icon: String, label: String, detail: String)] = [
+        ("camera.shutter.button.fill", "Capturing image",       "Processing your photo"),
+        ("cpu",                        "Analyzing with AI",      "GPT-4 Vision identifying your pod"),
+        ("magnifyingglass",            "Searching pod database", "Matching against known pods"),
+        ("sparkles",                   "Reviewing results",      "Preparing your scan result"),
+    ]
+
     private var loadingOverlay: some View {
         ZStack {
-            Color.black.opacity(0.85)
+            Color.black.opacity(0.92)
                 .ignoresSafeArea()
 
-            VStack(spacing: 24) {
+            VStack(spacing: 32) {
+                // Spinning coffee icon
                 ZStack {
                     Circle()
-                        .stroke(Color(hex: "#C8860A").opacity(0.3), lineWidth: 3)
-                        .frame(width: 80, height: 80)
-
+                        .stroke(Color(hex: "#C8860A").opacity(0.2), lineWidth: 2)
+                        .frame(width: 64, height: 64)
                     Circle()
-                        .trim(from: 0, to: 0.7)
+                        .trim(from: 0, to: 0.65)
                         .stroke(
                             Color(hex: "#C8860A"),
-                            style: StrokeStyle(lineWidth: 3, lineCap: .round)
+                            style: StrokeStyle(lineWidth: 2.5, lineCap: .round)
                         )
-                        .frame(width: 80, height: 80)
+                        .frame(width: 64, height: 64)
                         .rotationEffect(.degrees(rotationAngle))
-                        .animation(
-                            .linear(duration: 1).repeatForever(autoreverses: false),
-                            value: rotationAngle
-                        )
-
-                    Text("☕")
-                        .font(.system(size: 32))
+                        .animation(.linear(duration: 0.9).repeatForever(autoreverses: false), value: rotationAngle)
+                    Text("☕").font(.system(size: 26))
                 }
 
-                VStack(spacing: 8) {
-                    Text("Brewing up results...")
-                        .font(.system(size: 20, weight: .semibold))
-                        .foregroundColor(.white)
+                // Step list
+                VStack(alignment: .leading, spacing: 16) {
+                    ForEach(0..<scanSteps.count, id: \.self) { i in
+                        let step = scanSteps[i]
+                        let isDone    = i < scanPhase
+                        let isActive  = i == scanPhase
+                        let isPending = i > scanPhase
 
-                    Text("Identifying your pod")
-                        .font(.system(size: 14))
-                        .foregroundColor(Color(hex: "#B0A090"))
+                        HStack(spacing: 14) {
+                            // Step icon / checkmark
+                            ZStack {
+                                Circle()
+                                    .fill(isDone
+                                          ? Color(hex: "#C8860A")
+                                          : isActive
+                                            ? Color(hex: "#C8860A").opacity(0.15)
+                                            : Color.white.opacity(0.05))
+                                    .frame(width: 36, height: 36)
+
+                                if isDone {
+                                    Image(systemName: "checkmark")
+                                        .font(.system(size: 14, weight: .bold))
+                                        .foregroundColor(.white)
+                                } else {
+                                    Image(systemName: step.icon)
+                                        .font(.system(size: 15))
+                                        .foregroundColor(
+                                            isActive ? Color(hex: "#C8860A") : Color.white.opacity(0.25)
+                                        )
+                                }
+                            }
+                            .scaleEffect(isActive ? 1.1 : 1.0)
+                            .animation(.spring(response: 0.35, dampingFraction: 0.6), value: scanPhase)
+
+                            // Labels
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(step.label)
+                                    .font(.system(size: 15, weight: isActive ? .semibold : .regular))
+                                    .foregroundColor(
+                                        isDone ? Color(hex: "#C8860A")
+                                        : isActive ? .white
+                                        : Color.white.opacity(0.3)
+                                    )
+
+                                if isActive {
+                                    Text(step.detail)
+                                        .font(.system(size: 12))
+                                        .foregroundColor(Color(hex: "#B0A090"))
+                                        .transition(.opacity.combined(with: .move(edge: .top)))
+                                }
+                            }
+                            .animation(.easeInOut(duration: 0.3), value: scanPhase)
+
+                            Spacer()
+
+                            // Active pulse dot
+                            if isActive {
+                                Circle()
+                                    .fill(Color(hex: "#C8860A"))
+                                    .frame(width: 7, height: 7)
+                                    .opacity(pulseAnimation ? 0.2 : 1.0)
+                                    .animation(.easeInOut(duration: 0.6).repeatForever(autoreverses: true), value: pulseAnimation)
+                            }
+                        }
+                        .opacity(stepVisible[i] ? 1 : 0)
+                        .offset(x: stepVisible[i] ? 0 : -20)
+                        .animation(.spring(response: 0.4, dampingFraction: 0.75).delay(Double(i) * 0.12), value: stepVisible[i])
+                    }
                 }
+                .padding(.horizontal, 32)
             }
         }
         .onAppear {
             rotationAngle = 360
+            // Stagger steps sliding in
+            for i in 0..<scanSteps.count {
+                DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 0.12) {
+                    withAnimation { stepVisible[i] = true }
+                }
+            }
         }
     }
 
@@ -247,7 +318,7 @@ struct ScannerView: View {
             VStack(spacing: 20) {
                 // Instruction text (kept here, above button, to prevent overlap with overlay)
                 VStack(spacing: 6) {
-                    Text("Point at any Nespresso pod")
+                    Text("Point at any coffee pod")
                         .font(.system(size: 16, weight: .medium))
                         .foregroundColor(.white)
                     Text("Tap the button to scan")
@@ -286,8 +357,10 @@ struct ScannerView: View {
                     .font(.system(size: 13))
                     .foregroundColor(Color(hex: "#B0A090"))
             }
-            .padding(.bottom, 48)
+            .padding(.bottom, UIDevice.current.userInterfaceIdiom == .pad ? 72 : 48)
         }
+        .frame(maxWidth: UIDevice.current.userInterfaceIdiom == .pad ? 600 : .infinity)
+        .frame(maxWidth: .infinity)
     }
 
     // MARK: - Actions
@@ -340,6 +413,8 @@ struct ScannerView: View {
         errorMessage = nil
         cameraDelegate.onPhotoCapture = { imageData in
             DispatchQueue.main.async {
+                scanPhase = 0
+                stepVisible = [false, false, false, false]
                 isLoading = true
             }
             Task {
@@ -351,23 +426,32 @@ struct ScannerView: View {
                 errorMessage = error.localizedDescription
             }
         }
-        coordinator?.capturePhoto()
+        captureTrigger += 1
+    }
+
+    private func advancePhase(to phase: Int) {
+        withAnimation(.easeInOut(duration: 0.35)) {
+            scanPhase = phase
+        }
     }
 
     private func identifyPod(imageData: Data) async {
         do {
+            // Step 0: Capturing (already shown) → Step 1: Analyzing
+            await MainActor.run { advancePhase(to: 1) }
+
             let result = try await OpenAIService.shared.identifyPod(imageData: imageData)
 
-            // Try to match against our database
+            // Step 2: Searching database
+            await MainActor.run { advancePhase(to: 2) }
+            try? await Task.sleep(nanoseconds: 400_000_000) // brief pause so user sees the step
+
             let db = PodDatabase.shared
             var matchedPod: Pod?
-
             if let podName = result.podName {
-                // Try exact match first
                 matchedPod = db.allPods().first {
                     $0.name.lowercased() == podName.lowercased()
                 }
-                // Try fuzzy match if no exact match
                 if matchedPod == nil {
                     matchedPod = db.allPods().first {
                         $0.name.lowercased().contains(podName.lowercased()) ||
@@ -375,6 +459,10 @@ struct ScannerView: View {
                     }
                 }
             }
+
+            // Step 3: Reviewing results
+            await MainActor.run { advancePhase(to: 3) }
+            try? await Task.sleep(nanoseconds: 500_000_000) // brief pause so user sees the final step
 
             await MainActor.run {
                 isLoading = false
@@ -406,16 +494,12 @@ struct ScanResult {
 
 struct CameraContainerView: UIViewRepresentable {
     @Binding var isReady: Bool
+    @Binding var captureTrigger: Int
     let cameraDelegate: ScannerCameraDelegate
-    let onCoordinatorReady: (CameraView.Coordinator) -> Void
 
     func makeCoordinator() -> CameraView.Coordinator {
-        let cameraView = CameraView(delegate: cameraDelegate, isReady: $isReady)
-        let coordinator = CameraView.Coordinator(cameraView)
-        DispatchQueue.main.async {
-            onCoordinatorReady(coordinator)
-        }
-        return coordinator
+        let cameraView = CameraView(delegate: cameraDelegate, isReady: $isReady, captureTrigger: $captureTrigger)
+        return CameraView.Coordinator(cameraView)
     }
 
     func makeUIView(context: Context) -> CameraPreviewView {
@@ -426,7 +510,14 @@ struct CameraContainerView: UIViewRepresentable {
         return view
     }
 
-    func updateUIView(_ uiView: CameraPreviewView, context: Context) {}
+    func updateUIView(_ uiView: CameraPreviewView, context: Context) {
+        context.coordinator.parent = CameraView(
+            delegate: cameraDelegate,
+            isReady: $isReady,
+            captureTrigger: $captureTrigger
+        )
+        context.coordinator.capturePhotoIfNeeded(captureTrigger)
+    }
 }
 
 // MARK: - Scanner Camera Delegate

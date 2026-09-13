@@ -5,7 +5,7 @@
     "compatiblePodIds": ["livanto", "volluto", "capriccio", "arpeggio", "barista_chiaro", "melozio", "bianco_doppio"],
     "difficulty": "Easy",
     "prepTime": "3 min",
-    "ingredients": ["1 Nespresso capsule", "150ml whole milk", "Hot water for warming cup"],
+    "ingredients": ["1 coffee pod or capsule", "150ml whole milk", "Hot water for warming cup"],
     "steps": [
       "Warm your cup with hot water, then discard",
       "Brew your capsule directly into a large latte glass or cup",
@@ -22,7 +22,7 @@
     "compatiblePodIds": ["arpeggio", "capriccio", "barista_chiaro", "altissio", "bianco_forte"],
     "difficulty": "Easy",
     "prepTime": "4 min",
-    "ingredients": ["1 Nespresso capsule", "100ml whole milk", "Cocoa powder (optional)"],
+    "ingredients": ["1 coffee pod or capsule", "100ml whole milk", "Cocoa powder (optional)"],
     "steps": [
       "Brew your espresso capsule into a cappuccino cup",
       "Steam 100ml of cold whole milk until it doubles in volume with thick foam",
@@ -39,7 +39,7 @@
     "compatiblePodIds": ["arpeggio", "barista_chiaro", "odacio", "fortado", "bianco_doppio"],
     "difficulty": "Medium",
     "prepTime": "4 min",
-    "ingredients": ["1 Nespresso capsule (ristretto)", "100ml whole milk"],
+    "ingredients": ["1 espresso-style pod or capsule", "100ml whole milk"],
     "steps": [
       "Brew your capsule as a ristretto (25ml) into a small ceramic cup",
       "Steam 100ml of cold whole milk to silky microfoam consistency — less foam than cappuccino",
@@ -55,7 +55,7 @@
     "compatiblePodIds": ["ristretto", "dharkan", "kazaar", "altissio", "il_caffe", "barista_corto"],
     "difficulty": "Easy",
     "prepTime": "2 min",
-    "ingredients": ["1 Nespresso capsule", "20ml cold whole milk"],
+    "ingredients": ["1 coffee pod or capsule", "20ml cold whole milk"],
     "steps": [
       "Brew your espresso capsule into a small espresso cup",
       "Gently steam or froth 20ml of cold milk",
@@ -71,7 +71,7 @@
     "compatiblePodIds": ["ristretto", "kazaar", "barista_corto", "odacio", "fortado", "india"],
     "difficulty": "Easy",
     "prepTime": "3 min",
-    "ingredients": ["1 Nespresso capsule", "30ml warm milk"],
+    "ingredients": ["1 coffee pod or capsule", "30ml warm milk"],
     "steps": [
       "Brew your capsule as an espresso into a small glass",
       "Warm 30ml of milk to just below boiling (do not foam)",
@@ -87,7 +87,7 @@
     "compatiblePodIds": ["ristretto", "dharkan", "ethiopia", "elvazio", "roma"],
     "difficulty": "Easy",
     "prepTime": "5 min",
-    "ingredients": ["1 Nespresso capsule", "1 cup ice cubes", "100ml cold water or cold milk", "Sweetener (optional)"],
+    "ingredients": ["1 coffee pod or capsule", "1 cup ice cubes", "100ml cold water or cold milk", "Sweetener (optional)"],
     "steps": [
       "Fill a tall glass with ice cubes",
       "Brew your espresso capsule directly over the ice",
@@ -104,7 +104,7 @@
     "compatiblePodIds": ["livanto", "vanilio", "caramelito", "colombia", "bianco_leggero", "giornio"],
     "difficulty": "Easy",
     "prepTime": "5 min",
-    "ingredients": ["1 Nespresso capsule", "1 cup ice cubes", "150ml cold milk", "Simple syrup (optional)"],
+    "ingredients": ["1 coffee pod or capsule", "1 cup ice cubes", "150ml cold milk", "Simple syrup (optional)"],
     "steps": [
       "Brew your espresso capsule into a small cup and let it cool slightly",
       "Fill a tall glass with ice cubes",
@@ -121,7 +121,7 @@
     "compatiblePodIds": ["ristretto", "dharkan", "ciocattino", "volluto", "voltesso"],
     "difficulty": "Easy",
     "prepTime": "3 min",
-    "ingredients": ["1 Nespresso capsule", "1-2 scoops vanilla gelato or ice cream"],
+    "ingredients": ["1 coffee pod or capsule", "1-2 scoops vanilla gelato or ice cream"],
     "steps": [
       "Place 1-2 scoops of premium vanilla gelato in a chilled glass or bowl",
       "Brew your espresso capsule into a separate small cup",
@@ -138,7 +138,7 @@
     "compatiblePodIds": ["ethiopia", "elvazio", "diavolitto", "colombia"],
     "difficulty": "Easy",
     "prepTime": "4 min",
-    "ingredients": ["1 Nespresso capsule", "150ml premium tonic water (chilled)", "Ice cubes", "Lemon or lime slice (optional)"],
+    "ingredients": ["1 coffee pod or capsule", "150ml premium tonic water (chilled)", "Ice cubes", "Lemon or lime slice (optional)"],
     "steps": [
       "Fill a tall glass with ice cubes",
       "Pour chilled premium tonic water over the ice — fill halfway",
@@ -155,7 +155,7 @@
     "compatiblePodIds": ["vienna_roast", "roma", "livanto", "indonesia"],
     "difficulty": "Easy",
     "prepTime": "5 min",
-    "ingredients": ["1 Nespresso capsule", "150ml hot water", "2 tbsp whipped cream", "Cocoa or cinnamon for dusting"],
+    "ingredients": ["1 coffee pod or capsule", "150ml hot water", "2 tbsp whipped cream", "Cocoa or cinnamon for dusting"],
     "steps": [
       "Brew your capsule as a lungo (110ml) into a Vienna coffee glass or tall cup",
       "Top the coffee with a generous dollop of lightly whipped cream",
@@ -172,7 +172,7 @@
     "compatiblePodIds": ["cosi", "volluto", "bianco_leggero", "giornio", "solelio", "melozio"],
     "difficulty": "Easy",
     "prepTime": "4 min",
-    "ingredients": ["1 Nespresso capsule", "200ml hot whole milk"],
+    "ingredients": ["1 coffee pod or capsule", "200ml hot whole milk"],
     "steps": [
       "Heat 200ml of whole milk in a saucepan or microwave until steaming — do not boil",
       "Brew your lungo capsule into a large, pre-warmed bowl or wide cup",
@@ -189,7 +189,7 @@
     "compatiblePodIds": ["ristretto", "kazaar", "dharkan", "barista_corto", "ispirazione_napoli", "ispirazione_palermo"],
     "difficulty": "Easy",
     "prepTime": "2 min",
-    "ingredients": ["1 Nespresso capsule", "15ml frothed milk", "1 tsp milk foam"],
+    "ingredients": ["1 coffee pod or capsule", "15ml frothed milk", "1 tsp milk foam"],
     "steps": [
       "Brew your capsule as a ristretto (25ml) into a tiny espresso cup",
       "Froth just 15ml of cold milk into a light foam",
@@ -207,7 +207,7 @@
     "prepTime": "2 min",
     "ingredients": ["1 Nespresso lungo capsule", "110ml hot water"],
     "steps": [
-      "Use a lungo-compatible Nespresso capsule",
+      "Use a lungo-style capsule or a strong 6 oz K-Cup",
       "Place a prewarmed mug under the machine",
       "Select the lungo setting (110ml) on your Nespresso machine",
       "Brew the full lungo volume — the water extracts through slowly for a different character",
@@ -222,7 +222,7 @@
     "compatiblePodIds": ["stormio", "melozio", "nicaragua", "solelio", "bianco_leggero"],
     "difficulty": "Medium",
     "prepTime": "20 min",
-    "ingredients": ["2 Nespresso capsules", "300ml cold water", "Ice cubes", "Sweetener (optional)"],
+    "ingredients": ["2 coffee pods or capsules", "300ml cold water", "Ice cubes", "Sweetener (optional)"],
     "steps": [
       "Brew both capsules as a double lungo into a container",
       "Allow the coffee to cool to room temperature (10-15 minutes)",
@@ -240,7 +240,7 @@
     "compatiblePodIds": ["vanilio", "livanto", "caramelito", "hazelino", "volluto", "voltesso"],
     "difficulty": "Easy",
     "prepTime": "4 min",
-    "ingredients": ["1 Nespresso capsule", "150ml whole milk", "2 tsp vanilla syrup", "Vanilla bean or extract (optional)"],
+    "ingredients": ["1 coffee pod or capsule", "150ml whole milk", "2 tsp vanilla syrup", "Vanilla bean or extract (optional)"],
     "steps": [
       "Add vanilla syrup to the bottom of a large cup or glass",
       "Brew your espresso capsule directly into the cup with the syrup",

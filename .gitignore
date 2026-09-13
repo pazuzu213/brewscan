@@ -22,6 +22,8 @@ Carthage/Build/
 
 # API Keys — never commit
 auth-server/data/
+BrewScan/Secrets.swift
+BrewScan/Config.swift
 
 # macOS
 .DS_Store

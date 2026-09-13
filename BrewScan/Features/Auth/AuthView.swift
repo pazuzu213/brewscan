@@ -9,8 +9,6 @@ struct AuthView: View {
     @State private var isLoading = false
     @State private var message = ""
     @State private var errorMessage = ""
-    @State private var devCode: String?
-    @State private var devMagicLink: String?
 
     var body: some View {
         ZStack {
@@ -37,10 +35,6 @@ struct AuthView: View {
                         statusText(errorMessage, color: Color(hex: "#C8860A"))
                     }
 
-                    if let devCode {
-                        devLoginBox(code: devCode, magicLink: devMagicLink)
-                    }
-
                     Button(action: primaryAction) {
                         HStack {
                             if isLoading {
@@ -62,8 +56,6 @@ struct AuthView: View {
                         Button("Send a new code") {
                             isCodeSent = false
                             code = ""
-                            devCode = nil
-                            devMagicLink = nil
                             requestLogin()
                         }
                         .font(.system(size: 14, weight: .semibold))
@@ -85,11 +77,11 @@ struct AuthView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("Sign in")
+            Text("Sign in to save")
                 .font(.system(size: 36, weight: .bold))
                 .foregroundColor(.white)
 
-            Text("Use your email to keep BrewScan ready across updates.")
+            Text("Enter your email and we'll send you a one-time code. No password needed.")
                 .font(.system(size: 16))
                 .foregroundColor(Color(hex: "#B0A090"))
                 .lineSpacing(3)
@@ -146,34 +138,6 @@ struct AuthView: View {
             .lineSpacing(3)
     }
 
-    private func devLoginBox(code: String, magicLink: String?) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("TEST LOGIN")
-                .font(.system(size: 12, weight: .semibold))
-                .foregroundColor(Color(hex: "#C8860A"))
-                .tracking(1.2)
-
-            Text("Code: \(code)")
-                .font(.system(size: 16, weight: .semibold, design: .monospaced))
-                .foregroundColor(.white)
-
-            if let magicLink {
-                Text(magicLink)
-                    .font(.system(size: 11))
-                    .foregroundColor(Color(hex: "#B0A090"))
-                    .lineLimit(3)
-            }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(14)
-        .background(Color(hex: "#2D1F15"))
-        .cornerRadius(16)
-        .overlay(
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(Color(hex: "#C8860A").opacity(0.35), lineWidth: 1)
-        )
-    }
-
     private func primaryAction() {
         isCodeSent ? verifyCode() : requestLogin()
     }
@@ -191,17 +155,10 @@ struct AuthView: View {
 
         Task {
             do {
-                let response = try await AuthService.shared.requestLogin(
-                    email: trimmedEmail,
-                    name: appState.userProfile?.name
-                )
+                try await AuthService.shared.requestOTP(email: trimmedEmail)
                 await MainActor.run {
                     isCodeSent = true
-                    message = response.emailSent
-                        ? "We sent a login code and magic link to \(response.email)."
-                        : "Test mode is active. Use the code below."
-                    devCode = response.devCode
-                    devMagicLink = response.devMagicLink
+                    message = "We sent a 6-digit code to \(trimmedEmail)."
                     isLoading = false
                 }
             } catch {
@@ -226,7 +183,7 @@ struct AuthView: View {
 
         Task {
             do {
-                let session = try await AuthService.shared.verifyCode(email: trimmedEmail, code: trimmedCode)
+                let session = try await AuthService.shared.verifyOTP(email: trimmedEmail, token: trimmedCode)
                 await MainActor.run {
                     appState.signIn(session)
                     isLoading = false

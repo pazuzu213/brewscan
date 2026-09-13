@@ -23,6 +23,8 @@ struct ScanResultView: View {
 
                 if let pod = result.matchedPod, result.identificationResult.confidence > 0.3 {
                     identifiedPodView(pod: pod)
+                } else if result.identificationResult.podName != nil && result.identificationResult.confidence > 0.3 {
+                    aiIdentifiedView
                 } else {
                     unidentifiedView
                 }
@@ -169,7 +171,7 @@ struct ScanResultView: View {
             HStack {
                 sectionTitle("Intensity")
                 Spacer()
-                Text("\(pod.intensity)/13")
+                Text("\(pod.intensity)/\(pod.intensityScale)")
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(Color(hex: "#C8860A"))
             }
@@ -192,7 +194,7 @@ struct ScanResultView: View {
                             )
                         )
                         .frame(
-                            width: geo.size.width * CGFloat(pod.intensity) / 13.0,
+                            width: geo.size.width * CGFloat(pod.intensity) / CGFloat(pod.intensityScale),
                             height: 12
                         )
                 }
@@ -310,6 +312,183 @@ struct ScanResultView: View {
         )
     }
 
+    // MARK: - AI Identified View (found by AI but not in local DB)
+
+    private var aiIdentifiedView: some View {
+        let ai = result.identificationResult
+        return ScrollView {
+            VStack(spacing: 0) {
+
+                // Header
+                ZStack(alignment: .bottomLeading) {
+                    LinearGradient(
+                        colors: [Color(hex: "#3D2A1A"), Color(hex: "#1A0F0A")],
+                        startPoint: .top, endPoint: .bottom
+                    )
+                    .frame(height: 200)
+
+                    VStack(alignment: .leading, spacing: 10) {
+                        HStack(spacing: 8) {
+                            Image(systemName: "sparkles")
+                                .font(.system(size: 12))
+                            Text("\(Int(ai.confidence * 100))% AI Match")
+                                .font(.system(size: 13, weight: .medium))
+                        }
+                        .foregroundColor(Color(hex: "#C8860A"))
+                        .padding(.horizontal, 12).padding(.vertical, 6)
+                        .background(Color.black.opacity(0.4))
+                        .cornerRadius(20)
+
+                        Text(ai.podName ?? "Unidentified Pod")
+                            .font(.system(size: 26, weight: .bold))
+                            .foregroundColor(.white)
+
+                        HStack(spacing: 8) {
+                            if let system = ai.podSystem {
+                                Text(system)
+                                    .font(.system(size: 12, weight: .semibold))
+                                    .padding(.horizontal, 10).padding(.vertical, 4)
+                                    .background(Color(hex: "#C8860A").opacity(0.2))
+                                    .foregroundColor(Color(hex: "#C8860A"))
+                                    .cornerRadius(8)
+                                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(hex: "#C8860A").opacity(0.4), lineWidth: 1))
+                            }
+                            if let roast = ai.roastLevel {
+                                Text(roast + " Roast")
+                                    .font(.system(size: 12, weight: .medium))
+                                    .padding(.horizontal, 10).padding(.vertical, 4)
+                                    .background(Color(hex: "#2D1F15"))
+                                    .foregroundColor(Color(hex: "#B0A090"))
+                                    .cornerRadius(8)
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 20).padding(.bottom, 20)
+                }
+
+                VStack(alignment: .leading, spacing: 24) {
+
+                    // Flavor notes
+                    if !ai.flavorNotes.isEmpty {
+                        VStack(alignment: .leading, spacing: 12) {
+                            sectionTitle("Tasting Notes")
+                            wrappingPillsView(notes: ai.flavorNotes)
+                        }
+                        .padding(.horizontal, 20)
+                    }
+
+                    // About this pod
+                    if let story = ai.productStory {
+                        VStack(alignment: .leading, spacing: 10) {
+                            sectionTitle("About This Blend")
+                            Text(story)
+                                .font(.system(size: 15))
+                                .foregroundColor(Color(hex: "#B0A090"))
+                                .lineSpacing(4)
+                                .padding(16)
+                                .background(Color(hex: "#2D1F15"))
+                                .cornerRadius(14)
+                        }
+                        .padding(.horizontal, 20)
+                    }
+
+                    // Brand story
+                    if let brand = ai.brandStory {
+                        VStack(alignment: .leading, spacing: 10) {
+                            sectionTitle("About the Brand")
+                            Text(brand)
+                                .font(.system(size: 15))
+                                .foregroundColor(Color(hex: "#B0A090"))
+                                .lineSpacing(4)
+                                .padding(16)
+                                .background(Color(hex: "#2D1F15"))
+                                .cornerRadius(14)
+                        }
+                        .padding(.horizontal, 20)
+                    }
+
+                    // Details grid
+                    VStack(spacing: 0) {
+                        if let brand = ai.brand {
+                            infoRow(icon: "tag", label: "Brand", value: brand)
+                            Divider().background(Color(hex: "#3D2A1A"))
+                        }
+                        if let system = ai.podSystem {
+                            infoRow(icon: "capsule", label: "Pod Type", value: system)
+                            Divider().background(Color(hex: "#3D2A1A"))
+                        }
+                        if let roast = ai.roastLevel {
+                            infoRow(icon: "flame", label: "Roast", value: roast + " Roast")
+                            Divider().background(Color(hex: "#3D2A1A"))
+                        }
+                        if let origin = ai.origin {
+                            infoRow(icon: "globe", label: "Origin", value: origin)
+                            Divider().background(Color(hex: "#3D2A1A"))
+                        }
+                        if !ai.colorObserved.isEmpty && ai.colorObserved != "Unknown" {
+                            infoRow(icon: "paintpalette", label: "Pod Color", value: ai.colorObserved)
+                        }
+                    }
+                    .background(Color(hex: "#2D1F15"))
+                    .cornerRadius(16)
+                    .padding(.horizontal, 20)
+
+                    // Compatible machines
+                    if !ai.compatibleWith.isEmpty {
+                        VStack(alignment: .leading, spacing: 12) {
+                            sectionTitle("Compatible With")
+                            wrappingPillsView(notes: ai.compatibleWith)
+                        }
+                        .padding(.horizontal, 20)
+                    }
+
+                    // Extra AI notes
+                    if !ai.notes.isEmpty {
+                        VStack(alignment: .leading, spacing: 8) {
+                            sectionTitle("Additional Info")
+                            Text(ai.notes)
+                                .font(.system(size: 14))
+                                .foregroundColor(Color(hex: "#B0A090"))
+                                .lineSpacing(4)
+                                .padding(14)
+                                .background(Color(hex: "#2D1F15"))
+                                .cornerRadius(14)
+                        }
+                        .padding(.horizontal, 20)
+                    }
+
+                    // Actions
+                    VStack(spacing: 12) {
+                        Button(action: { dismiss(); onRetry() }) {
+                            HStack {
+                                Image(systemName: "camera.fill")
+                                Text("Scan Again")
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                            .background(Color(hex: "#C8860A"))
+                            .foregroundColor(Color(hex: "#1A0F0A"))
+                            .font(.system(size: 16, weight: .semibold))
+                            .cornerRadius(16)
+                        }
+                        Button(action: { dismiss() }) {
+                            Text("Browse Catalog")
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(Color(hex: "#2D1F15"))
+                                .foregroundColor(Color(hex: "#B0A090"))
+                                .font(.system(size: 16))
+                                .cornerRadius(16)
+                        }
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 40)
+                }
+                .padding(.top, 24)
+            }
+        }
+    }
+
     // MARK: - Unidentified View
 
     private var unidentifiedView: some View {
@@ -388,6 +567,7 @@ struct ScanResultView: View {
 
         return Button {
             guard !alreadySaved else { return }
+            guard appState.requireAuthForSave() else { return }
             podToSave = pod
             saveNoteText = ""
             showSaveSheet = true
@@ -427,7 +607,7 @@ struct ScanResultView: View {
                                 Text(pod.name)
                                     .font(.system(size: 18, weight: .bold))
                                     .foregroundColor(.white)
-                                Text("\(pod.line) · Intensity \(pod.intensity)")
+                                Text("\(pod.displayLine) · Intensity \(pod.intensity)")
                                     .font(.system(size: 13))
                                     .foregroundColor(Color(hex: "#B0A090"))
                             }
@@ -515,7 +695,7 @@ struct ScanResultView: View {
             podId: pod.id,
             podColor: pod.color,
             confidence: result.identificationResult.confidence,
-            line: "\(pod.line) Line",
+            line: pod.displayLine,
             intensity: pod.intensity,
             notes: initialNotes
         )
@@ -543,7 +723,7 @@ struct ScanResultView: View {
     }
 
     private func lineBadge(pod: Pod) -> some View {
-        Text(pod.line)
+        Text(pod.displayLine)
             .font(.system(size: 12, weight: .semibold))
             .padding(.horizontal, 10)
             .padding(.vertical, 4)

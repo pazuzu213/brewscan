@@ -6,7 +6,7 @@ struct CatalogView: View {
     @State private var selectedPod: Pod?
 
     private let db = PodDatabase.shared
-    private let filters = ["All", "Original", "Vertuo", "Light (1-4)", "Medium (5-7)", "Intense (8+)"]
+    private let filters = ["All", "Nespresso", "Keurig", "Original", "Vertuo", "Light", "Medium", "Intense"]
 
     private let columns = [
         GridItem(.flexible(), spacing: 12),
@@ -23,15 +23,19 @@ struct CatalogView: View {
         }
 
         switch selectedFilter {
+        case "Nespresso":
+            pods = pods.filter { $0.systemName == "Nespresso" }
+        case "Keurig":
+            pods = pods.filter { $0.systemName == "Keurig" }
         case "Original":
             pods = pods.filter { $0.line == "Original" }
         case "Vertuo":
             pods = pods.filter { $0.line == "Vertuo" }
-        case "Light (1-4)":
+        case "Light":
             pods = pods.filter { $0.intensity <= 4 }
-        case "Medium (5-7)":
+        case "Medium":
             pods = pods.filter { $0.intensity >= 5 && $0.intensity <= 7 }
-        case "Intense (8+)":
+        case "Intense":
             pods = pods.filter { $0.intensity >= 8 }
         default:
             break
@@ -198,7 +202,7 @@ struct PodCard: View {
                         .frame(width: 52, height: 52)
                         .shadow(color: Color(hex: pod.color).opacity(0.4), radius: 8, x: 0, y: 4)
 
-                    // Nespresso capsule shape hint
+                    // Pod shape hint
                     RoundedRectangle(cornerRadius: 4)
                         .fill(Color.white.opacity(0.15))
                         .frame(width: 18, height: 26)
@@ -221,13 +225,13 @@ struct PodCard: View {
                     .buttonStyle(.plain)
 
                     VStack(alignment: .trailing, spacing: 4) {
-                        Text(pod.line)
+                        Text(pod.displayLine)
                             .font(.system(size: 10, weight: .semibold))
-                            .foregroundColor(pod.line == "Original" ? Color(hex: "#E87070") : Color(hex: "#6DBF8A"))
+                            .foregroundColor(pod.lineColor)
                             .padding(.horizontal, 8)
                             .padding(.vertical, 3)
                             .background(
-                                (pod.line == "Original" ? Color(hex: "#8B1A1A") : Color(hex: "#1A4D2E")).opacity(0.3)
+                                pod.lineColor.opacity(0.3)
                             )
                             .cornerRadius(6)
 
@@ -266,7 +270,7 @@ struct PodCard: View {
                             )
                         )
                         .frame(
-                            width: geo.size.width * CGFloat(pod.intensity) / 13.0,
+                            width: geo.size.width * CGFloat(pod.intensity) / CGFloat(pod.intensityScale),
                             height: 4
                         )
                 }

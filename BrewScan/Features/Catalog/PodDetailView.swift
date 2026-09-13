@@ -176,7 +176,7 @@ struct PodDetailView: View {
             HStack {
                 sectionHeader("Intensity")
                 Spacer()
-                Text("\(pod.intensity) / 13")
+                Text("\(pod.intensity) / \(pod.intensityScale)")
                     .font(.system(size: 15, weight: .bold))
                     .foregroundColor(Color(hex: "#C8860A"))
                     .padding(.trailing, 20)
@@ -197,7 +197,7 @@ struct PodDetailView: View {
                             )
                         )
                         .frame(
-                            width: geo.size.width * CGFloat(pod.intensity) / 13.0,
+                            width: geo.size.width * CGFloat(pod.intensity) / CGFloat(pod.intensityScale),
                             height: 14
                         )
                 }
@@ -270,7 +270,7 @@ struct PodDetailView: View {
     // MARK: - Helper Views
 
     private var lineBadge: some View {
-        Text(pod.line)
+        Text(pod.displayLine)
             .font(.system(size: 12, weight: .semibold))
             .padding(.horizontal, 10)
             .padding(.vertical, 5)

@@ -1,8 +1,22 @@
 import Foundation
 
 enum MachineType: String, Codable, CaseIterable {
+    case nespresso = "Nespresso"
+    case keurig = "Keurig"
+    case other = "Other"
     case original = "Original"
     case vertuo = "Vertuo"
+
+    static let onboardingCases: [MachineType] = [.nespresso, .keurig, .other]
+
+    var displayName: String {
+        switch self {
+        case .original, .vertuo:
+            return "Nespresso"
+        default:
+            return rawValue
+        }
+    }
 }
 
 enum BrewStrength: String, Codable, CaseIterable {
@@ -23,7 +37,7 @@ struct UserProfile: Codable, Equatable {
     static let empty = UserProfile(
         name: "",
         email: "",
-        machineType: .original,
+        machineType: .nespresso,
         milkPreference: false,
         preferredStrength: .medium,
         createdAt: Date()

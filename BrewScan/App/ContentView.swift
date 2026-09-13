@@ -2,20 +2,17 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var appState: AppState
-    @StateObject private var store = StoreKitService.shared
     @State private var selectedTab = 1
 
     var body: some View {
         if !appState.hasCompletedOnboarding {
             WelcomeView()
-        } else if !appState.isAuthenticated {
-            AuthView()
-                .environmentObject(appState)
-        } else if !appState.hasAccess && !store.isSubscribed {
-            PaywallView()
-                .environmentObject(appState)
         } else {
             mainTabView
+                .sheet(isPresented: $appState.isShowingAuth) {
+                    AuthView()
+                        .environmentObject(appState)
+                }
         }
     }
 

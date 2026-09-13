@@ -3,6 +3,7 @@ import SwiftUI
 struct Pod: Codable, Identifiable {
     let id: String
     let name: String
+    let system: String?
     let line: String
     let intensity: Int
     let color: String
@@ -36,11 +37,33 @@ struct Pod: Codable, Identifiable {
         }
     }
 
+    var systemName: String {
+        if let system, !system.isEmpty {
+            return system
+        }
+        return ["Original", "Vertuo"].contains(line) ? "Nespresso" : line
+    }
+
+    var intensityScale: Int {
+        systemName == "Nespresso" ? 13 : 10
+    }
+
+    var displayLine: String {
+        systemName == "Nespresso" ? line : "\(systemName) \(line)"
+    }
+
     var swiftUIColor: Color {
         Color(hex: color)
     }
 
     var lineColor: Color {
-        line == "Original" ? Color(hex: "#8B1A1A") : Color(hex: "#1A4D2E")
+        switch systemName {
+        case "Keurig":
+            return Color(hex: "#2F7D32")
+        case "Other":
+            return Color(hex: "#5C6BC0")
+        default:
+            return line == "Original" ? Color(hex: "#8B1A1A") : Color(hex: "#1A4D2E")
+        }
     }
 }

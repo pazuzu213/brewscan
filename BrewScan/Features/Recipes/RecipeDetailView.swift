@@ -296,7 +296,7 @@ struct RecipeDetailView: View {
                 Text(pod.name)
                     .font(.system(size: 13, weight: .semibold))
                     .foregroundColor(.white)
-                Text(pod.line)
+                Text(pod.displayLine)
                     .font(.system(size: 10))
                     .foregroundColor(Color(hex: "#B0A090"))
             }

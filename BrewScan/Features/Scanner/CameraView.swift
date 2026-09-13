@@ -11,6 +11,7 @@ protocol CameraViewDelegate: AnyObject {
 struct CameraView: UIViewRepresentable {
     weak var delegate: (any CameraViewDelegate)?
     @Binding var isReady: Bool
+    @Binding var captureTrigger: Int
 
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
@@ -24,11 +25,9 @@ struct CameraView: UIViewRepresentable {
         return view
     }
 
-    func updateUIView(_ uiView: CameraPreviewView, context: Context) {}
-
-    // MARK: - Capture Photo
-    func capturePhoto(coordinator: Coordinator) {
-        coordinator.capturePhoto()
+    func updateUIView(_ uiView: CameraPreviewView, context: Context) {
+        context.coordinator.parent = self
+        context.coordinator.capturePhotoIfNeeded(captureTrigger)
     }
 
     // MARK: - Coordinator
@@ -37,6 +36,7 @@ struct CameraView: UIViewRepresentable {
         var captureSession: AVCaptureSession?
         var photoOutput: AVCapturePhotoOutput?
         weak var previewView: CameraPreviewView?
+        private var lastCaptureTrigger = 0
 
         init(_ parent: CameraView) {
             self.parent = parent
@@ -49,11 +49,19 @@ struct CameraView: UIViewRepresentable {
 
             guard let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back),
                   let input = try? AVCaptureDeviceInput(device: device) else {
+                DispatchQueue.main.async {
+                    self.parent.delegate?.didFailWithError(CameraError.cameraUnavailable)
+                }
                 return
             }
 
             if session.canAddInput(input) {
                 session.addInput(input)
+            } else {
+                DispatchQueue.main.async {
+                    self.parent.delegate?.didFailWithError(CameraError.cameraUnavailable)
+                }
+                return
             }
 
             let output = AVCapturePhotoOutput()
@@ -61,6 +69,11 @@ struct CameraView: UIViewRepresentable {
 
             if session.canAddOutput(output) {
                 session.addOutput(output)
+            } else {
+                DispatchQueue.main.async {
+                    self.parent.delegate?.didFailWithError(CameraError.cameraUnavailable)
+                }
+                return
             }
 
             DispatchQueue.main.async {
@@ -75,8 +88,17 @@ struct CameraView: UIViewRepresentable {
             }
         }
 
+        func capturePhotoIfNeeded(_ trigger: Int) {
+            guard trigger > 0, trigger != lastCaptureTrigger else { return }
+            lastCaptureTrigger = trigger
+            capturePhoto()
+        }
+
         func capturePhoto() {
-            guard let photoOutput = photoOutput else { return }
+            guard let photoOutput = photoOutput else {
+                parent.delegate?.didFailWithError(CameraError.cameraUnavailable)
+                return
+            }
             let settings = AVCapturePhotoSettings()
             settings.flashMode = .auto
             photoOutput.capturePhoto(with: settings, delegate: self)
