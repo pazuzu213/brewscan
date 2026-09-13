@@ -164,8 +164,8 @@ class AppState: ObservableObject {
         // PodSnap uses 6-digit email OTP. Magic-link handling is intentionally unused.
     }
 
-    func saveScan(_ scan: SavedScan) {
-        guard requireAuthForSave() else { return }
+    func saveScan(_ scan: SavedScan, requireAuthentication: Bool = true) {
+        guard !requireAuthentication || requireAuthForSave() else { return }
         savedScans.insert(scan, at: 0)
     }
 

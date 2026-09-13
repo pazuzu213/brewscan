@@ -9,6 +9,7 @@ struct ScanResultView: View {
     @State private var showCatalogDetail = false
     @State private var recentlySavedPodIds: Set<String> = []
     @State private var didShowSavedConfirmation = false
+    @State private var didAttemptAutoSave = false
     @State private var showSaveSheet = false
     @State private var podToSave: Pod? = nil
     @State private var saveNoteText = ""
@@ -42,6 +43,9 @@ struct ScanResultView: View {
         .navigationViewStyle(.stack)
         .sheet(isPresented: $showSaveSheet) {
             saveSheet
+        }
+        .onAppear {
+            autoSaveScanIfNeeded()
         }
     }
 
@@ -574,7 +578,7 @@ struct ScanResultView: View {
         } label: {
             HStack {
                 Image(systemName: alreadySaved ? "checkmark.circle.fill" : "tray.and.arrow.down.fill")
-                Text(didShowSavedConfirmation ? "Saved! ✓" : (alreadySaved ? "Already Saved" : "Save This Scan"))
+                Text(didShowSavedConfirmation ? "Saved" : (alreadySaved ? "Saved Automatically" : "Save This Scan"))
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 16)
@@ -677,6 +681,48 @@ struct ScanResultView: View {
         }
         .navigationViewStyle(.stack)
         .preferredColorScheme(.light)
+    }
+
+    private func autoSaveScanIfNeeded() {
+        guard !didAttemptAutoSave else { return }
+        didAttemptAutoSave = true
+
+        guard let scan = automaticSavedScan() else { return }
+        appState.saveScan(scan, requireAuthentication: false)
+
+        if let podId = scan.podId {
+            recentlySavedPodIds.insert(podId)
+        }
+        didShowSavedConfirmation = true
+    }
+
+    private func automaticSavedScan() -> SavedScan? {
+        if let pod = result.matchedPod, result.identificationResult.confidence > 0.3 {
+            return SavedScan(
+                id: UUID(),
+                date: Date(),
+                podName: pod.name,
+                podId: pod.id,
+                podColor: pod.color,
+                confidence: result.identificationResult.confidence,
+                line: pod.displayLine,
+                intensity: pod.intensity
+            )
+        }
+
+        let ai = result.identificationResult
+        guard let podName = ai.podName, ai.confidence > 0.3 else { return nil }
+
+        return SavedScan(
+            id: UUID(),
+            date: Date(),
+            podName: podName,
+            podId: nil,
+            podColor: "#B97812",
+            confidence: ai.confidence,
+            line: ai.podSystem ?? "AI Identified",
+            intensity: 0
+        )
     }
 
     private func performSave() {
