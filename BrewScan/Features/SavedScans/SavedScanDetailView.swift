@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 struct SavedScanDetailView: View {
     @State private var scan: SavedScan
@@ -31,11 +32,14 @@ struct SavedScanDetailView: View {
                     VStack(alignment: .leading, spacing: 0) {
                         podHeader
                         VStack(alignment: .leading, spacing: 24) {
+                            ratingSection
                             if let pod = matchedPod {
                                 tastingNotesSection(pod: pod)
                                 intensitySection(pod: pod)
                                 originSection(pod: pod)
                                 catalogButton
+                            } else {
+                                savedInfoSection
                             }
                             notesSection
                         }
@@ -155,16 +159,43 @@ struct SavedScanDetailView: View {
 
                     Spacer()
 
-                    Circle()
-                        .fill(Color(hex: scan.podColor))
-                        .frame(width: 52, height: 52)
-                        .overlay(Circle().stroke(.white.opacity(0.3), lineWidth: 2))
-                        .shadow(color: Color(hex: scan.podColor).opacity(0.6), radius: 12)
+                    scanThumbnail(size: 62)
                 }
             }
             .padding(.horizontal, 20)
             .padding(.bottom, 20)
         }
+    }
+
+    private var ratingSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            sectionTitle("My Rating")
+            HStack(spacing: 10) {
+                ForEach(1...5, id: \.self) { rating in
+                    Button {
+                        scan.rating = rating
+                        appState.updateScan(scan)
+                    } label: {
+                        Image(systemName: rating <= (scan.rating ?? 0) ? "star.fill" : "star")
+                            .font(.system(size: 24, weight: .semibold))
+                            .foregroundColor(rating <= (scan.rating ?? 0) ? Color(hex: "#B97812") : Color(hex: "#D7CEC5"))
+                            .frame(width: 38, height: 38)
+                    }
+                    .buttonStyle(.plain)
+                }
+
+                Spacer()
+
+                Text(scan.rating.map { "\($0)/5" } ?? "Unrated")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(scan.rating == nil ? Color(hex: "#717171") : Color(hex: "#B97812"))
+            }
+            .padding(16)
+            .background(Color.white)
+            .cornerRadius(16)
+            .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color(hex: "#E8E2DC"), lineWidth: 1))
+        }
+        .padding(.horizontal, 20)
     }
 
     // MARK: - Pod Detail Sections (from catalog)
@@ -263,6 +294,37 @@ struct SavedScanDetailView: View {
                 RoundedRectangle(cornerRadius: 16)
                     .stroke(Color(hex: "#B97812").opacity(0.4), lineWidth: 1)
             )
+        }
+        .padding(.horizontal, 20)
+    }
+
+    private var savedInfoSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            sectionTitle("Pod Details")
+
+            VStack(spacing: 0) {
+                if let brand = scan.brand, !brand.isEmpty {
+                    infoRow(icon: "tag", label: "Brand", value: brand)
+                    Divider().background(Color.white)
+                }
+                infoRow(icon: "capsule", label: "Pod Type", value: scan.line)
+                if let origin = scan.origin, !origin.isEmpty {
+                    Divider().background(Color.white)
+                    infoRow(icon: "globe", label: "Origin", value: origin)
+                }
+            }
+            .background(Color.white)
+            .cornerRadius(16)
+
+            if let summary = scan.summary, !summary.isEmpty {
+                Text(summary)
+                    .font(.system(size: 15))
+                    .foregroundColor(Color(hex: "#717171"))
+                    .lineSpacing(4)
+                    .padding(16)
+                    .background(Color.white)
+                    .cornerRadius(16)
+            }
         }
         .padding(.horizontal, 20)
     }
@@ -520,5 +582,24 @@ struct SavedScanDetailView: View {
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
+    }
+
+    @ViewBuilder
+    private func scanThumbnail(size: CGFloat) -> some View {
+        if let data = scan.imageData, let image = UIImage(data: data) {
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFill()
+                .frame(width: size, height: size)
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+                .overlay(RoundedRectangle(cornerRadius: 16).stroke(.white.opacity(0.55), lineWidth: 2))
+                .shadow(color: Color(hex: scan.podColor).opacity(0.45), radius: 12)
+        } else {
+            Circle()
+                .fill(Color(hex: scan.podColor))
+                .frame(width: size, height: size)
+                .overlay(Circle().stroke(.white.opacity(0.3), lineWidth: 2))
+                .shadow(color: Color(hex: scan.podColor).opacity(0.6), radius: 12)
+        }
     }
 }

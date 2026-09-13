@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 struct ProfileView: View {
     @EnvironmentObject var appState: AppState
@@ -27,10 +28,10 @@ struct ProfileView: View {
 
                 ScrollView {
                     VStack(alignment: .leading, spacing: 22) {
-                        profileCard
-                        savedRecipesSection
-                        favoritePodsSection
                         scanHistorySection
+                        favoritePodsSection
+                        savedRecipesSection
+                        profileCard
                         preferencesSection
                         accountSection
                     }
@@ -38,7 +39,7 @@ struct ProfileView: View {
                     .padding(.bottom, 28)
                 }
             }
-            .navigationTitle("Profile")
+            .navigationTitle("Library")
             .navigationBarTitleDisplayMode(.large)
             .toolbarBackground(Color(hex: "#FFFFFF"), for: .navigationBar)
             .toolbarColorScheme(.light, for: .navigationBar)
@@ -93,7 +94,7 @@ struct ProfileView: View {
     }
 
     private var savedRecipesSection: some View {
-        section(title: "My Saved Recipes") {
+        section(title: "Saved Recipes") {
             if savedRecipes.isEmpty {
                 emptyState("No saved recipes yet.")
             } else {
@@ -127,9 +128,9 @@ struct ProfileView: View {
     }
 
     private var scanHistorySection: some View {
-        section(title: "Scan History") {
+        section(title: "My Coffee Library") {
             if sortedScans.isEmpty {
-                emptyState("Scans you save will show up here.")
+                emptyState("Scanned pods will appear here automatically.")
             } else {
                 List {
                     ForEach(sortedScans) { scan in
@@ -316,7 +317,15 @@ struct ProfileView: View {
         HStack(spacing: 12) {
             Circle()
                 .fill(Color(hex: scan.podColor))
-                .frame(width: 28, height: 28)
+                .frame(width: 34, height: 34)
+                .overlay {
+                    if let data = scan.imageData, let image = UIImage(data: data) {
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFill()
+                            .clipShape(Circle())
+                    }
+                }
 
             VStack(alignment: .leading, spacing: 3) {
                 Text(scan.podName)
@@ -334,6 +343,15 @@ struct ProfileView: View {
                             .foregroundColor(Color(hex: "#717171"))
                         Text("\(scan.notes.count) note\(scan.notes.count == 1 ? "" : "s")")
                             .font(.system(size: 12))
+                            .foregroundColor(Color(hex: "#B97812"))
+                    }
+
+                    if let rating = scan.rating {
+                        Text("·")
+                            .font(.system(size: 12))
+                            .foregroundColor(Color(hex: "#717171"))
+                        Text(String(repeating: "★", count: rating))
+                            .font(.system(size: 11, weight: .semibold))
                             .foregroundColor(Color(hex: "#B97812"))
                     }
                 }

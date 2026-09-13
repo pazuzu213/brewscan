@@ -10,6 +10,8 @@ struct ScanResultView: View {
     @State private var recentlySavedPodIds: Set<String> = []
     @State private var didShowSavedConfirmation = false
     @State private var didAttemptAutoSave = false
+    @State private var autoSavedScanId: UUID?
+    @State private var selectedRating: Int = 0
     @State private var showSaveSheet = false
     @State private var podToSave: Pod? = nil
     @State private var saveNoteText = ""
@@ -58,6 +60,7 @@ struct ScanResultView: View {
                 podHeader(pod: pod)
 
                 VStack(alignment: .leading, spacing: 24) {
+                    ratingSection
                     tastingNotesSection(pod: pod)
                     intensitySection(pod: pod)
                     originSection(pod: pod)
@@ -371,6 +374,7 @@ struct ScanResultView: View {
                 }
 
                 VStack(alignment: .leading, spacing: 24) {
+                    ratingSection
 
                     // Flavor notes
                     if !ai.flavorNotes.isEmpty {
@@ -591,6 +595,42 @@ struct ScanResultView: View {
         .padding(.horizontal, 20)
     }
 
+    private var ratingSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            sectionTitle("My Rating")
+            HStack(spacing: 10) {
+                ForEach(1...5, id: \.self) { rating in
+                    Button {
+                        setRating(rating)
+                    } label: {
+                        Image(systemName: rating <= selectedRating ? "star.fill" : "star")
+                            .font(.system(size: 26, weight: .semibold))
+                            .foregroundColor(rating <= selectedRating ? Color(hex: "#B97812") : Color(hex: "#D7CEC5"))
+                            .frame(width: 40, height: 40)
+                    }
+                    .buttonStyle(.plain)
+                }
+
+                Spacer()
+
+                if selectedRating > 0 {
+                    Text("\(selectedRating)/5")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundColor(Color(hex: "#B97812"))
+                } else {
+                    Text("Tap to rate")
+                        .font(.system(size: 13, weight: .medium))
+                        .foregroundColor(Color(hex: "#717171"))
+                }
+            }
+            .padding(16)
+            .background(Color.white)
+            .cornerRadius(16)
+            .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color(hex: "#E8E2DC"), lineWidth: 1))
+        }
+        .padding(.horizontal, 20)
+    }
+
     // MARK: - Save Sheet
 
     private var saveSheet: some View {
@@ -688,7 +728,7 @@ struct ScanResultView: View {
         didAttemptAutoSave = true
 
         guard let scan = automaticSavedScan() else { return }
-        appState.saveScan(scan, requireAuthentication: false)
+        autoSavedScanId = appState.saveScan(scan, requireAuthentication: false)
 
         if let podId = scan.podId {
             recentlySavedPodIds.insert(podId)
@@ -706,23 +746,40 @@ struct ScanResultView: View {
                 podColor: pod.color,
                 confidence: result.identificationResult.confidence,
                 line: pod.displayLine,
-                intensity: pod.intensity
+                intensity: pod.intensity,
+                imageData: result.imageData,
+                brand: result.identificationResult.brand,
+                origin: pod.origin,
+                summary: pod.description
             )
         }
 
         let ai = result.identificationResult
-        guard let podName = ai.podName, ai.confidence > 0.3 else { return nil }
+        guard ai.confidence > 0.3 else { return nil }
 
         return SavedScan(
             id: UUID(),
             date: Date(),
-            podName: podName,
+            podName: ai.podName ?? "Unrecognized Pod",
             podId: nil,
             podColor: "#B97812",
             confidence: ai.confidence,
             line: ai.podSystem ?? "AI Identified",
-            intensity: 0
+            intensity: 0,
+            imageData: result.imageData,
+            brand: ai.brand,
+            origin: ai.origin,
+            summary: ai.productStory ?? ai.notes
         )
+    }
+
+    private func setRating(_ rating: Int) {
+        selectedRating = rating
+        if autoSavedScanId == nil {
+            autoSaveScanIfNeeded()
+        }
+        guard let scanId = autoSavedScanId else { return }
+        appState.rateScan(id: scanId, rating: rating)
     }
 
     private func performSave() {
@@ -743,10 +800,15 @@ struct ScanResultView: View {
             confidence: result.identificationResult.confidence,
             line: pod.displayLine,
             intensity: pod.intensity,
+            rating: selectedRating == 0 ? nil : selectedRating,
+            imageData: result.imageData,
+            brand: result.identificationResult.brand,
+            origin: pod.origin,
+            summary: pod.description,
             notes: initialNotes
         )
 
-        appState.saveScan(scan)
+        autoSavedScanId = appState.saveScan(scan)
         recentlySavedPodIds.insert(pod.id)
         didShowSavedConfirmation = true
         showSaveSheet = false

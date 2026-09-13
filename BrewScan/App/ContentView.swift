@@ -35,7 +35,7 @@ struct ContentView: View {
                 .tag(3)
 
             ProfileView()
-                .tabItem { Label("Profile", systemImage: "person.fill") }
+                .tabItem { Label("Library", systemImage: "tray.full.fill") }
                 .tag(4)
         }
         .accentColor(Color(hex: "#B97812"))

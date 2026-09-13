@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 extension Notification.Name {
     static let brewScanSelectTab = Notification.Name("brewScanSelectTab")
@@ -6,6 +7,7 @@ extension Notification.Name {
 
 struct HomeView: View {
     @EnvironmentObject var appState: AppState
+    @State private var selectedScan: SavedScan? = nil
 
     private var recentScans: [SavedScan] {
         Array(appState.savedScans.sorted { $0.date > $1.date }.prefix(5))
@@ -30,6 +32,10 @@ struct HomeView: View {
                 }
             }
             .navigationBarHidden(true)
+            .sheet(item: $selectedScan) { scan in
+                SavedScanDetailView(scan: scan)
+                    .environmentObject(appState)
+            }
         }
         .navigationViewStyle(.stack)
         .preferredColorScheme(.light)
@@ -74,7 +80,7 @@ struct HomeView: View {
     private var recentScansSection: some View {
         VStack(alignment: .leading, spacing: 14) {
             HStack {
-                Text("Recent Brews")
+                Text("Recent Scans")
                     .font(.system(size: 20, weight: .semibold))
                     .foregroundColor(Color(hex: "#222222"))
 
@@ -100,6 +106,7 @@ struct HomeView: View {
                     HStack(spacing: 12) {
                         ForEach(recentScans) { scan in
                             recentScanCard(scan)
+                                .onTapGesture { selectedScan = scan }
                         }
                     }
                     .padding(.vertical, 2)
@@ -149,6 +156,14 @@ struct HomeView: View {
                 Circle()
                     .fill(Color(hex: scan.podColor))
                     .frame(width: 34, height: 34)
+                    .overlay {
+                        if let data = scan.imageData, let image = UIImage(data: data) {
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFill()
+                                .clipShape(Circle())
+                        }
+                    }
                     .shadow(color: Color(hex: scan.podColor).opacity(0.4), radius: 6)
 
                 Spacer()
@@ -170,6 +185,12 @@ struct HomeView: View {
             Text(scan.date.formatted(date: .abbreviated, time: .shortened))
                 .font(.system(size: 12))
                 .foregroundColor(Color(hex: "#717171"))
+
+            if let rating = scan.rating {
+                Text(String(repeating: "★", count: rating))
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundColor(Color(hex: "#B97812"))
+            }
         }
         .frame(width: 170, alignment: .leading)
         .padding(14)

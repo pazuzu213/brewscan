@@ -164,9 +164,11 @@ class AppState: ObservableObject {
         // PodSnap uses 6-digit email OTP. Magic-link handling is intentionally unused.
     }
 
-    func saveScan(_ scan: SavedScan, requireAuthentication: Bool = true) {
-        guard !requireAuthentication || requireAuthForSave() else { return }
+    @discardableResult
+    func saveScan(_ scan: SavedScan, requireAuthentication: Bool = true) -> UUID? {
+        guard !requireAuthentication || requireAuthForSave() else { return nil }
         savedScans.insert(scan, at: 0)
+        return scan.id
     }
 
     func toggleSavedRecipe(_ recipeId: String) {
@@ -218,6 +220,12 @@ class AppState: ObservableObject {
         if let index = savedScans.firstIndex(where: { $0.id == scan.id }) {
             savedScans[index] = scan
         }
+    }
+
+    func rateScan(id: UUID, rating: Int) {
+        guard (1...5).contains(rating),
+              let index = savedScans.firstIndex(where: { $0.id == id }) else { return }
+        savedScans[index].rating = rating
     }
 
     // MARK: - Persistence Helpers
