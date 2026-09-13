@@ -8,9 +8,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const PORT = Number(process.env.PORT || 3000);
 const DATA_PATH = process.env.DATA_PATH || join(__dirname, "data", "auth.json");
-const APP_SCHEME = process.env.APP_SCHEME || "podsnap";
 const PUBLIC_BASE_URL = (process.env.PUBLIC_BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, "");
 const FROM_EMAIL = process.env.FROM_EMAIL || "PodSnap AI <onboarding@resend.dev>";
+const APP_ICON_URL = process.env.APP_ICON_URL || "https://brewscan.app/podscan-icon.png";
 const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
 const TOKEN_SECRET = process.env.TOKEN_SECRET || crypto.randomBytes(32).toString("hex");
 const CODE_TTL_MS = 10 * 60 * 1000;
@@ -43,11 +43,6 @@ function json(res, status, payload) {
 function html(res, status, body) {
   res.writeHead(status, { "Content-Type": "text/html; charset=utf-8" });
   res.end(body);
-}
-
-function redirect(res, location) {
-  res.writeHead(302, { Location: location });
-  res.end();
 }
 
 function normalizeEmail(email) {
@@ -85,9 +80,9 @@ async function readBody(req) {
   return raw ? JSON.parse(raw) : {};
 }
 
-async function sendLoginEmail(email, code, magicUrl) {
+async function sendLoginEmail(email, code) {
   if (!RESEND_API_KEY) {
-    console.log(`[auth] Dev login for ${email}: ${code} ${magicUrl}`);
+    console.log(`[auth] Dev login for ${email}: ${code}`);
     return { sent: false, provider: "dev" };
   }
 
@@ -102,13 +97,14 @@ async function sendLoginEmail(email, code, magicUrl) {
       to: email,
       subject: "Your PodSnap AI login code",
       html: `
-        <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1a0f0a;line-height:1.5">
-          <h1 style="margin:0 0 12px">Sign in to PodSnap AI</h1>
-          <p>Your login code is:</p>
-          <div style="font-size:32px;font-weight:800;letter-spacing:6px;margin:20px 0;color:#c8860a">${code}</div>
-          <p>Or tap this magic link:</p>
-          <p><a href="${magicUrl}" style="color:#c8860a;font-weight:700">Open PodSnap AI</a></p>
-          <p style="color:#7b6f65;font-size:13px">This link and code expire in 10 minutes.</p>
+        <div style="margin:0;padding:32px;background:#f7f7f7;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;color:#222222;line-height:1.5">
+          <div style="max-width:480px;margin:0 auto;background:#ffffff;border:1px solid #eeeeee;border-radius:24px;padding:32px;text-align:center">
+            <img src="${APP_ICON_URL}" width="72" height="72" alt="PodSnap AI" style="display:block;margin:0 auto 18px;border-radius:18px">
+            <h1 style="margin:0 0 8px;font-size:24px;line-height:1.2;color:#222222">Sign in to PodSnap AI</h1>
+            <p style="margin:0 0 24px;color:#717171;font-size:15px">Enter this code in the app to finish signing in.</p>
+            <div style="display:inline-block;padding:16px 22px;border-radius:18px;background:#fff7ed;color:#b97812;font-size:34px;font-weight:800;letter-spacing:8px">${code}</div>
+            <p style="margin:24px 0 0;color:#717171;font-size:13px">This code expires in 10 minutes. If you did not request it, you can ignore this email.</p>
+          </div>
         </div>
       `
     })
@@ -143,7 +139,6 @@ async function handleRequestLogin(req, res) {
   const store = await readStore();
   const now = Date.now();
   const code = randomCode();
-  const magicToken = randomToken();
   const expiresAt = new Date(now + CODE_TTL_MS).toISOString();
 
   store.users[email] ||= {
@@ -157,14 +152,12 @@ async function handleRequestLogin(req, res) {
   store.loginAttempts[email] = {
     email,
     codeHash: hash(code),
-    magicTokenHash: hash(magicToken),
     expiresAt,
     attempts: 0,
     createdAt: new Date(now).toISOString()
   };
 
-  const magicUrl = `${PUBLIC_BASE_URL}/auth/magic?token=${encodeURIComponent(magicToken)}`;
-  const delivery = await sendLoginEmail(email, code, magicUrl);
+  const delivery = await sendLoginEmail(email, code);
   await writeStore(store);
 
   json(res, 200, {
@@ -172,8 +165,7 @@ async function handleRequestLogin(req, res) {
     email,
     expiresAt,
     emailSent: delivery.sent,
-    devCode: RESEND_API_KEY ? undefined : code,
-    devMagicLink: RESEND_API_KEY ? undefined : magicUrl
+    devCode: RESEND_API_KEY ? undefined : code
   });
 }
 
@@ -204,19 +196,6 @@ async function handleVerifyCode(req, res) {
   await completeLoginWithAttempt(res, store, attempt);
 }
 
-async function handleVerifyMagic(req, res) {
-  const { token = "" } = await readBody(req);
-  const tokenHash = hash(String(token));
-  const store = await readStore();
-  const attempt = Object.values(store.loginAttempts).find((item) => item.magicTokenHash === tokenHash);
-
-  if (!attempt || Date.parse(attempt.expiresAt) < Date.now()) {
-    return json(res, 400, { error: "That magic link expired. Send a new one." });
-  }
-
-  await completeLoginWithAttempt(res, store, attempt);
-}
-
 async function handleMe(req, res) {
   const auth = req.headers.authorization || "";
   const token = auth.startsWith("Bearer ") ? auth.slice(7) : "";
@@ -237,13 +216,7 @@ const server = createServer(async (req, res) => {
     if (req.method === "GET" && url.pathname === "/health") return json(res, 200, { ok: true });
     if (req.method === "POST" && url.pathname === "/auth/request") return handleRequestLogin(req, res);
     if (req.method === "POST" && url.pathname === "/auth/verify-code") return handleVerifyCode(req, res);
-    if (req.method === "POST" && url.pathname === "/auth/verify-magic") return handleVerifyMagic(req, res);
     if (req.method === "GET" && url.pathname === "/auth/me") return handleMe(req, res);
-    if (req.method === "GET" && url.pathname === "/auth/magic") {
-      const token = url.searchParams.get("token") || "";
-      if (token) return redirect(res, `${APP_SCHEME}://auth?token=${encodeURIComponent(token)}`);
-      return html(res, 400, "<h1>Missing login token</h1>");
-    }
     html(res, 404, "<h1>PodSnap AI Auth</h1><p>Not found.</p>");
   } catch (error) {
     console.error(error);

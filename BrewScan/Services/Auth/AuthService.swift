@@ -22,37 +22,29 @@ final class AuthService {
 
     // MARK: - OTP Auth (email only, no password)
 
-    /// Sends a 6-digit OTP to the email. Creates the Sunny Days account on first use.
+    /// Sends a 6-digit OTP to the email.
     func requestOTP(email: String) async throws {
-        let _: EmptyResponse = try await post(
-            path: "/auth/v1/otp",
+        let _: AuthRequestResponse = try await post(
+            path: "/auth/request",
             body: [
-                "email": email,
-                "create_user": true,
-                "data": ["source_app": Config.supabaseAppID]
+                "email": email
             ]
         )
     }
 
     /// Verifies the OTP and returns a session.
     func verifyOTP(email: String, token: String) async throws -> AuthSession {
-        let response: SupabaseAuthResponse = try await post(
-            path: "/auth/v1/verify",
+        let response: AuthVerifyResponse = try await post(
+            path: "/auth/verify-code",
             body: [
-                "type": "email",
                 "email": email,
-                "token": token
+                "code": token
             ]
         )
 
         let session = AuthSession(
-            token: response.accessToken,
-            user: AuthUser(
-                id: response.user.id,
-                email: response.user.email,
-                name: "",
-                createdAt: nil
-            )
+            token: response.token,
+            user: response.user
         )
         saveSession(session)
         return session
@@ -66,16 +58,7 @@ final class AuthService {
     }
 
     func signOut() async throws {
-        let session = loadSession()
         clearSession()
-
-        if let session {
-            let _: EmptyResponse = try await post(
-                path: "/auth/v1/logout",
-                body: [:],
-                bearerToken: session.token
-            )
-        }
     }
 
     func saveSession(_ session: AuthSession) {
@@ -91,18 +74,19 @@ final class AuthService {
 
     private func post<T: Decodable>(
         path: String,
-        body: [String: Any],
-        bearerToken: String? = nil
+        body: [String: Any]
     ) async throws -> T {
-        guard let url = URL(string: Config.supabaseURL + path) else {
+        let baseURL = Config.authBaseURL
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .trimmingCharacters(in: CharacterSet(charactersIn: "/"))
+
+        guard !baseURL.isEmpty, let url = URL(string: baseURL + path) else {
             throw AuthServiceError.invalidURL
         }
 
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue(Config.supabaseAnonKey, forHTTPHeaderField: "apikey")
-        request.setValue("Bearer \(bearerToken ?? Config.supabaseAnonKey)", forHTTPHeaderField: "Authorization")
         request.httpBody = try JSONSerialization.data(withJSONObject: body)
 
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -115,8 +99,8 @@ final class AuthService {
             return try decoder.decode(T.self, from: data)
         }
 
-        if let errorResponse = try? decoder.decode(SupabaseErrorResponse.self, from: data) {
-            throw AuthServiceError.message(errorResponse.message ?? errorResponse.msg ?? "Sign in failed. Try again.")
+        if let errorResponse = try? decoder.decode(AuthErrorResponse.self, from: data) {
+            throw AuthServiceError.message(errorResponse.error ?? errorResponse.message ?? "Sign in failed. Try again.")
         }
 
         throw AuthServiceError.message("Sign in failed. Try again.")
@@ -125,24 +109,21 @@ final class AuthService {
 
 struct EmptyResponse: Decodable {}
 
-private struct SupabaseAuthResponse: Decodable {
-    let accessToken: String
-    let user: SupabaseUser
-
-    enum CodingKeys: String, CodingKey {
-        case accessToken = "access_token"
-        case user
-    }
-}
-
-private struct SupabaseUser: Decodable {
-    let id: String
+private struct AuthRequestResponse: Decodable {
+    let ok: Bool
     let email: String
+    let expiresAt: Date
 }
 
-private struct SupabaseErrorResponse: Decodable {
+private struct AuthVerifyResponse: Decodable {
+    let ok: Bool
+    let token: String
+    let user: AuthUser
+}
+
+private struct AuthErrorResponse: Decodable {
+    let error: String?
     let message: String?
-    let msg: String?
 }
 
 enum AuthServiceError: LocalizedError {
@@ -153,7 +134,7 @@ enum AuthServiceError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .invalidURL:
-            return "The login server URL is not valid."
+            return "The PodSnap AI login server is not configured."
         case .invalidResponse:
             return "The login server did not respond correctly."
         case .message(let value):

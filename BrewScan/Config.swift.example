@@ -4,6 +4,7 @@ struct Config {
     static let openAIKey = Bundle.main.infoDictionary?["OpenAIAPIKey"] as? String ?? ""
     static let openAIBaseURL = "https://api.openai.com/v1"
     static let openAIModel = "gpt-4o-mini"
+    static let authBaseURL = "https://your-podsnap-ai-auth-server.example.com"
     static let supabaseURL = "https://your-project.supabase.co"
     static let supabaseAnonKey = "your-supabase-anon-key"
     static let supabaseAppID = "brewscan"
