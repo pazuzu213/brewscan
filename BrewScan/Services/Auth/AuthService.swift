@@ -111,6 +111,7 @@ final class AuthService {
     private func parseErrorMessage(_ data: Data) -> String? {
         guard let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else { return nil }
         return json["error_description"] as? String
+            ?? json["msg"] as? String
             ?? json["message"] as? String
             ?? json["error"] as? String
     }
