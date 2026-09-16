@@ -5,6 +5,8 @@ struct ProfileView: View {
     @EnvironmentObject var appState: AppState
     @State private var showEditProfile = false
     @State private var selectedScan: SavedScan? = nil
+    @State private var showPrivacyPolicy = false
+    @State private var showTerms = false
 
     private let db = PodDatabase.shared
 
@@ -50,6 +52,14 @@ struct ProfileView: View {
             .sheet(item: $selectedScan) { scan in
                 SavedScanDetailView(scan: scan)
                     .environmentObject(appState)
+            }
+            .sheet(isPresented: $showPrivacyPolicy) {
+                SafariView(url: URL(string: "https://pazuzu213.github.io/brewscan/privacy.html")!)
+                    .ignoresSafeArea()
+            }
+            .sheet(isPresented: $showTerms) {
+                SafariView(url: URL(string: "https://pazuzu213.github.io/brewscan/terms.html")!)
+                    .ignoresSafeArea()
             }
         }
         .navigationViewStyle(.stack)
@@ -238,7 +248,36 @@ struct ProfileView: View {
             .background(Color(hex: "#FFFFFF"))
             .cornerRadius(16)
             .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color(hex: "#E8E2DC"), lineWidth: 1))
+
+            // Legal
+            VStack(spacing: 0) {
+                legalRow("Privacy Policy") { showPrivacyPolicy = true }
+                Divider().padding(.horizontal, 14)
+                legalRow("Terms & Conditions") { showTerms = true }
+            }
+            .background(Color(hex: "#FFFFFF"))
+            .cornerRadius(16)
+            .overlay(
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(Color(hex: "#E8E2DC"), lineWidth: 1)
+            )
         }
+    }
+
+    private func legalRow(_ title: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            HStack {
+                Text(title)
+                    .font(.system(size: 15))
+                    .foregroundColor(Color(hex: "#222222"))
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundColor(Color(hex: "#717171").opacity(0.5))
+            }
+            .padding(16)
+        }
+        .buttonStyle(.plain)
     }
 
     private func section<Content: View>(title: String, @ViewBuilder content: () -> Content) -> some View {

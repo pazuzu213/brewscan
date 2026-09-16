@@ -19,51 +19,53 @@ struct ScannerView: View {
     private let cameraDelegate = ScannerCameraDelegate()
 
     var body: some View {
-        ZStack {
-            Color(hex: "#FFFFFF")
-                .ignoresSafeArea()
+        GeometryReader { screenGeo in
+            ZStack {
+                Color(hex: "#FFFFFF")
+                    .ignoresSafeArea()
 
-            // Full screen camera or placeholder
-            cameraOrPlaceholderView
+                // Full screen camera or placeholder
+                cameraOrPlaceholderView
 
-            // Dark overlay with circular cutout
-            if !isLoading {
-                scannerOverlay
-            }
+                // Dark overlay with circular cutout
+                if !isLoading {
+                    scannerOverlay
+                }
 
-            // Loading overlay
-            if isLoading {
-                loadingOverlay
-            }
+                // Loading overlay
+                if isLoading {
+                    loadingOverlay
+                }
 
-            // Bottom controls
-            if !isLoading {
-                bottomControls
-            }
-        }
-        .navigationBarHidden(true)
-        .onAppear {
-            checkCameraPermission()
-            startPulseAnimation()
-        }
-        .alert("Camera Access Required", isPresented: $showPermissionAlert) {
-            Button("Open Settings") {
-                if let url = URL(string: UIApplication.openSettingsURLString) {
-                    UIApplication.shared.open(url)
+                // Bottom controls — geometry-aware to prevent circle overlap on iPad
+                if !isLoading {
+                    makeBottomControls(for: screenGeo)
                 }
             }
-            Button("Cancel", role: .cancel) {}
-        } message: {
-            Text("PodSnap AI needs camera access to identify your coffee pods. Please enable it in Settings.")
-        }
-        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-            cameraPermissionStatus = AVCaptureDevice.authorizationStatus(for: .video)
-        }
-        .sheet(isPresented: $showResult) {
-            if let result = scanResult {
-                ScanResultView(result: result, onRetry: {
-                    showResult = false
-                })
+            .navigationBarHidden(true)
+            .onAppear {
+                checkCameraPermission()
+                startPulseAnimation()
+            }
+            .alert("Camera Access Required", isPresented: $showPermissionAlert) {
+                Button("Open Settings") {
+                    if let url = URL(string: UIApplication.openSettingsURLString) {
+                        UIApplication.shared.open(url)
+                    }
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("PodSnap AI needs camera access to identify your coffee pods. Please enable it in Settings.")
+            }
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+                cameraPermissionStatus = AVCaptureDevice.authorizationStatus(for: .video)
+            }
+            .sheet(isPresented: $showResult) {
+                if let result = scanResult {
+                    ScanResultView(result: result, onRetry: {
+                        showResult = false
+                    })
+                }
             }
         }
     }
@@ -124,9 +126,10 @@ struct ScannerView: View {
         GeometryReader { geo in
             let isIPad = UIDevice.current.userInterfaceIdiom == .pad
             let rawSize = min(geo.size.width, geo.size.height) * 0.72
-            let circleSize: CGFloat = isIPad ? min(rawSize, 380) : rawSize
+            // iPad: smaller cap + positioned higher so controls never overlap
+            let circleSize: CGFloat = isIPad ? min(rawSize, 280) : rawSize
             let circleX = geo.size.width / 2
-            let circleY = isIPad ? geo.size.height * 0.38 : geo.size.height * 0.42
+            let circleY = isIPad ? geo.size.height * 0.35 : geo.size.height * 0.42
 
             ZStack {
                 // Dark overlay
@@ -311,9 +314,16 @@ struct ScannerView: View {
 
     // MARK: - Bottom Controls
 
-    private var bottomControls: some View {
-        VStack {
-            Spacer()
+    private func makeBottomControls(for screenGeo: GeometryProxy) -> some View {
+        let isIPad = UIDevice.current.userInterfaceIdiom == .pad
+        // Mirror scannerOverlay circle math so controls always start below the circle
+        let rawSize = min(screenGeo.size.width, screenGeo.size.height) * 0.72
+        let circleSize: CGFloat = isIPad ? min(rawSize, 280) : rawSize
+        let circleY = isIPad ? screenGeo.size.height * 0.35 : screenGeo.size.height * 0.42
+        let safeTopMin = circleY + circleSize / 2 + 20  // 20 pt gap below circle bottom
+
+        return VStack {
+            Spacer(minLength: safeTopMin)
 
             VStack(spacing: 20) {
                 // Instruction text (kept here, above button, to prevent overlap with overlay)
@@ -357,9 +367,9 @@ struct ScannerView: View {
                     .font(.system(size: 13))
                     .foregroundColor(Color(hex: "#717171"))
             }
-            .padding(.bottom, UIDevice.current.userInterfaceIdiom == .pad ? 72 : 48)
+            .padding(.bottom, isIPad ? 72 : 48)
         }
-        .frame(maxWidth: UIDevice.current.userInterfaceIdiom == .pad ? 600 : .infinity)
+        .frame(maxWidth: isIPad ? 600 : .infinity)
         .frame(maxWidth: .infinity)
     }
 
